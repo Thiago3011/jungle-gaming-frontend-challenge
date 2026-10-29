@@ -3,6 +3,7 @@ import { Link } from '@tanstack/react-router'
 import { ArrowLeft, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getCart, removeFromCart, updateCartQuantity } from '@/api/cart'
+import { getStoredSessionEmail } from '@/api/session'
 import './shop-pages.css'
 
 function formatEth(value: string) {
@@ -14,8 +15,8 @@ function formatEth(value: string) {
 
 export default function CartPage() {
   const queryClient = useQueryClient()
-  const sessionEmail = (() => { try { return (JSON.parse(localStorage.getItem('kurio-session-v2') ?? 'null') as { email?: string } | null)?.email ?? 'guest' } catch { return 'guest' } })()
-  const { data, isPending, isError, refetch } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart, enabled: sessionEmail !== 'guest' })
+  const sessionEmail = getStoredSessionEmail() ?? 'guest'
+  const { data, isPending, isError, refetch } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart })
   const updateMutation = useMutation({
     mutationFn: ({ nftId, quantity }: { nftId: string; quantity: number }) => updateCartQuantity(nftId, quantity),
     onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['cart', sessionEmail] }) },
