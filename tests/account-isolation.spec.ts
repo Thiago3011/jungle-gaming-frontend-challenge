@@ -11,7 +11,7 @@ async function login(page: Page, email: string, password = 'Kurio123!') {
 async function addFeaturedNftToCart(page: Page) {
   await page.goto('/nft/ape-009')
   await page.getByRole('button', { name: 'Adicionar ao carrinho' }).click()
-  await expect(page.getByRole('status')).toContainText('NFT adicionado ao carrinho.')
+  await expect(page.locator('p.inline-success')).toContainText('NFT adicionado ao carrinho.')
   await page.goto('/cart')
   await expect(page.getByText('Sage Nomad #009')).toBeVisible()
 }
@@ -56,7 +56,7 @@ test.describe('isolamento de dados por conta', () => {
     await page.goto('/register')
     await page.getByLabel('Nome de usuário').fill('Outro Thiago')
     await page.getByLabel('E-mail').fill('THIAGO@KURIO.DEMO')
-    await page.getByLabel('Senha').fill('Senha123!')
+    await page.getByRole('textbox', { name: 'Senha', exact: true }).fill('Senha123!')
     await page.getByLabel('Confirmar senha').fill('Senha123!')
     await page.getByRole('button', { name: 'Criar conta', exact: true }).click()
     await expect(page.getByRole('alert')).toContainText('Não foi possível criar a conta')
