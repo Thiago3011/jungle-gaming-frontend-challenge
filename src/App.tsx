@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { getNfts } from '@/api/nfts'
 import { getCart } from '@/api/cart'
+import { getStoredSessionEmail } from '@/api/session'
 import type { CatalogView, NftSort } from '@/types/nft'
 import './App.css'
 
@@ -50,8 +51,8 @@ export default function App() {
     queryFn: () => getNfts(search),
     placeholderData: (previousData) => previousData,
   })
-  const sessionEmail = (() => { try { return (JSON.parse(localStorage.getItem('kurio-session-v2') ?? 'null') as { email?: string } | null)?.email ?? 'guest' } catch { return 'guest' } })()
-  const { data: cart } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart, enabled: sessionEmail !== 'guest' })
+  const sessionEmail = getStoredSessionEmail() ?? 'guest'
+  const { data: cart } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart })
 
   function updateSearch(patch: Partial<typeof search>, replace = false) {
     void navigate({ search: (previous) => ({ ...previous, ...patch }), replace })
