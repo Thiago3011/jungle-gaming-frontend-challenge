@@ -5,6 +5,7 @@ import { Check, Heart, Minus, Plus, ShoppingBag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { api } from '@/api/client'
 import { addToCart } from '@/api/cart'
+import { getStoredSessionEmail } from '@/api/session'
 import type { Nft } from '@/types/nft'
 import './shop-pages.css'
 
@@ -23,7 +24,7 @@ export default function NftDetailPage() {
   const [quantity, setQuantity] = useState(1)
   const [isFavorite, setIsFavorite] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem('kurio-favorites') ?? '[]') as string[]
+      return JSON.parse(localStorage.getItem('kurio-favorites:' + (getStoredSessionEmail() ?? 'guest')) ?? '[]') as string[]
     } catch {
       return [] as string[]
     }
@@ -44,7 +45,7 @@ export default function NftDetailPage() {
       ? isFavorite.filter((id) => id !== nftId)
       : [...isFavorite, nftId]
     setIsFavorite(next)
-    localStorage.setItem('kurio-favorites', JSON.stringify(next))
+    localStorage.setItem('kurio-favorites:' + (getStoredSessionEmail() ?? 'guest'), JSON.stringify(next))
   }
 
   if (isPending) return <main className="shop-page"><div className="page-message"><span className="skeleton-line" /><span className="skeleton-block" /><span className="skeleton-line short" /></div></main>
