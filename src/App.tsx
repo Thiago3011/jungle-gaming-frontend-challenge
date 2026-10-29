@@ -50,7 +50,8 @@ export default function App() {
     queryFn: () => getNfts(search),
     placeholderData: (previousData) => previousData,
   })
-  const { data: cart } = useQuery({ queryKey: ['cart'], queryFn: getCart })
+  const sessionEmail = (() => { try { return (JSON.parse(localStorage.getItem('kurio-session-v2') ?? 'null') as { email?: string } | null)?.email ?? 'guest' } catch { return 'guest' } })()
+  const { data: cart } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart, enabled: sessionEmail !== 'guest' })
 
   function updateSearch(patch: Partial<typeof search>, replace = false) {
     void navigate({ search: (previous) => ({ ...previous, ...patch }), replace })
