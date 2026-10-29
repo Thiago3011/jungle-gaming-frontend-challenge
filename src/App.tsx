@@ -98,7 +98,7 @@ export default function App() {
             )}
             <button className="header-icon" type="button" aria-label="Abrir busca" onClick={() => setSearchOpen((open) => !open)}><Search size={17} /></button>
             <Link className="header-icon cart-shortcut" to="/cart" aria-label={`Carrinho com ${cartCount} itens`}><ShoppingBag size={17} /><span className="cart-count">{cartCount}</span></Link>
-            <Link className="account-button" to="/login"><Wallet size={13} /> Entrar</Link>
+            <Link className="account-button" to={sessionEmail !== 'guest' ? '/profile' : '/login'}><Wallet size={13} /> {sessionEmail !== 'guest' ? 'Minha conta' : 'Entrar'}</Link>
             <button className="mobile-menu-button" type="button" aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'} aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}>{mobileMenuOpen ? <X size={19} /> : <Menu size={19} />}</button>
           </div>
         </div>
