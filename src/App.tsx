@@ -27,9 +27,11 @@ function formatEth(value: string) {
 export default function App() {
   const search = useSearch({ from: '/' })
   const navigate = useNavigate({ from: '/' })
+  const sessionEmail = getStoredSessionEmail() ?? 'guest'
+  const favoritesKey = 'kurio-favorites:' + sessionEmail
   const [favorites, setFavorites] = useState<string[]>(() => {
     try {
-      const stored = localStorage.getItem('kurio-favorites')
+      const stored = localStorage.getItem(favoritesKey)
       return stored ? JSON.parse(stored) as string[] : []
     } catch {
       return []
@@ -51,7 +53,6 @@ export default function App() {
     queryFn: () => getNfts(search),
     placeholderData: (previousData) => previousData,
   })
-  const sessionEmail = getStoredSessionEmail() ?? 'guest'
   const { data: cart } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart })
 
   function updateSearch(patch: Partial<typeof search>, replace = false) {
@@ -61,7 +62,7 @@ export default function App() {
   function toggleFavorite(id: string) {
     setFavorites((current) => {
       const next = current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
-      localStorage.setItem('kurio-favorites', JSON.stringify(next))
+      localStorage.setItem(favoritesKey, JSON.stringify(next))
       return next
     })
   }
