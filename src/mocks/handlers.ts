@@ -81,10 +81,6 @@ const updateUser = (email: string, updater: (user: MockUser) => MockUser): MockU
   saveUsers(users)
   return users[index]
 }
-const updateCurrentUser = (updater: (user: MockUser) => MockUser): MockUser | null => {
-  const email = readSession()?.email
-  return email ? updateUser(email, updater) : null
-}
 const requireUser = () => {
   const user = currentUser()
   return user ? { user } : { response: cartError('Faça login para acessar seus dados.', 401) }
@@ -315,40 +311,6 @@ export const handlers = [
     const nft = nfts.find((item) => item.id === params.nftId)
     if (!nft) return HttpResponse.json({ detail: 'NFT não encontrado.' }, { status: 404 })
     return HttpResponse.json(nft)
-  }),
-  http.get('/api/cart', () => HttpResponse.json(buildCartResponse())),
-  http.post('/api/cart', async ({ request }) => {
-    const body = await request.json() as { nftId?: unknown; quantity?: unknown }
-    if (typeof body.nftId !== 'string' || !Number.isInteger(body.quantity ?? 1) || Number(body.quantity ?? 1) < 1) {
-      return cartError('Informe um NFT e uma quantidade válida.', 422)
-    }
-    const nft = nfts.find((item) => item.id === body.nftId)
-    if (!nft) return cartError('NFT não encontrado.', 404)
-    const cart = readCart()
-    const existing = cart.find((item) => item.nftId === nft.id)
-    const nextQuantity = (existing?.quantity ?? 0) + Number(body.quantity ?? 1)
-    if (nextQuantity > 10) return cartError('Limite de 10 unidades por NFT.', 409)
-    if (existing) existing.quantity = nextQuantity
-    else cart.push({ nftId: nft.id, quantity: nextQuantity })
-    saveCart(cart)
-    return HttpResponse.json(buildCartResponse())
-  }),
-  http.patch('/api/cart/:nftId', async ({ params, request }) => {
-    const body = await request.json() as { quantity?: unknown }
-    if (!Number.isInteger(body.quantity) || Number(body.quantity) < 1 || Number(body.quantity) > 10) {
-      return cartError('A quantidade deve ser um inteiro entre 1 e 10.', 422)
-    }
-    const cart = readCart()
-    const item = cart.find((entry) => entry.nftId === params.nftId)
-    if (!item) return cartError('Item não encontrado no carrinho.', 404)
-    item.quantity = Number(body.quantity)
-    saveCart(cart)
-    return HttpResponse.json(buildCartResponse())
-  }),
-  http.delete('/api/cart/:nftId', ({ params }) => {
-    const cart = readCart().filter((item) => item.nftId !== params.nftId)
-    saveCart(cart)
-    return HttpResponse.json(buildCartResponse())
   }),
   http.get('/api/nfts', ({ request }) => {
     const url = new URL(request.url)
