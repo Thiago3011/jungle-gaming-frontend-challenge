@@ -14,14 +14,15 @@ function formatEth(value: string) {
 
 export default function CartPage() {
   const queryClient = useQueryClient()
-  const { data, isPending, isError, refetch } = useQuery({ queryKey: ['cart'], queryFn: getCart })
+  const sessionEmail = (() => { try { return (JSON.parse(localStorage.getItem('kurio-session-v2') ?? 'null') as { email?: string } | null)?.email ?? 'guest' } catch { return 'guest' } })()
+  const { data, isPending, isError, refetch } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart, enabled: sessionEmail !== 'guest' })
   const updateMutation = useMutation({
     mutationFn: ({ nftId, quantity }: { nftId: string; quantity: number }) => updateCartQuantity(nftId, quantity),
-    onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['cart'] }) },
+    onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['cart', sessionEmail] }) },
   })
   const removeMutation = useMutation({
     mutationFn: (nftId: string) => removeFromCart(nftId),
-    onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['cart'] }) },
+    onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['cart', sessionEmail] }) },
   })
 
   return (
