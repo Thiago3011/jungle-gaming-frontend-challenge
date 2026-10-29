@@ -47,7 +47,7 @@ export function RegisterPage() {
 
 export function ProfilePage() {
   const queryClient = useQueryClient()
-  const sessionEmail = (() => { try { return (JSON.parse(localStorage.getItem('kurio-session-v2') ?? 'null') as { email?: string } | null)?.email ?? 'guest' } catch { return 'guest' } })()
+  const sessionEmail = getStoredSessionEmail() ?? 'guest'
   const { data, isPending, isError } = useQuery({ queryKey: ['profile', sessionEmail], queryFn: async () => (await api.get<Profile>('/profile')).data })
   const [form, setForm] = useState<Profile>({ displayName: '', username: '', email: '', ensName: '', walletNickname: '', avatar: '' })
   const [passwords, setPasswords] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
@@ -60,7 +60,7 @@ export function ProfilePage() {
 
 export function WalletsPage() {
   const queryClient = useQueryClient()
-  const sessionEmail = (() => { try { return (JSON.parse(localStorage.getItem('kurio-session-v2') ?? 'null') as { email?: string } | null)?.email ?? 'guest' } catch { return 'guest' } })()
+  const sessionEmail = getStoredSessionEmail() ?? 'guest'
   const { data: wallets = [], isPending } = useQuery({ queryKey: ['wallets', sessionEmail], queryFn: async () => (await api.get<WalletItem[]>('/wallets')).data })
   const [adding, setAdding] = useState(false)
   const [form, setForm] = useState({ nickname: '', network: 'Ethereum', profileName: '', address: '', type: 'MetaMask', referralCode: '', email: '', ensName: '' })
