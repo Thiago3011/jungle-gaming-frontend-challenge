@@ -1,0 +1,26 @@
+/* Reseta o shell de demonstração do Vite/shadcn para usar o frame desktop 1440px do Figma. */
+html,
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #140D0A;
+}
+
+html body #root {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 100svh;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  text-align: left !important;
+  box-sizing: border-box;
+}
+
+@media (max-width: 680px) {
+  .brand { letter-spacing: 0; }
+}
