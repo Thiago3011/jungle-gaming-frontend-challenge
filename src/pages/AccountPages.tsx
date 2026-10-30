@@ -195,7 +195,7 @@ export function CheckoutPage() {
     if (connectedWallet && !selectedWalletId) selectCheckoutWallet(connectedWallet)
   }, [connectedWallet?.id])
   return <main className="account-page checkout-wallet-page"><SiteHeader/><div className="checkout-main"><div className="checkout-mobile-header"><Link to="/cart" aria-label="Voltar ao carrinho"><ArrowLeft size={20}/></Link><h1>Pagamento com carteira</h1></div><div className="account-breadcrumb"><Link to="/" search={homeSearch}>Início</Link> / <Link to="/" search={homeSearch}>Mercado</Link> / Pagamento</div><div className="checkout-layout"><section className="checkout-form-section"><div className="checkout-mobile-wallets">
-  <div className="checkout-mobile-section-heading"><strong>Carteira conectada</strong><button type="button" onClick={() => void navigate({ to: '/wallets' })}>Trocar carteira</button></div>
+  <div className="checkout-mobile-section-heading"><strong>Carteira conectada</strong><button type="button">Trocar carteira</button></div>
   {checkoutWallets.length ? checkoutWallets.map((wallet) => <label key={wallet.id} className={connectedWallet?.id === wallet.id ? 'checkout-wallet-option selected' : 'checkout-wallet-option'}>
     <input type="radio" name="connectedWallet" checked={connectedWallet?.id === wallet.id} onChange={() => selectCheckoutWallet(wallet)}/>
     <span className="checkout-wallet-radio"/>
