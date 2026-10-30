@@ -14,7 +14,7 @@ const homeSearch = { q: '', category: 'Todas', sort: 'recent' as const, page: 1,
 type CartQuote = { valid: boolean; reason: 'invalid' | 'expired' | null; subtotalEth: string; discountEth: string; networkFeeEth: string; totalEth: string }
 
 function formatEth(value: number | string) {
-  return `${Number(value).toFixed(2)} ETH`
+  return `${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 4 })} ETH`
 }
 
 export default function CartPage() {
