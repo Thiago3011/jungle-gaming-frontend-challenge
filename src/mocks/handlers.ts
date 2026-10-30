@@ -7,7 +7,7 @@ type StoredCartItem = { nftId: string; quantity: number }
 type CartItemResponse = { nftId: string; quantity: number; nft: Nft; lineTotalEth: string }
 type MockProfile = { displayName: string; username: string; email: string; ensName: string; walletNickname: string; avatar: string }
 type MockWallet = { id: string; displayName?: string; nickname: string; network: string; profileName: string; address: string; type: string; email: string; ensName: string; primary: boolean }
-type MockUser = { email: string; password: string; profile: MockProfile; wallets: MockWallet[]; cart: StoredCartItem[]; latestOrder: Record<string, unknown> | null }
+type MockUser = { email: string; password: string; profile: MockProfile; wallets: MockWallet[]; cart: StoredCartItem[]; favorites: string[]; latestOrder: Record<string, unknown> | null }
 
 const USERS_KEY = 'kurio-users-v2'
 const SESSION_KEY = 'kurio-session-v2'
@@ -23,6 +23,7 @@ const demoUsers: MockUser[] = [
     profile: { ...DEFAULT_PROFILE, displayName: 'Thiago Colecionador', username: 'thiago', email: 'thiago@kurio.demo', walletNickname: 'Minha MetaMask' },
     wallets: [{ id: 'wallet-thiago-main', nickname: 'Minha MetaMask', network: 'Ethereum', profileName: 'Thiago', address: '0xA91F00000000000000000000000000000000E82C', type: 'MetaMask', email: 'thiago@kurio.demo', ensName: 'thiago.eth', primary: true }],
     cart: [],
+    favorites: [],
     latestOrder: null,
   },
   {
@@ -51,7 +52,7 @@ const readUsers = (): MockUser[] => {
     const stored = localStorage.getItem(USERS_KEY)
     if (stored !== null) {
       const users = JSON.parse(stored) as MockUser[]
-      return Array.isArray(users) ? users : []
+      return Array.isArray(users) ? users.map((user) => ({ ...user, favorites: Array.isArray(user.favorites) ? user.favorites : [] })) : []
     }
   } catch {
     // Restore the demo fixtures when local mock storage is invalid.
@@ -156,7 +157,7 @@ export const handlers = [
     const users = readUsers()
     if (users.some((user) => user.email === email)) return cartError('Este e-mail já está cadastrado.', 409)
     const profile = { ...DEFAULT_PROFILE, username, displayName: username, email }
-    const user: MockUser = { email, password: body.password, profile, wallets: [], cart: [], latestOrder: null }
+    const user: MockUser = { email, password: body.password, profile, wallets: [], cart: [], favorites: [], latestOrder: null }
     users.push(user)
     saveUsers(users)
     writeSession(email)
@@ -195,6 +196,26 @@ export const handlers = [
     }
     updateUser(auth.user.email, (user) => ({ ...user, password: body.newPassword as string }))
     return HttpResponse.json({ updated: true })
+  }),
+  http.get('/api/favorites', () => {
+    const auth = requireUser()
+    return 'response' in auth ? auth.response : HttpResponse.json(auth.user.favorites ?? [])
+  }),
+  http.post('/api/favorites', async ({ request }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
+    const body = await request.json() as { nftId?: unknown }
+    if (typeof body.nftId !== 'string' || !nfts.some((nft) => nft.id === body.nftId)) return cartError('NFT inválido.', 404)
+    const favorites = [...new Set([...(auth.user.favorites ?? []), body.nftId])]
+    updateUser(auth.user.email, (user) => ({ ...user, favorites }))
+    return HttpResponse.json(favorites, { status: 201 })
+  }),
+  http.delete('/api/favorites/:nftId', ({ params }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
+    const favorites = (auth.user.favorites ?? []).filter((id) => id !== params.nftId)
+    updateUser(auth.user.email, (user) => ({ ...user, favorites }))
+    return HttpResponse.json(favorites)
   }),
   http.get('/api/wallets', () => {
     const auth = requireUser()
@@ -255,6 +276,14 @@ export const handlers = [
     const auth = requireUser()
     if ('response' in auth) return auth.response
     const body = await request.json() as { profile?: Record<string, unknown>; paymentMethod?: unknown; promoCode?: unknown }
+    const idempotencyKey = request.headers.get('Idempotency-Key')?.trim()
+    if (!idempotencyKey) return cartError('Informe a chave de idempotência da tentativa de compra.', 400)
+    const fingerprint = JSON.stringify(body)
+    const previous = auth.user.latestOrder
+    if (previous?.idempotencyKey === idempotencyKey) {
+      if (previous.requestFingerprint !== fingerprint) return cartError('A chave de idempotência já foi utilizada com outro conteúdo.', 409)
+      return HttpResponse.json(previous)
+    }
     const profile = body.profile ?? {}
     const required = ['displayName', 'username', 'profileName', 'address', 'email']
     if (required.some((key) => typeof profile[key] !== 'string' || !(profile[key] as string).trim()) || typeof profile.email !== 'string' || profile.email.trim().toLowerCase() !== auth.user.email) {
@@ -263,20 +292,23 @@ export const handlers = [
     const cart = buildCartResponse(auth.user.cart)
     if (!cart.items.length) return cartError('O carrinho está vazio.', 409)
     if (!['MetaMask', 'WalletConnect', 'Coinbase Wallet'].includes(String(body.paymentMethod))) return cartError('Selecione uma carteira válida.', 422)
-    const subtotal = Number(cart.subtotalEth)
-    const discount = String(body.promoCode ?? '').trim().toUpperCase() === 'KURIO10' ? subtotal * 0.1 : 0
-    const networkFee = Number(cart.networkFeeEth)
-    const total = Math.max(0, subtotal - discount + networkFee)
+    const subtotalWei = decimalToWei(cart.subtotalEth)
+    const discountWei = String(body.promoCode ?? '').trim().toUpperCase() === 'KURIO10' ? subtotalWei / 10n : 0n
+    const networkFeeWei = decimalToWei(cart.networkFeeEth)
+    const totalWei = subtotalWei - discountWei + networkFeeWei
     const order = {
       id: 'KUR-' + Date.now(),
+      idempotencyKey,
+      requestFingerprint: fingerprint,
       createdAt: new Date().toISOString(),
+      status: 'confirmed',
       paymentMethod: String(body.paymentMethod),
       network: String(profile.network ?? 'Ethereum'),
       items: cart.items,
-      subtotalEth: subtotal.toFixed(4),
-      networkFeeEth: networkFee.toFixed(4),
-      discountEth: discount.toFixed(4),
-      totalEth: total.toFixed(4),
+      subtotalEth: weiToDecimal(subtotalWei),
+      networkFeeEth: weiToDecimal(networkFeeWei),
+      discountEth: weiToDecimal(discountWei),
+      totalEth: weiToDecimal(totalWei),
       txHash: '0x' + Math.random().toString(16).slice(2, 8).toUpperCase() + '...' + Math.random().toString(16).slice(2, 6).toUpperCase(),
     }
     updateUser(auth.user.email, (user) => ({
