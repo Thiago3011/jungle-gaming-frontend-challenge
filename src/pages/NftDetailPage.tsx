@@ -42,17 +42,33 @@ export default function NftDetailPage() {
       ? JSON.parse(localStorage.getItem('kurio-favorites:guest') ?? '[]') as string[]
       : (await api.get<string[]>('/favorites')).data,
   })
+  const favoritesQueryKey = ['favorites', sessionEmail] as const
   const favoriteMutation = useMutation({
-    mutationFn: async () => {
-      const isSaved = favoriteIds.includes(nftId)
+    mutationFn: async ({ shouldSave }: { shouldSave: boolean }) => {
       if (sessionEmail === 'guest') {
-        const next = isSaved ? favoriteIds.filter((id) => id !== nftId) : [...favoriteIds, nftId]
+        const next = shouldSave
+          ? [...new Set([...favoriteIds, nftId])]
+          : favoriteIds.filter((id) => id !== nftId)
         localStorage.setItem('kurio-favorites:guest', JSON.stringify(next))
         return next
       }
-      return (await (isSaved ? api.delete<string[]>('/favorites/' + nftId) : api.post<string[]>('/favorites', { nftId }))).data
+      return (await (shouldSave
+        ? api.post<string[]>('/favorites', { nftId })
+        : api.delete<string[]>('/favorites/' + nftId))).data
     },
-    onSuccess: (next) => queryClient.setQueryData(['favorites', sessionEmail], next),
+    onMutate: async ({ shouldSave }) => {
+      await queryClient.cancelQueries({ queryKey: favoritesQueryKey })
+      const previous = queryClient.getQueryData<string[]>(favoritesQueryKey) ?? []
+      const next = shouldSave
+        ? [...new Set([...previous, nftId])]
+        : previous.filter((id) => id !== nftId)
+      queryClient.setQueryData(favoritesQueryKey, next)
+      return { previous }
+    },
+    onError: (_error, _variables, context) => {
+      if (context) queryClient.setQueryData(favoritesQueryKey, context.previous)
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: favoritesQueryKey }),
   })
   const { data: nft, isPending, isError } = useQuery({ queryKey: ['nft', nftId], queryFn: () => getNft(nftId) })
   const { data: collection } = useQuery({
@@ -68,7 +84,7 @@ export default function NftDetailPage() {
     },
   })
 
-  function toggleFavorite() { favoriteMutation.mutate() }
+  function toggleFavorite() { favoriteMutation.mutate({ shouldSave: !favoriteIds.includes(nftId) }) }
 
   if (isPending) return <main className="marketplace-shell shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><span className="skeleton-line"/><span className="skeleton-block"/><span className="skeleton-line short"/></div></main>
   if (isError || !nft) return <main className="marketplace-shell shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><p className="eyebrow">PEÇA NÃO ENCONTRADA</p><h1>Não encontramos esse NFT.</h1><p>Ele pode ter sido removido ou o endereço está incorreto.</p><Link className="shop-text-link" to="/" search={homeSearch}>Voltar ao catálogo</Link></div></main>
@@ -124,7 +140,7 @@ export default function NftDetailPage() {
                 </div>
                 <div className="nft-buy-favorite">
                   <Button className="primary-cta" disabled={addMutation.isPending} onClick={() => addMutation.mutate()}>{addMutation.isPending ? 'Adicionando...' : 'COMPRAR'}</Button>
-                  <button className={`detail-favorite ${isSaved ? 'saved' : ''}`} type="button" onClick={toggleFavorite} aria-pressed={isSaved}><Heart size={21} fill={isSaved ? 'currentColor' : 'none'}/>{isSaved ? 'Favoritado' : 'Favoritar'}</button>
+                  <button className={`detail-favorite ${isSaved ? 'saved' : ''}`} type="button" onClick={toggleFavorite} aria-pressed={isSaved} disabled={favoriteMutation.isPending}><Heart size={21} fill={isSaved ? 'currentColor' : 'none'}/>{isSaved ? 'Favoritado' : 'Favoritar'}</button>
                 </div>
               </div>
               {addMutation.isSuccess && <p className="inline-success" role="status"><Check size={15}/> NFT adicionado ao carrinho.</p>}
