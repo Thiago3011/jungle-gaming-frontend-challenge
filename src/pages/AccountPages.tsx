@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { CircleUserRound, CreditCard, Plus, ArrowLeft, X, Eye, EyeOff, Image, ShoppingCart, Heart, MapPin, ChartNoAxesCombined, Download, TriangleAlert, LogOut } from 'lucide-react'
@@ -185,6 +185,7 @@ export function CheckoutPage() {
   const [selectedWalletId, setSelectedWalletId] = useState('')
   const [paymentMethod, setPaymentMethod] = useState('MetaMask')
   const [promoCode, setPromoCode] = useState('')
+  const checkoutAttempt = useRef<{ fingerprint: string; key: string } | null>(null)
   const [promoApplied, setPromoApplied] = useState(false)
   const [promoExpanded, setPromoExpanded] = useState(false)
   const [message, setMessage] = useState('')
@@ -192,7 +193,18 @@ export function CheckoutPage() {
   const discount = promoApplied ? subtotal * 0.1 : 0
   const fee = Number(cart?.networkFeeEth ?? 0)
   const total = Math.max(0, subtotal - discount + fee)
-  const mutation = useMutation({ mutationFn: async () => (await api.post<Order>('/orders', { profile, paymentMethod, promoCode: promoApplied ? promoCode : '' })).data, onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['cart'] }); void navigate({ to: '/order-confirmation' }) }, onError: () => setMessage(sessionEmail ? 'Não foi possível confirmar o pedido. Verifique os campos obrigatórios e tente novamente.' : 'Entre na sua conta para finalizar a compra. Seu carrinho será preservado.') })
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const payload = { profile, paymentMethod, promoCode: promoApplied ? promoCode : '' }
+      const fingerprint = JSON.stringify(payload)
+      if (!checkoutAttempt.current || checkoutAttempt.current.fingerprint !== fingerprint) {
+        checkoutAttempt.current = { fingerprint, key: crypto.randomUUID() }
+      }
+      return (await api.post<Order>('/orders', payload, { headers: { 'Idempotency-Key': checkoutAttempt.current.key } })).data
+    },
+    onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['cart'] }); void navigate({ to: '/order-confirmation' }) },
+    onError: () => setMessage(sessionEmail ? 'Não foi possível confirmar o pedido. Verifique os campos obrigatórios e tente novamente.' : 'Entre na sua conta para finalizar a compra. Seu carrinho será preservado.'),
+  })
   const setField = (key: keyof typeof profile, value: string | boolean) => setProfile((current) => ({ ...current, [key]: value }))
   const connectedWallet = checkoutWallets.find((wallet) => wallet.id === selectedWalletId) ?? checkoutWallets.find((wallet) => wallet.primary) ?? checkoutWallets[0]
   const selectCheckoutWallet = (wallet: WalletItem) => {
