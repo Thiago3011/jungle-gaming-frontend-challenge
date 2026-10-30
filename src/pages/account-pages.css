@@ -259,7 +259,7 @@
   flex:0 0 38px;
   height:38px;
   min-height:38px;
-  margin-top:auto;
+  margin-top:0;
   border-top:1px solid #684326;
   color:#d88d4c;
   font-weight:700;
@@ -728,7 +728,7 @@
 }
 .account-main .account-sidebar{
   width:100%;
-  min-height:678px;
+  min-height:0;
 }
 .account-main .account-content{
   min-width:0;
