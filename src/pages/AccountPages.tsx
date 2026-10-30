@@ -5,6 +5,8 @@ import { CircleUserRound, CreditCard, Plus, X, Eye, EyeOff, Image, ShoppingCart,
 import { api } from '@/api/client'
 import { getStoredSessionEmail } from '@/api/session'
 import { getCart } from '@/api/cart'
+import { getNfts } from '@/api/nfts'
+import type { Nft } from '@/types/nft'
 import type { CartResponse } from '@/api/cart'
 import './account-pages.css'
 import { SiteHeader } from '@/components/SiteHeader'
