@@ -6,10 +6,12 @@ import { Button } from '@/components/ui/button'
 import { addToCart, getCart, removeFromCart, updateCartQuantity } from '@/api/cart'
 import { getNfts } from '@/api/nfts'
 import { getStoredSessionEmail } from '@/api/session'
+import { api } from '@/api/client'
 import { SiteHeader } from '@/components/SiteHeader'
 import './shop-pages.css'
 
 const homeSearch = { q: '', category: 'Todas', sort: 'recent' as const, page: 1, view: 'all' as const, network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }
+type CartQuote = { valid: boolean; reason: 'invalid' | 'expired' | null; subtotalEth: string; discountEth: string; networkFeeEth: string; totalEth: string }
 
 function formatEth(value: number | string) {
   return `${Number(value).toFixed(2)} ETH`
@@ -23,6 +25,7 @@ export default function CartPage() {
   const [promoDraft, setPromoDraft] = useState('')
   const [promoApplied, setPromoApplied] = useState(false)
   const [promoMessage, setPromoMessage] = useState('')
+  const [quote, setQuote] = useState<CartQuote | null>(null)
   const { data, isPending, isError, refetch } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart })
   const { data: recommendations } = useQuery({
     queryKey: ['cart-recommendations'],
@@ -33,34 +36,43 @@ export default function CartPage() {
   })
   const updateMutation = useMutation({
     mutationFn: ({ nftId, quantity }: { nftId: string; quantity: number }) => updateCartQuantity(nftId, quantity),
-    onSuccess: (cart) => { queryClient.setQueryData(['cart', sessionEmail], cart) },
+    onSuccess: (cart) => { queryClient.setQueryData(['cart', sessionEmail], cart); setQuote(null); setPromoApplied(false) },
   })
   const removeMutation = useMutation({
     mutationFn: (nftId: string) => removeFromCart(nftId),
-    onSuccess: (cart) => { queryClient.setQueryData(['cart', sessionEmail], cart) },
+    onSuccess: (cart) => { queryClient.setQueryData(['cart', sessionEmail], cart); setQuote(null); setPromoApplied(false) },
   })
   const addMutation = useMutation({
     mutationFn: (nftId: string) => addToCart(nftId),
-    onSuccess: (cart) => { queryClient.setQueryData(['cart', sessionEmail], cart); void queryClient.invalidateQueries({ queryKey: ['cart'] }) },
+    onSuccess: (cart) => { queryClient.setQueryData(['cart', sessionEmail], cart); setQuote(null); setPromoApplied(false); void queryClient.invalidateQueries({ queryKey: ['cart'] }) },
+  })
+  const quoteMutation = useMutation({
+    mutationFn: async (promoCode: string) => (await api.post<CartQuote>('/quote', { promoCode })).data,
+    onSuccess: (result) => {
+      if (!result.valid) {
+        setQuote(null)
+        setPromoApplied(false)
+        setPromoMessage(result.reason === 'expired' ? 'Este código promocional expirou.' : 'Código promocional inválido.')
+        return
+      }
+      setQuote(result)
+      setPromoApplied(Boolean(promoDraft.trim()))
+      setPromoMessage(promoDraft.trim() ? 'Código aplicado: 10% de desconto simulado.' : 'Cotação atualizada.')
+    },
+    onError: () => { setQuote(null); setPromoApplied(false); setPromoMessage('Não foi possível validar o código. Tente novamente.') },
   })
   const cartIds = useMemo(() => new Set(data?.items.map((item) => item.nftId) ?? []), [data?.items])
   const availableSuggestions = (recommendations ?? []).filter((nft) => !cartIds.has(nft.id))
   // Keep the carousel useful even when every catalog NFT is already in the cart.
   const suggested = (availableSuggestions.length ? availableSuggestions : recommendations ?? []).slice(0, 36)
   const subtotal = Number(data?.subtotalEth ?? 0)
-  const discount = promoApplied ? subtotal * 0.1 : 0
+  const discount = quote ? Number(quote.discountEth) : 0
   const networkFee = Number(data?.networkFeeEth ?? 0)
-  const total = Math.max(0, subtotal - discount) + networkFee
+  const total = quote ? Number(quote.totalEth) : Math.max(0, subtotal - discount) + networkFee
   const itemCount = data?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0
 
   function applyPromo() {
-    if (promoDraft.trim().toUpperCase() === 'KURIO10') {
-      setPromoApplied(true)
-      setPromoMessage('Código aplicado: 10% de desconto simulado.')
-    } else {
-      setPromoApplied(false)
-      setPromoMessage('Código não reconhecido. Tente KURIO10.')
-    }
+    quoteMutation.mutate(promoDraft.trim())
   }
 
   return (
@@ -87,7 +99,7 @@ export default function CartPage() {
             <aside className="cart-summary">
               <h2>Resumo da carteira</h2>
               <label className="promo-label" htmlFor="cart-promo">Código promocional</label>
-              <div className="promo-control"><input id="cart-promo" value={promoDraft} onChange={(event) => setPromoDraft(event.target.value)} placeholder="Digite o código promocional..." /><button type="button" onClick={applyPromo}>Aplicar</button></div>
+              <div className="promo-control"><input id="cart-promo" value={promoDraft} onChange={(event) => { setPromoDraft(event.target.value); setQuote(null); setPromoApplied(false) }} placeholder="Digite o código promocional..." /><button type="button" onClick={applyPromo} disabled={quoteMutation.isPending}>{quoteMutation.isPending ? 'Validando...' : 'Aplicar'}</button></div>
               {promoMessage && <p className={promoApplied ? 'promo-feedback success' : 'promo-feedback'} role="status">{promoMessage}</p>}
               <div className="summary-line"><span>Subtotal</span><strong>{formatEth(subtotal)}</strong></div>
               <div className="summary-line"><span>Desconto do lançamento</span><strong>{promoApplied ? `(-) ${formatEth(discount)}` : '(-) 0.00 ETH'}</strong></div>
