@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useParams } from '@tanstack/react-router'
 import { Check, ChevronLeft, ChevronRight, Heart, Minus, Plus, Star } from 'lucide-react'
@@ -30,6 +30,8 @@ export default function NftDetailPage() {
   const [activeImage, setActiveImage] = useState(0)
   const [selectedEdition, setSelectedEdition] = useState('1/50')
   const [activeTab, setActiveTab] = useState<'details' | 'reviews'>('details')
+  const collectionTrackRef = useRef<HTMLDivElement>(null)
+  const [collectionPage, setCollectionPage] = useState(0)
   const sessionEmail = getStoredSessionEmail() ?? 'guest'
   const [isFavorite, setIsFavorite] = useState(() => {
     try { return JSON.parse(localStorage.getItem('kurio-favorites:' + sessionEmail) ?? '[]') as string[] }
@@ -58,7 +60,7 @@ export default function NftDetailPage() {
   if (isError || !nft) return <main className="shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><p className="eyebrow">PEÇA NÃO ENCONTRADA</p><h1>Não encontramos esse NFT.</h1><p>Ele pode ter sido removido ou o endereço está incorreto.</p><Link className="shop-text-link" to="/" search={homeSearch}>Voltar ao catálogo</Link></div></main>
 
   const isSaved = isFavorite.includes(nftId)
-  const related = (collection ?? []).filter((item) => item.id !== nftId).slice(0, 5)
+  const related = (collection ?? []).filter((item) => item.id !== nftId)
   const images = [nft.image, nft.image, nft.image, nft.image]
 
   return (
@@ -124,15 +126,36 @@ export default function NftDetailPage() {
         {activeTab === 'details' ? <div className="nft-information-copy"><p><strong>{nft.name}</strong> é uma obra digital da coleção {nft.collection}, criada por {nft.creator}. Cada atributo faz parte da identidade visual desta peça colecionável.</p><p>A propriedade digital é apresentada nesta demonstração do marketplace Kurio. As informações de preço e edição são dados simulados.</p><h3>Rede:</h3><p>{nft.network ?? 'Rede compatível conforme disponibilidade da coleção.'}</p><h3>Contrato:</h3><p>Informações de contrato inteligente demonstrativas.</p><h3>Direitos autorais:</h3><p>Consulte os termos da coleção e do criador antes de qualquer negociação.</p></div> : <div className="nft-reviews-panel"><div className="nft-stars"><Star/><Star/><Star/><Star/><Star/></div><h3>Avaliações da comunidade</h3><p>As avaliações detalhadas não estão disponíveis nesta demonstração.</p></div>}
       </section>
 
-      {related.length > 0 && <section className="nft-more-collection"><div className="nft-more-heading"><h2>Mais desta coleção</h2><div className="nft-more-arrows"><button type="button" aria-label="Ver itens anteriores" onClick={(event) => { const el = event.currentTarget.closest('section')?.querySelector('.nft-more-grid'); el?.scrollBy({ left: -el.clientWidth, behavior: 'smooth' }) }}><ChevronLeft size={18}/></button><button type="button" aria-label="Ver próximos itens" onClick={(event) => { const el = event.currentTarget.closest('section')?.querySelector('.nft-more-grid'); el?.scrollBy({ left: el.clientWidth, behavior: 'smooth' }) }}><ChevronRight size={18}/></button></div></div><div className="nft-more-grid">{related.map((item) => <article className="nft-more-card" key={item.id}><Link to="/nft/$nftId" params={{ nftId: item.id }}><img src={item.image} alt={item.name}/></Link><Link className="nft-more-name" to="/nft/$nftId" params={{ nftId: item.id }}>{item.name}</Link><strong>{formatEth(item.priceEth)}</strong></article>)}</div><div className="nft-more-dots" aria-label="Navegação da coleção"><button className="active" type="button" aria-label="Início da coleção" onClick={(event) => event.currentTarget.closest("section")?.querySelector(".nft-more-grid")?.scrollTo({ left: 0, behavior: "smooth" })}/><button type="button" aria-label="Meio da coleção" onClick={(event) => { const el = event.currentTarget.closest("section")?.querySelector(".nft-more-grid"); if (el) el.scrollTo({ left: el.scrollWidth / 2, behavior: "smooth" }) }}/><button type="button" aria-label="Fim da coleção" onClick={(event) => { const el = event.currentTarget.closest("section")?.querySelector(".nft-more-grid"); if (el) el.scrollTo({ left: el.scrollWidth, behavior: "smooth" }) }}/></div></section>}
+      {related.length > 0 && <section className="nft-more-collection">
+        <div className="nft-more-heading"><h2>Mais desta coleção</h2></div>
+        <div className="nft-more-grid" ref={collectionTrackRef} onScroll={(event) => {
+          const track = event.currentTarget
+          const maxScroll = track.scrollWidth - track.clientWidth
+          const progress = maxScroll > 0 ? track.scrollLeft / maxScroll : 0
+          setCollectionPage(Math.min(2, Math.round(progress * 2)))
+        }}>
+          {related.map((item) => <article className="nft-more-card" key={item.id}>
+            <Link to="/nft/$nftId" params={{ nftId: item.id }}><img src={item.image} alt={item.name}/></Link>
+            <Link className="nft-more-name" to="/nft/$nftId" params={{ nftId: item.id }}>{item.name}</Link>
+            <strong>{formatEth(item.priceEth)}</strong>
+          </article>)}
+        </div>
+        <div className="nft-more-dots" aria-label="Navegação da coleção">
+          {[0, 1, 2].map((page) => <button key={page} className={collectionPage === page ? 'active' : ''} type="button" aria-label={`Ver seção ${page + 1} da coleção`} aria-pressed={collectionPage === page} onClick={() => {
+            const track = collectionTrackRef.current
+            if (track) track.scrollTo({ left: (track.scrollWidth - track.clientWidth) * (page / 2), behavior: 'smooth' })
+            setCollectionPage(page)
+          }}/>)}
+        </div>
+      </section>}
 
-      <section className="trust-newsletter home-wide nft-detail-trust" aria-label="Benefícios e novidades">
+      <section className="trust-newsletter home-wide" aria-label="Benefícios e novidades">
         <article className="trust-item"><span className="trust-initial">W</span><h3>Segurança da carteira</h3><p>Proteja sua carteira e colecione arte digital verificada com confiança.</p></article>
         <article className="trust-item"><span className="trust-initial">C</span><h3>Criadores em destaque</h3><p>Conheça artistas, estúdios e comunidades que moldam a cultura digital na rede.</p></article>
         <article className="trust-item"><span className="trust-initial">D</span><h3>Alertas de lançamentos</h3><p>Receba calendários de cunhagem, novidades e listas de acesso antecipado.</p></article>
         <div className="newsletter-box"><h3>Antecipe-se ao próximo lançamento</h3><form onSubmit={(event) => event.preventDefault()}><label className="sr-only" htmlFor="detail-newsletter">Seu e-mail</label><input id="detail-newsletter" type="email" placeholder="digite seu e-mail..." required/><button type="submit">Enviar</button></form><p>Receba lançamentos selecionados, histórias de criadores e novidades do mercado.</p></div>
       </section>
-      <footer className="site-footer nft-detail-footer" id="footer">
+      <footer className="site-footer" id="footer">
         <div className="footer-brand-row"><Link className="brand" to="/" search={homeSearch}>KURIO<span>.</span></Link><p>Feito para colecionadores,<br/>criadores e cultura</p><a href="mailto:contato@email.com">contato@email.com</a><span>+55 11 4002 8922</span></div>
         <div className="footer-columns"><div><h3>Meu perfil</h3><Link to="/profile">Meu perfil</Link><Link to="/profile">Minha coleção</Link><Link to="/profile">Atividade</Link><Link to="/profile">Estúdio do criador</Link><Link to="/profile">Lista de interesse</Link></div><div><h3>Central de ajuda</h3><Link to="/" search={homeSearch}>Central de ajuda</Link><Link to="/" search={homeSearch}>Como comprar NFTs</Link><Link to="/" search={homeSearch}>Carteira e segurança</Link><Link to="/" search={homeSearch}>Política de mercado</Link><Link to="/" search={homeSearch}>Denunciar item</Link></div><div><h3>Coleções</h3><Link to="/" search={{...homeSearch,category:'Arte digital'}}>Arte digital</Link><Link to="/" search={{...homeSearch,category:'Fotografia'}}>Fotografia</Link><Link to="/" search={{...homeSearch,category:'Música'}}>Música</Link><Link to="/" search={{...homeSearch,category:'Arte 3D'}}>Arte 3D</Link><Link to="/" search={{...homeSearch,category:'Utilidade'}}>Utilidade</Link></div><div><h3>Redes sociais</h3><div className="social-links"><a href="https://facebook.com" aria-label="Facebook">f</a><a href="https://instagram.com" aria-label="Instagram">◎</a><a href="https://twitter.com" aria-label="Twitter">♥</a><a href="https://linkedin.com" aria-label="LinkedIn">in</a><a href="https://youtube.com" aria-label="YouTube">▶</a></div><h3 className="wallet-title">Carteiras compatíveis</h3><div className="wallet-tags"><span>METAMASK</span><span>WALLETCONNECT</span><span>COINBASE</span></div></div></div>
         <p className="copyright">© 2026 Kurio. Propriedade digital para todos.</p>
