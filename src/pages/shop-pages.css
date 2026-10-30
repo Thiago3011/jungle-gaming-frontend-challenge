@@ -631,3 +631,25 @@
   .nft-buy-favorite { display:flex; flex-wrap:wrap; gap:8px; }
   .nft-token-details { margin-top:14px; }
 }
+
+
+/* Center the complete NFT detail content on the same page grid as the marketplace */
+@media (min-width: 901px) {
+  .nft-detail-page .shop-breadcrumb {
+    width: min(100%, 1330px) !important;
+    max-width: 1330px !important;
+    margin-inline: auto !important;
+  }
+  .nft-detail-page .nft-detail-layout {
+    width: min(100%, 1330px) !important;
+    max-width: 1330px !important;
+    margin-inline: auto !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 36px !important;
+  }
+  .nft-detail-page .nft-gallery {
+    grid-template-columns: 112px minmax(0, 1fr) !important;
+    gap: 20px !important;
+  }
+  .nft-detail-page .nft-detail-info { min-width: 0; }
+}
