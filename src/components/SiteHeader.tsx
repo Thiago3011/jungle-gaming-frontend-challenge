@@ -10,7 +10,7 @@ const homeSearch = { q: '', category: 'Todas', sort: 'recent' as const, page: 1,
 
 export function SiteHeader({ active = '', onSearchClick, searchContent }: { active?: string; onSearchClick?: () => void; searchContent?: ReactNode }) {
   const sessionEmail = getStoredSessionEmail() ?? 'guest'
-  const { data: cart } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart })
+  const { data: cart } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart, refetchOnMount: 'always' })
   const cartCount = cart?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0
   return <header className="kurio-site-header"><div className="kurio-site-header-inner">
     <Link className="kurio-brand" to="/" search={homeSearch}>KURIO<span>.</span></Link>
@@ -21,7 +21,7 @@ export function SiteHeader({ active = '', onSearchClick, searchContent }: { acti
       <Link to="/" search={homeSearch} hash="aprenda">Aprenda</Link>
     </nav>
     <div className="kurio-header-actions"><span className="kurio-header-search-slot">{onSearchClick ? <button className="kurio-header-icon" type="button" aria-label="Abrir busca" onClick={onSearchClick}><Search size={20}/></button> : null}</span>{searchContent ? <div className="kurio-header-search-popover">{searchContent}</div> : null}
-      <Link className="kurio-header-icon kurio-cart-link" to="/cart" aria-label={`Carrinho com ${cartCount} itens`}><ShoppingBag size={19}/><span className="kurio-cart-count">{cartCount}</span></Link>
+      <Link className="kurio-header-icon kurio-cart-link" to="/cart" aria-label={`Carrinho com ${cartCount} itens`}><ShoppingBag size={23} strokeWidth={1.8}/><span className="kurio-cart-count">{cartCount}</span></Link>
       <Link className="kurio-account-button" to={sessionEmail !== 'guest' ? '/profile' : '/login'}><Wallet size={15}/>{sessionEmail !== 'guest' ? 'Minha conta' : 'Entrar'}</Link>
     </div>
   </div></header>
