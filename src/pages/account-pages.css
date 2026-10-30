@@ -1739,3 +1739,61 @@
   body:has(.checkout-wallet-page) .mobile-bottom-nav{display:none!important}
   body:has(.checkout-wallet-page){padding-bottom:0!important}
 }
+
+/* Tablet account sidebar: keep every navigation label inside its panel. */
+@media (min-width:681px) and (max-width:900px){
+  .account-main,
+  .account-main.profile-account-main{
+    width:calc(100% - 48px);
+    grid-template-columns:176px minmax(0,1fr);
+    gap:20px;
+  }
+  .account-main .account-sidebar{
+    box-sizing:border-box;
+    min-width:0;
+    width:100%;
+    overflow:hidden;
+  }
+  .account-main .account-sidebar h2{
+    padding-inline:12px;
+    overflow-wrap:anywhere;
+  }
+  .account-main .account-sidebar a,
+  .account-main .account-sidebar button{
+    box-sizing:border-box;
+    display:flex;
+    align-items:center;
+    min-width:0;
+    width:100%;
+    gap:8px;
+    padding:10px 9px;
+    font-size:11px;
+    line-height:1.4;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  .account-main .account-sidebar a svg,
+  .account-main .account-sidebar button svg{
+    flex:0 0 16px;
+  }
+  .account-main .account-sidebar a.active:before{
+    left:0;
+  }
+  .account-main .account-content{
+    min-width:0;
+    width:100%;
+  }
+  .wallet-figma-form{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:18px;
+  }
+  .wallet-figma-form .form-field,
+  .wallet-figma-form .wallet-ens-field{
+    min-width:0;
+    width:100%;
+  }
+  .wallet-figma-form .wallet-ens-field{
+    grid-template-columns: minmax(0,1fr);
+    gap:8px;
+  }
+}
