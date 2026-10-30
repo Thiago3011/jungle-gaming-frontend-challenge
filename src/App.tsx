@@ -5,8 +5,8 @@ import {
   ArrowRight, ChevronDown, Heart, Menu, Search, ShoppingBag, X, Wallet,
 } from 'lucide-react'
 import { getNfts } from '@/api/nfts'
-import { getCart } from '@/api/cart'
 import { getStoredSessionEmail } from '@/api/session'
+import { SiteHeader } from '@/components/SiteHeader'
 import type { CatalogView, NftSort } from '@/types/nft'
 import './App.css'
 
@@ -53,7 +53,6 @@ export default function App() {
     queryFn: () => getNfts(search),
     placeholderData: (previousData) => previousData,
   })
-  const { data: cart } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart })
 
   function updateSearch(patch: Partial<typeof search>, replace = false) {
     void navigate({ search: (previous) => ({ ...previous, ...patch }), replace })
@@ -74,35 +73,11 @@ export default function App() {
   }
 
   const totalPages = Math.max(1, Math.ceil((data?.total ?? 0) / (data?.pageSize ?? 9)))
-  const cartCount = cart?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0
   const featuredNft = { id: 'ape-009', name: 'Sage Nomad #009', image: '/nfts/ape-hoodie.jpg' }
 
   return (
     <main className="marketplace-shell" id="inicio">
-      <header className="site-header">
-        <div className="site-header-inner">
-          <a className="brand" href="#inicio" aria-label="Kurio, início">KURIO<span>.</span></a>
-          <nav className={`desktop-nav ${mobileMenuOpen ? 'desktop-nav-open' : ''}`} aria-label="Navegação principal">
-            <a className="active" href="#inicio">Início</a>
-            <a href="#mercado">Mercado</a>
-            <a href="#criadores">Criadores</a>
-            <a href="#aprenda">Aprenda</a>
-          </nav>
-          <div className="header-actions">
-            {searchOpen && (
-              <label className="header-search">
-                <span className="sr-only">Buscar NFTs</span>
-                <input autoFocus aria-label="Buscar NFTs" placeholder="Buscar NFT..." value={search.q} onChange={(event) => updateSearch({ q: event.target.value, page: 1 }, true)} />
-                <button type="button" aria-label="Fechar busca" onClick={() => { setSearchOpen(false); updateSearch({ q: '' }, true) }}><X size={13} /></button>
-              </label>
-            )}
-            <button className="header-icon" type="button" aria-label="Abrir busca" onClick={() => setSearchOpen((open) => !open)}><Search size={17} /></button>
-            <Link className="header-icon cart-shortcut" to="/cart" aria-label={`Carrinho com ${cartCount} itens`}><ShoppingBag size={17} /><span className="cart-count">{cartCount}</span></Link>
-            <Link className="account-button" to={sessionEmail !== 'guest' ? '/profile' : '/login'}><Wallet size={13} /> {sessionEmail !== 'guest' ? 'Minha conta' : 'Entrar'}</Link>
-            <button className="mobile-menu-button" type="button" aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'} aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}>{mobileMenuOpen ? <X size={19} /> : <Menu size={19} />}</button>
-          </div>
-        </div>
-      </header>
+      <SiteHeader active="home" onSearchClick={() => setSearchOpen((open) => !open)} searchContent={searchOpen ? <label className="kurio-header-search"><span className="sr-only">Buscar NFTs</span><input autoFocus aria-label="Buscar NFTs" placeholder="Buscar NFT..." value={search.q} onChange={(event) => updateSearch({ q: event.target.value, page: 1 }, true)}/><button type="button" aria-label="Fechar busca" onClick={() => { setSearchOpen(false); updateSearch({ q: '' }, true) }}>×</button></label> : null}/>
 
       <section className="hero-section" aria-labelledby="hero-title">
         <div className="hero-inner">
