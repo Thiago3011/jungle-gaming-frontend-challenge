@@ -669,3 +669,14 @@
 .nft-more-dots button.active { background: #e99a47; }
 .nft-more-grid { scroll-behavior: smooth; }
 .nft-more-collection { width: min(100% - 32px, 1240px); margin-inline: auto; }
+
+
+/* NFT image zoom */
+.nft-detail-page .nft-image-zoom{position:absolute;right:22px;top:20px;width:38px;height:38px;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:#21140e;color:#f4e9dc;cursor:zoom-in}
+.nft-detail-page .nft-image-zoom svg{display:block;flex:none}
+.nft-detail-page .nft-image-zoom:hover{background:#e49a4d;color:#24140b}
+.nft-image-lightbox{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:5vh 5vw;background:rgba(10,6,4,.94);cursor:zoom-out}
+.nft-image-lightbox img{display:block;max-width:min(90vw,1100px);max-height:90vh;width:auto;height:auto;object-fit:contain;border:1px solid #674329;background:#21140e;padding:8px;cursor:default}
+.nft-lightbox-close{position:absolute;top:24px;right:28px;width:44px;height:44px;display:grid;place-items:center;border:1px solid #674329;border-radius:50%;background:#21140e;color:#f4e9dc;cursor:pointer}
+.nft-lightbox-close:hover{background:#e49a4d;color:#24140b}
+@media(max-width:600px){.nft-image-lightbox{padding:16px}.nft-image-lightbox img{max-width:96vw;max-height:82vh}.nft-lightbox-close{top:12px;right:12px}}
