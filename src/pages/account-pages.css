@@ -1411,3 +1411,14 @@
   .order-confirmation-figma .confirmation-table-heading{grid-template-columns:minmax(0,1fr) 42px 76px;font-size:11px}
   .order-confirmation-figma .confirmation-totals{max-width:100%}
 }
+
+
+/* Mobile auth: keep the form directly on the page background, without a card */
+@media (max-width: 600px) {
+  .auth-card {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
