@@ -1274,7 +1274,7 @@
     border-radius:50%;
     color:#d28a4c;
   }
-  .mobile-bottom-nav{display:none!important}
+  body:has(.nft-detail-page) .mobile-bottom-nav{display:none!important}
   body:has(.nft-detail-page){padding-bottom:0!important}
 }
 @media(max-width:390px){
