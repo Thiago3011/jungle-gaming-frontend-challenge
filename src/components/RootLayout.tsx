@@ -1,6 +1,7 @@
-import { Outlet } from '@tanstack/react-router'
+import { Outlet, useRouterState } from '@tanstack/react-router'
 import { MobileBottomNav } from '@/components/MobileBottomNav'
 
 export default function RootLayout() {
-  return <><Outlet /><MobileBottomNav /></>
+  const pathname = useRouterState({ select: (state) => state.location.pathname })
+  return <><Outlet />{pathname !== '/cart' && <MobileBottomNav />}</>
 }
