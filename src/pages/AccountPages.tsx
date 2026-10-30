@@ -174,7 +174,6 @@ export function CheckoutPage() {
   const [profile, setProfile] = useState({ displayName: '', username: '', network: 'Ethereum', profileName: '', address: '', secondaryAddress: '', walletType: '', referralCode: '', email: sessionEmail ?? '', ensName: '', useAnotherWallet: false, note: '' })
   const { data: checkoutWallets = [] } = useQuery({ queryKey: ['wallets', sessionEmail ?? 'guest'], queryFn: async () => (await api.get<WalletItem[]>('/wallets')).data })
   const [selectedWalletId, setSelectedWalletId] = useState('')
-  const [selectedNetwork, setSelectedNetwork] = useState('Polygon')
   const [paymentMethod, setPaymentMethod] = useState('MetaMask')
   const [promoCode, setPromoCode] = useState('')
   const [promoApplied, setPromoApplied] = useState(false)
@@ -190,7 +189,6 @@ export function CheckoutPage() {
   const selectCheckoutWallet = (wallet: WalletItem) => {
     setSelectedWalletId(wallet.id)
     setPaymentMethod(wallet.type)
-    setSelectedNetwork(wallet.network)
     setProfile((current) => ({ ...current, displayName: wallet.displayName ?? wallet.profileName, username: wallet.profileName, network: wallet.network, profileName: wallet.profileName, address: wallet.address, walletType: wallet.type, email: wallet.email || current.email, ensName: wallet.ensName }))
   }
   useEffect(() => {
