@@ -35,6 +35,7 @@ export default function NftDetailPage() {
   const collectionTrackRef = useRef<HTMLDivElement>(null)
   const [collectionPage, setCollectionPage] = useState(0)
   const sessionEmail = getStoredSessionEmail() ?? 'guest'
+  const [showAddedModal, setShowAddedModal] = useState(false)
   const [isFavorite, setIsFavorite] = useState(() => {
     try { return JSON.parse(localStorage.getItem('kurio-favorites:' + sessionEmail) ?? '[]') as string[] }
     catch { return [] as string[] }
@@ -49,6 +50,7 @@ export default function NftDetailPage() {
     onSuccess: (cart: CartResponse) => {
       queryClient.setQueryData(['cart', sessionEmail], cart)
       void queryClient.invalidateQueries({ queryKey: ['cart'] })
+      setShowAddedModal(true)
     },
   })
 
@@ -157,6 +159,17 @@ export default function NftDetailPage() {
         <div className="nft-mobile-purchase-top"><span>Qtd.</span><div className="quantity-control"><button type="button" aria-label="Diminuir quantidade" disabled={quantity <= 1} onClick={() => setQuantity((value) => Math.max(1, value - 1))}><Minus size={16}/></button><output aria-live="polite">{quantity}</output><button type="button" aria-label="Aumentar quantidade" disabled={quantity >= 10} onClick={() => setQuantity((value) => Math.min(10, value + 1))}><Plus size={16}/></button></div><strong>{formatEth((Number(nft.priceEth) * quantity).toFixed(2))}</strong></div>
         <div className="nft-mobile-purchase-actions"><Button className="primary-cta" disabled={addMutation.isPending} onClick={() => addMutation.mutate()}>{addMutation.isPending ? "Adicionando..." : "Comprar NFT"}</Button><Link to="/cart" aria-label="Abrir carrinho"><ShoppingCart size={21}/></Link></div>
       </div>
+      {showAddedModal && <div className="cart-added-overlay" role="presentation" onClick={() => setShowAddedModal(false)}>
+        <section className="cart-added-dialog" role="dialog" aria-modal="true" aria-labelledby="cart-added-title" onClick={(event) => event.stopPropagation()}>
+          <div className="cart-added-icon"><Check size={24}/></div>
+          <h2 id="cart-added-title">NFT adicionado ao carrinho!</h2>
+          <p>{nft.name} foi adicionado à sua sacola.</p>
+          <div className="cart-added-actions">
+            <Link to="/" search={homeSearch} className="cart-added-continue" onClick={() => setShowAddedModal(false)}>Continuar comprando</Link>
+            <Link to="/cart" className="cart-added-view" onClick={() => setShowAddedModal(false)}>Ir para o carrinho</Link>
+          </div>
+        </section>
+      </div>}
       <SiteFooter />
     </main>
   )
