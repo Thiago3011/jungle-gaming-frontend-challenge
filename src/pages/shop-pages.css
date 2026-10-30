@@ -653,3 +653,19 @@
   }
   .nft-detail-page .nft-detail-info { min-width: 0; }
 }
+
+
+/* Collection carousel pagination controls */
+.nft-more-dots button {
+  display: block;
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: 1px solid #e99a47;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+.nft-more-dots button.active { background: #e99a47; }
+.nft-more-grid { scroll-behavior: smooth; }
+.nft-more-collection { width: min(100% - 32px, 1240px); margin-inline: auto; }
