@@ -1509,3 +1509,18 @@
   .cart-recommendations-viewport{overflow-x:auto}
   .cart-recommendations-grid{grid-auto-columns:minmax(145px,42vw);gap:12px}
 }
+
+/* Mobile: the fixed bottom navigation replaces the desktop account sidebar. */
+@media(max-width:680px){
+  .account-main .account-sidebar{
+    display:none!important;
+  }
+  .account-main{
+    display:block;
+    padding-top:20px;
+  }
+  .account-main .account-content{
+    width:100%;
+    min-width:0;
+  }
+}
