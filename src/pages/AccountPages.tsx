@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useNavigate } from '@tanstack/react-router'
-import { ArrowLeft, CheckCircle2, CircleUserRound, CreditCard, Plus, ShieldCheck, WalletCards, X, Eye, EyeOff, ShoppingCart, Heart, ChartNoAxesCombined, Download, TriangleAlert, LogOut } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, CircleUserRound, CreditCard, Plus, ShieldCheck, Wallet, WalletCards, X, Eye, EyeOff, ShoppingCart, Heart, ChartNoAxesCombined, Download, TriangleAlert, LogOut } from 'lucide-react'
 import { api } from '@/api/client'
 import { getStoredSessionEmail } from '@/api/session'
 import { getCart } from '@/api/cart'
