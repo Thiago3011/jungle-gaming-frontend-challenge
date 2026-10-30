@@ -1,49 +1,74 @@
 # Kurio — Marketplace de NFTs
 
-Aplicação frontend demonstrativa construída com React, TypeScript, Vite, TanStack Router, TanStack Query e MSW.
+Marketplace demonstrativo em React, TypeScript, Vite, TanStack Router, TanStack Query, Axios e MSW.
 
-## Executar localmente
+> Autenticação, carteiras, cotações e compras são simuladas no navegador. Não há conexão com blockchain, transferência de NFT ou movimentação financeira real.
 
-```bash
-npm install
-npm run dev
-```
+## Requisitos
 
-## Validação
+- Node.js 20.19+ ou 22.12+
+- npm
+- Chromium para Playwright
+- Chrome/Chromium para Lighthouse
 
-```bash
-npm run build
-npm run lint
-npm run test:e2e
-```
+## Instalação
 
-Na primeira execução dos testes E2E, instale o navegador do Playwright:
+    npm install
+    npm run dev
 
-```bash
-npx playwright install chromium
-```
+MSW fica habilitado por padrão em desenvolvimento. Para executar sem mocks: VITE_ENABLE_MOCKS=false npm run dev.
 
-Os testes sobem o Vite automaticamente em `http://127.0.0.1:4173`.
-
-## Contas para demonstração
-
-O MSW inicializa duas contas fictícias no armazenamento local:
+## Contas de demonstração
 
 | E-mail | Senha | Perfil |
 | --- | --- | --- |
-| `thiago@kurio.demo` | `Kurio123!` | Thiago Colecionador |
-| `bia@kurio.demo` | `Kurio123!` | Beatriz Colecionadora |
+| thiago@kurio.demo | Kurio123! | Thiago Colecionador |
+| bia@kurio.demo | Kurio123! | Beatriz Colecionadora |
 
-Também é possível criar uma nova conta pela tela de cadastro. O e-mail é único, sem distinção entre maiúsculas e minúsculas.
+## Scripts
 
-## Isolamento de dados
+| Comando | Descrição |
+| --- | --- |
+| npm run dev | Servidor de desenvolvimento |
+| npm run build | TypeScript + build de produção |
+| npm run typecheck | Verificação TypeScript |
+| npm run lint | Oxlint |
+| npm run preview | Preview de produção |
+| npm run test:e2e | Playwright desktop e mobile |
+| npm run test:e2e:report | Abre relatório HTML |
+| npm run audit:lighthouse:mobile | Lighthouse mobile em localhost:4173 |
+| npm run audit:lighthouse:desktop | Lighthouse desktop em localhost:4173 |
 
-O mock mantém os dados privados associados à conta autenticada: perfil, carteiras, carrinho e último pedido. Os favoritos também usam uma chave local específica por conta. O cache privado do TanStack Query é limpo ao entrar, cadastrar ou sair.
+Primeira execução E2E: npx playwright install chromium. Os testes iniciam Vite automaticamente na porta 4173.
 
-O carrinho de visitante permanece separado das contas e é mesclado ao carrinho da conta quando a pessoa faz login ou conclui o cadastro. Quantidades mescladas respeitam o limite de 10 unidades por NFT.
+Para Lighthouse, execute npm run build e depois npm run preview -- --host 127.0.0.1 --port 4173 em um terminal. Em outro terminal, rode os scripts Lighthouse. Faça três execuções por combinação e registre a mediana.
 
-Os handlers de perfil, carteiras e pedidos exigem uma sessão válida. O carrinho pode ser usado como visitante; a finalização do pedido exige autenticação.
+## Cenários demonstrativos
 
-## Limites da demonstração
+- Login, cadastro, logout e sessão local com expiração em oito horas.
+- Isolamento por conta de perfil, carteiras, favoritos, carrinho e último pedido.
+- Carrinho visitante mesclado no login/cadastro, com limite de dez unidades por NFT.
+- Favoritos REST por conta autenticada; favoritos de visitante armazenados localmente.
+- Cotação REST com subtotal, desconto, taxa e total em wei inteiro.
+- Cupom KURIO10 (10%), código inválido e KURIOEXPIRED (expirado).
+- Idempotência de pedidos por Idempotency-Key: mesma chave e conteúdo recupera o mesmo pedido; conteúdo diferente retorna HTTP 409.
+- Socket.IO simulado via MSW para nft.updated e order.updated.
+- Playwright em Chromium desktop e mobile, com trace e screenshot em falhas.
 
-A autenticação, as contas, os dados e as compras são simulados pelo MSW no navegador. As credenciais ficam no `localStorage` apenas para viabilizar o fluxo demonstrativo. Isso **não é autenticação de produção**: uma aplicação real deve validar credenciais e autorizações em um backend confiável, armazenar senhas com hash apropriado e manter dados privados no servidor. Nenhuma transação financeira ou transferência real de NFT acontece.
+## Arquitetura
+
+Consulte ARCHITECTURE.md para contratos REST, sessão, propriedade dos dados, carrinho, cotação, idempotência e eventos.
+
+## Limitações conhecidas
+
+- Os dados são simulados no navegador pelo MSW; não existe backend persistente.
+- Credenciais e sessão no localStorage são apenas para demonstração, não autenticação de produção.
+- O Socket.IO é interceptado pelo MSW e não representa um serviço remoto de tempo real.
+- O fluxo de compra é simulado; não há conexão real com MetaMask, WalletConnect, Coinbase Wallet ou blockchain.
+- A suíte Playwright ainda é uma base inicial e precisa ser ampliada para cobrir todos os cenários de negócio, falhas, acessibilidade, eventos e regressão visual do desafio.
+- A integração de cotação e reconciliação de eventos em todos os estados da interface precisa de validação.
+- Não há relatório Lighthouse ou URL de deploy declarado como concluído até que sejam executados e verificados.
+
+## Segurança
+
+Não use os mocks como autenticação ou autorização em produção. Uma versão real exige backend confiável, hashing de senhas, validação de propriedade no servidor, gestão segura de sessão e persistência atômica de idempotência.
