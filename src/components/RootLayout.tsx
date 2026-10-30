@@ -11,7 +11,9 @@ export default function RootLayout() {
   const sessionEmail = getStoredSessionEmail()
   const hideMobileNav = pathname === '/cart' || pathname === '/checkout' || pathname.startsWith('/nft/')
 
-  useEffect(() => connectRealtime(sessionEmail, {
+  useEffect(() => {
+    if (import.meta.env.VITE_ENABLE_MOCKS === 'false') return
+    return connectRealtime(sessionEmail, {
     onNftUpdated: () => {
       void queryClient.invalidateQueries({ queryKey: ['nfts'] })
       void queryClient.invalidateQueries({ queryKey: ['nft'] })
@@ -20,7 +22,8 @@ export default function RootLayout() {
     onOrderUpdated: () => {
       void queryClient.invalidateQueries({ queryKey: ['latest-order', sessionEmail ?? 'guest'] })
     },
-  }), [pathname, queryClient, sessionEmail])
+    })
+  }, [pathname, queryClient, sessionEmail])
 
   return <><Outlet />{!hideMobileNav && <MobileBottomNav />}</>
 }
