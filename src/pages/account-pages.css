@@ -1524,3 +1524,216 @@
     min-width:0;
   }
 }
+
+/* Mobile checkout: wallet-first confirmation screen based on Figma. */
+.checkout-mobile-header,.checkout-mobile-wallets{display:none}
+@media(max-width:680px){
+  .checkout-wallet-page{
+    min-height:100svh;
+    padding:0 8px 0!important;
+    background:#100a07;
+  }
+  .checkout-wallet-page .kurio-site-header{display:none!important}
+  .checkout-wallet-page .checkout-main{
+    min-height:100svh;
+    padding:0 24px 116px!important;
+    border-radius:30px;
+    background:#100a07;
+  }
+  .checkout-mobile-header{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:16px;
+    min-height:72px;
+    padding:8px 0 12px;
+  }
+  .checkout-mobile-header>a{
+    display:grid;
+    place-items:center;
+    width:38px;
+    height:38px;
+    flex:0 0 38px;
+    border:1px solid #58371f;
+    border-radius:50%;
+    color:#d28a4c;
+  }
+  .checkout-mobile-header h1{
+    margin:0;
+    color:#f1e4d7;
+    font-family:'Space Mono',monospace;
+    font-size:18px;
+    line-height:1.25;
+    white-space:nowrap;
+  }
+  .checkout-wallet-page .account-breadcrumb,
+  .checkout-wallet-page .checkout-form-section>.checkout-desktop-profile-heading,
+  .checkout-wallet-page .checkout-fields,
+  .checkout-wallet-page .checkout-form-section>.check-row,
+  .checkout-wallet-page .checkout-form-section>.note-field,
+  .checkout-wallet-page .checkout-form-section>.form-error,
+  .checkout-wallet-page .checkout-summary>h2,
+  .checkout-wallet-page .checkout-items-heading,
+  .checkout-wallet-page .checkout-item-list,
+  .checkout-wallet-page .promo-inline,
+  .checkout-wallet-page .promo-form,
+  .checkout-wallet-page .checkout-summary>.summary-line,
+  .checkout-wallet-page .checkout-summary>.estimated-fee,
+  .checkout-wallet-page .checkout-summary>.summary-total,
+  .checkout-wallet-page .checkout-summary>.payment-method-title,
+  .checkout-wallet-page .checkout-summary>.payment-methods,
+  .checkout-wallet-page .account-footer-wrap{display:none!important}
+  .checkout-wallet-page .checkout-layout{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    padding:0;
+  }
+  .checkout-wallet-page .checkout-form-section,
+  .checkout-wallet-page .checkout-summary{
+    width:100%;
+    min-width:0;
+    padding:0;
+    margin:0;
+    border:0;
+    background:transparent;
+  }
+  .checkout-mobile-wallets{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    padding-top:8px;
+    font-family:'Space Mono',monospace;
+  }
+  .checkout-mobile-section-heading{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin:0 0 0;
+    color:#f1e4d7;
+    font-size:14px;
+  }
+  .checkout-mobile-section-heading button{
+    padding:0;
+    border:0;
+    background:transparent;
+    color:#e99a47;
+    font:inherit;
+    font-size:12px;
+    font-weight:700;
+    white-space:nowrap;
+  }
+  .checkout-wallet-option{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-height:86px;
+    padding:14px 16px;
+    border:1px solid transparent;
+    border-radius:15px;
+    background:#241612;
+    color:#f1e4d7;
+    cursor:pointer;
+  }
+  .checkout-wallet-option input{position:absolute;opacity:0;pointer-events:none}
+  .checkout-wallet-radio{
+    width:15px;
+    height:15px;
+    flex:0 0 15px;
+    border:1px solid #74451f;
+    border-radius:50%;
+  }
+  .checkout-wallet-option.selected .checkout-wallet-radio{
+    border:2px solid #d28a4c;
+    box-shadow:inset 0 0 0 3px #241612;
+    background:#d28a4c;
+  }
+  .checkout-wallet-copy{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    min-width:0;
+  }
+  .checkout-wallet-copy strong{font-size:14px;font-weight:700}
+  .checkout-wallet-copy small{color:#c3a887;font-size:11px;overflow-wrap:anywhere}
+  .checkout-wallet-more{
+    margin-left:auto;
+    align-self:flex-start;
+    color:#c3a887;
+    font-size:20px;
+    line-height:1;
+  }
+  .checkout-wallet-empty{color:#c3a887;font-size:12px}
+  .checkout-wallet-empty a{color:#e99a47}
+  .checkout-mobile-network-title{
+    margin-top:2px;
+    color:#f1e4d7;
+    font-size:14px;
+  }
+  .checkout-mobile-network-options{display:flex;flex-direction:column;gap:12px}
+  .checkout-mobile-network-options label{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-height:60px;
+    padding:10px 14px;
+    border-radius:15px;
+    background:#241612;
+    color:#f1e4d7;
+    font-size:12px;
+    cursor:pointer;
+  }
+  .checkout-network-initial{
+    display:grid;
+    place-items:center;
+    width:38px;
+    height:38px;
+    border:1px solid #57351f;
+    border-radius:50%;
+    color:#d28a4c;
+    font-weight:700;
+  }
+  .checkout-mobile-network-options input{
+    appearance:none;
+    width:15px;
+    height:15px;
+    margin-left:auto;
+    border:1px solid #74451f;
+    border-radius:50%;
+  }
+  .checkout-mobile-network-options input:checked{
+    border:4px solid #d28a4c;
+  }
+  .checkout-mobile-total{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:18px;
+    margin-top:0;
+    color:#f1e4d7;
+    font-size:14px;
+    font-weight:700;
+  }
+  .checkout-mobile-total strong{color:#e99a47;font-size:17px;white-space:nowrap}
+  .checkout-wallet-page .checkout-submit{
+    position:fixed;
+    z-index:120;
+    left:24px;
+    right:24px;
+    bottom:calc(22px + env(safe-area-inset-bottom));
+    width:calc(100% - 48px);
+    min-height:56px;
+    border:0;
+    border-radius:32px;
+    background:#d28a4c;
+    color:#160d08;
+    font-family:'Space Mono',monospace;
+    font-size:14px;
+    font-weight:700;
+  }
+  .checkout-wallet-page .checkout-submit:disabled{opacity:.55}
+  .checkout-wallet-page .account-footer-wrap{display:none!important}
+  .mobile-bottom-nav{display:none!important}
+  body:has(.checkout-wallet-page){padding-bottom:0!important}
+}
