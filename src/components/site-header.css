@@ -18,3 +18,6 @@
 .kurio-header-search button{border:0;background:transparent;color:#d28a4c;cursor:pointer;font-size:18px}
 @media(max-width:900px){.kurio-site-header-inner{width:94%;grid-template-columns:auto 1fr auto;gap:12px}.kurio-main-nav{width:min(420px,100%)}.kurio-main-nav a{font-size:13px}.kurio-header-actions{gap:9px}}
 @media(max-width:620px){.kurio-site-header{height:60px}.kurio-site-header-inner{grid-template-columns:auto 1fr;gap:10px}.kurio-brand{font-size:13px}.kurio-main-nav{display:none}.kurio-header-actions{grid-column:2;grid-row:1;gap:9px}.kurio-header-search-slot{width:26px}.kurio-account-button{height:34px;padding:0 10px;font-size:12px}.kurio-header-search input{width:110px}}
+
+/* Keep the account CTA text dark on every page, including pages with global link colors. */
+.kurio-site-header .kurio-account-button{color:#140d0a}
