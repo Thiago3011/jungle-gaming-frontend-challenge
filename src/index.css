@@ -47,3 +47,29 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .mobile-bottom-nav>a[aria-current="page"]{color:#f0a04e}
   .mobile-bottom-nav .mobile-scan-button{position:relative;top:-17px;width:58px;height:58px;border-radius:50%;background:#d28a4c;color:#fff0df;box-shadow:0 5px 15px #0005}
 }
+
+/* Ensure the home search controls stay visible on small screens, regardless of route CSS order. */
+@media (max-width: 680px) {
+  .marketplace-shell > section.mobile-explore {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  .marketplace-shell > section.mobile-explore > .mobile-explore-input {
+    display: flex !important;
+    visibility: visible !important;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .marketplace-shell > section.mobile-explore .mobile-explore-input input {
+    display: block !important;
+    visibility: visible !important;
+    width: 100%;
+    min-width: 0;
+  }
+  .marketplace-shell > section.mobile-explore > .mobile-filter-button {
+    display: grid !important;
+    visibility: visible !important;
+    flex: 0 0 48px;
+  }
+}
