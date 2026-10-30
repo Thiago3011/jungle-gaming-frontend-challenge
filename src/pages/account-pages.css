@@ -886,3 +886,113 @@
   .checkout-fields{grid-template-columns:1fr}
   .note-field textarea{min-height:120px}
 }
+
+
+/* Checkout form controls: match the compact Figma typography and proportions */
+.checkout-form-section .checkout-fields{
+  column-gap:18px;
+  row-gap:17px;
+}
+.checkout-form-section .checkout-fields .form-field{
+  gap:6px;
+}
+.checkout-form-section .checkout-fields .form-field label{
+  color:#d9c1aa;
+  font-size:12px;
+  line-height:1.25;
+  font-weight:400;
+}
+.checkout-form-section .checkout-required{
+  display:inline-block;
+  margin-left:2px;
+  color:#ed7545;
+  font-size:13px;
+  line-height:1;
+  font-weight:700;
+  vertical-align:baseline;
+}
+.checkout-form-section .checkout-fields .form-field input,
+.checkout-form-section .checkout-fields .form-field select,
+.checkout-form-section .checkout-fields .input-suffix{
+  height:37px;
+  min-height:37px;
+  padding:0 10px;
+  border:1px solid #392519;
+  border-radius:0;
+  background:#170e0a;
+  color:#f2e5d7;
+  font-family:"Space Mono",monospace;
+  font-size:11px;
+  line-height:1.2;
+  box-shadow:none;
+}
+.checkout-form-section .checkout-fields .form-field input::placeholder{
+  color:#80664f;
+  opacity:1;
+}
+.checkout-form-section .checkout-fields .input-suffix{
+  padding:0;
+}
+.checkout-form-section .checkout-fields .input-suffix input{
+  height:35px;
+  min-height:35px;
+  border:0;
+  background:transparent;
+}
+.checkout-form-section .checkout-fields .input-suffix span{
+  padding:0 10px;
+  color:#d9c1aa;
+  font-size:11px;
+}
+.checkout-form-section .checkout-fields select{
+  color:#c9a57c;
+}
+.checkout-form-section .check-row{
+  gap:8px;
+  margin:17px 0 15px;
+  color:#d9c1aa;
+  font-size:12px;
+  line-height:1.3;
+}
+.checkout-form-section .check-row input{
+  appearance:none;
+  width:12px;
+  height:12px;
+  min-width:12px;
+  min-height:12px;
+  margin:0;
+  border:1px solid #d28a43;
+  border-radius:50%;
+  background:transparent;
+  cursor:pointer;
+}
+.checkout-form-section .check-row input:checked{
+  border:3px solid #d28a43;
+  background:#170e0a;
+}
+.checkout-form-section .note-field{
+  gap:7px;
+  margin-top:14px;
+}
+.checkout-form-section .note-field>span{
+  color:#d9c1aa;
+  font-size:12px;
+  line-height:1.3;
+}
+.checkout-form-section .note-field textarea{
+  min-height:126px;
+  height:126px;
+  padding:10px;
+  border:1px solid #392519;
+  border-radius:0;
+  background:#170e0a;
+  color:#f2e5d7;
+  font-family:"Space Mono",monospace;
+  font-size:11px;
+  box-shadow:none;
+}
+@media(max-width:760px){
+  .checkout-form-section .checkout-fields .form-field label,
+  .checkout-form-section .check-row,
+  .checkout-form-section .note-field>span{font-size:12px}
+}
