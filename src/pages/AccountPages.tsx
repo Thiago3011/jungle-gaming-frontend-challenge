@@ -92,8 +92,17 @@ export function FavoritesPage() {
   const { data: favoriteCatalog } = useQuery({
     queryKey: ['profile-favorites-catalog', sessionEmail],
     queryFn: async () => {
-      const pages = await Promise.all([1, 2, 3, 4].map((page) => getNfts({ ...homeSearch, page })))
-      return pages.flatMap((result) => result.items)
+      const results = await Promise.all(
+        favoriteIds.map(async (nftId) => {
+          try {
+            return (await api.get<Nft>(`/nfts/${nftId}`)).data
+          } catch {
+            // Keep the rest of the collection visible if a favorited NFT was removed.
+            return null
+          }
+        }),
+      )
+      return results.filter((nft): nft is Nft => nft !== null)
     },
     enabled: favoriteIds.length > 0,
   })
