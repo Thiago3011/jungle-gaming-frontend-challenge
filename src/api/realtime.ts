@@ -22,7 +22,7 @@ type RealtimeHandlers = {
   onOrderUpdated: (event: OrderUpdatedEvent) => void
 }
 
-export function connectRealtime(handlers: RealtimeHandlers) {
+export function connectRealtime(sessionEmail: string | null, handlers: RealtimeHandlers) {
   const socket: Socket = io('ws://localhost:3001', {
     path: '/socket.io',
     transports: ['websocket'],
@@ -49,6 +49,7 @@ export function connectRealtime(handlers: RealtimeHandlers) {
     if (accept(event.orderId, event.eventId, event.version)) handlers.onOrderUpdated(event)
   }
 
+  socket.on('connect', () => { if (sessionEmail) socket.emit('session:identify', { email: sessionEmail }) })
   socket.on('nft.updated', handleNftUpdated)
   socket.on('order.updated', handleOrderUpdated)
 
