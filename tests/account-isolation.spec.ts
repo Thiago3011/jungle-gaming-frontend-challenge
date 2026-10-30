@@ -11,8 +11,8 @@ async function login(page: Page, email: string, password = 'Kurio123!') {
 
 async function addFeaturedNftToCart(page: Page) {
   await page.goto('/nft/ape-009')
-  await page.getByRole('button', { name: /COMPRAR|Comprar NFT/i }).first().click()
-  await expect(page.locator('p.inline-success')).toContainText('NFT adicionado ao carrinho.')
+  await page.locator('button:visible').filter({ hasText: /COMPRAR|Comprar NFT/i }).first().click()
+  await expect(page.getByRole('dialog', { name: 'NFT adicionado ao carrinho!' })).toBeVisible()
   await page.goto('/cart')
   await expect(page.getByText('Sage Nomad #009')).toBeVisible()
 }
