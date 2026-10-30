@@ -11,7 +11,7 @@ export default function RootLayout() {
   const sessionEmail = getStoredSessionEmail()
   const hideMobileNav = pathname === '/cart' || pathname === '/checkout' || pathname.startsWith('/nft/')
 
-  useEffect(() => connectRealtime({
+  useEffect(() => connectRealtime(sessionEmail, {
     onNftUpdated: () => {
       void queryClient.invalidateQueries({ queryKey: ['nfts'] })
       void queryClient.invalidateQueries({ queryKey: ['nft'] })
