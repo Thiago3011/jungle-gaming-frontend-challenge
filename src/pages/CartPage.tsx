@@ -20,11 +20,11 @@ export default function CartPage() {
   const { data, isPending, isError, refetch } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart })
   const updateMutation = useMutation({
     mutationFn: ({ nftId, quantity }: { nftId: string; quantity: number }) => updateCartQuantity(nftId, quantity),
-    onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['cart', sessionEmail] }) },
+    onSuccess: (cart) => { queryClient.setQueryData(['cart', sessionEmail], cart) },
   })
   const removeMutation = useMutation({
     mutationFn: (nftId: string) => removeFromCart(nftId),
-    onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['cart', sessionEmail] }) },
+    onSuccess: (cart) => { queryClient.setQueryData(['cart', sessionEmail], cart) },
   })
 
   return (
