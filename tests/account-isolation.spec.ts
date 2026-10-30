@@ -186,4 +186,18 @@ test.describe('favoritos na interface', () => {
     await reloadedCard.locator('.nft-image-link').click()
     await expect(page.locator('.detail-favorite')).toHaveAttribute('aria-pressed', 'true')
   })
+
+
+  test('exibe e permite remover favoritos na lista de interesse', async ({ page }) => {
+    await login(page, 'thiago@kurio.demo')
+    await page.goto('/')
+    const firstCard = page.locator('.nft-card').first()
+    const nftName = (await firstCard.locator('.nft-card-name').innerText()).trim()
+    await firstCard.locator('.favorite-button').click()
+    await page.goto('/favorites')
+    await expect(page.getByRole('heading', { name: 'Lista de interesse' })).toBeVisible()
+    await expect(page.getByText(nftName, { exact: true })).toBeVisible()
+    await page.getByRole('button', { name: 'Remover ' + nftName }).click()
+    await expect(page.getByText('Sua lista está vazia.')).toBeVisible()
+  })
 })
