@@ -108,4 +108,22 @@ test.describe('contratos REST críticos', () => {
     expect(result.retryId).toBe(result.firstId)
     expect(result.conflictStatus).toBe(409)
   })
+
+  test('retorna cotação calculada pela API e distingue cupom expirado', async ({ page }) => {
+    await login(page, 'thiago@kurio.demo')
+    await addFeaturedNftToCart(page)
+    const quote = await page.evaluate(async () => {
+      const validResponse = await fetch('/api/quote', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ promoCode: 'KURIO10' }) })
+      const valid = await validResponse.json() as { valid: boolean; discountEth: string; totalEth: string }
+      const expiredResponse = await fetch('/api/quote', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ promoCode: 'KURIOEXPIRED' }) })
+      const expired = await expiredResponse.json() as { valid: boolean; reason: string }
+      return { valid, expired }
+    })
+    expect(quote.valid.valid).toBe(true)
+    expect(Number(quote.valid.discountEth)).toBeGreaterThan(0)
+    expect(Number(quote.valid.totalEth)).toBeGreaterThan(0)
+    expect(quote.expired.valid).toBe(false)
+    expect(quote.expired.reason).toBe('expired')
+  })
+
 })
