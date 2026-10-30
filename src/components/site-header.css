@@ -21,3 +21,29 @@
 
 /* Keep the account CTA text dark on every page, including pages with global link colors. */
 .kurio-site-header .kurio-account-button{color:#140d0a}
+
+
+/* Larger marketplace cart icon and circular quantity badge, shared across all routes */
+.kurio-site-header .kurio-cart-link{
+  width:44px;
+  height:44px;
+}
+.kurio-site-header .kurio-cart-link>svg{
+  width:32px;
+  height:32px;
+}
+.kurio-site-header .kurio-cart-count{
+  top:0;
+  right:-1px;
+  min-width:20px;
+  height:20px;
+  padding:0 5px;
+  border-radius:50%;
+  font-size:12px;
+  line-height:18px;
+  box-shadow:0 0 0 1px #140d0a;
+}
+@media(max-width:620px){
+  .kurio-site-header .kurio-cart-link{width:40px;height:40px}
+  .kurio-site-header .kurio-cart-link>svg{width:29px;height:29px}
+}
