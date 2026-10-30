@@ -13,7 +13,7 @@ const homeSearch = { q: '', category: 'Todas', sort: 'recent' as const, page: 1,
 const money = (value: number | string) => `${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 4 })} ETH`
 
 type Profile = { displayName: string; username: string; email: string; ensName: string; walletNickname: string; avatar: string }
-type WalletItem = { id: string; nickname: string; network: string; profileName: string; address: string; type: string; email: string; ensName: string; primary: boolean }
+type WalletItem = { id: string; displayName?: string; nickname: string; network: string; profileName: string; address: string; type: string; email: string; ensName: string; primary: boolean }
 type Order = { id: string; createdAt: string; paymentMethod: string; network: string; items: CartResponse['items']; subtotalEth: string; networkFeeEth: string; discountEth: string; totalEth: string; txHash: string }
 
 function PageFooter() {
@@ -67,12 +67,12 @@ export function WalletsPage() {
   const secondaryWallets = wallets.filter((wallet) => !wallet.primary)
   const [addingSecondary, setAddingSecondary] = useState(false)
   const [sameAsPrimary, setSameAsPrimary] = useState(false)
-  const emptyForm = { nickname: '', network: 'Ethereum', profileName: '', address: '', type: 'MetaMask', referralCode: '', email: sessionEmail, ensName: '' }
+  const emptyForm = { displayName: '', nickname: '', network: 'Ethereum', profileName: '', address: '', type: 'MetaMask', referralCode: '', email: sessionEmail, ensName: '' }
   const [form, setForm] = useState(emptyForm)
   const [secondaryForm, setSecondaryForm] = useState({ ...emptyForm })
   const [message, setMessage] = useState('')
   useEffect(() => {
-    if (primaryWallet) setForm({ nickname: primaryWallet.nickname, network: primaryWallet.network, profileName: primaryWallet.profileName, address: primaryWallet.address, type: primaryWallet.type, referralCode: '', email: primaryWallet.email, ensName: primaryWallet.ensName })
+    if (primaryWallet) setForm({ displayName: primaryWallet.displayName ?? primaryWallet.profileName, nickname: primaryWallet.nickname, network: primaryWallet.network, profileName: primaryWallet.profileName, address: primaryWallet.address, type: primaryWallet.type, referralCode: '', email: primaryWallet.email, ensName: primaryWallet.ensName })
   }, [primaryWallet])
   const savePrimary = useMutation({
     mutationFn: async () => primaryWallet
@@ -88,7 +88,7 @@ export function WalletsPage() {
   })
   const removeMutation = useMutation({ mutationFn: async (id: string) => api.delete('/wallets/' + id), onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['wallets', sessionEmail] }) } })
   const fields = (values: typeof form, update: (key: keyof typeof form, value: string) => void, prefix: string) => <>
-    <div className="form-field"><label htmlFor={prefix + '-display'}>Nome de exibição <span className="required-star">★</span></label><input id={prefix + '-display'} value={values.profileName} onChange={(event) => update('profileName', event.target.value)} required /></div>
+    <div className="form-field"><label htmlFor={prefix + '-display'}>Nome de exibição <span className="required-star">★</span></label><input id={prefix + '-display'} value={values.displayName} onChange={(event) => update('displayName', event.target.value)} required /></div>
     <div className="form-field"><label htmlFor={prefix + '-nickname'}>Apelido da carteira <span className="required-star">★</span></label><input id={prefix + '-nickname'} value={values.nickname} onChange={(event) => update('nickname', event.target.value)} required /></div>
     <div className="form-field"><label htmlFor={prefix + '-network'}>Rede <span className="required-star">★</span></label><select id={prefix + '-network'} value={values.network} onChange={(event) => update('network', event.target.value)}><option value="">Selecione uma rede</option><option>Ethereum</option><option>Polygon</option><option>Solana</option></select></div>
     <div className="form-field"><label htmlFor={prefix + '-username'}>Nome do perfil <span className="required-star">★</span></label><input id={prefix + '-username'} value={values.profileName} onChange={(event) => update('profileName', event.target.value)} required /></div>
