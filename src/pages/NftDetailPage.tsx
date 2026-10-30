@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useParams } from '@tanstack/react-router'
-import { Check, Heart, Minus, Plus, Star } from 'lucide-react'
+import { Check, Heart, Minus, Plus, Search, Star, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { api } from '@/api/client'
 import { addToCart } from '@/api/cart'
@@ -29,6 +29,7 @@ export default function NftDetailPage() {
   const queryClient = useQueryClient()
   const [quantity, setQuantity] = useState(1)
   const [activeImage, setActiveImage] = useState(0)
+  const [isImageZoomed, setIsImageZoomed] = useState(false)
   const [selectedEdition, setSelectedEdition] = useState('1/50')
   const [activeTab, setActiveTab] = useState<'details' | 'reviews'>('details')
   const collectionTrackRef = useRef<HTMLDivElement>(null)
@@ -69,12 +70,13 @@ export default function NftDetailPage() {
       <SiteHeader active="market"/>
       <div className="shop-breadcrumb"><Link to="/" search={homeSearch}>Início</Link><span>/</span><Link to="/" search={homeSearch}>Mercado</Link><span>/</span><span>{nft.name}</span></div>
 
+      {isImageZoomed && <div className="nft-image-lightbox" role="dialog" aria-modal="true" aria-label={`Imagem ampliada de ${nft.name}`} onClick={() => setIsImageZoomed(false)}><button type="button" className="nft-lightbox-close" aria-label="Fechar imagem ampliada" onClick={() => setIsImageZoomed(false)}><X size={24}/></button><img src={images[activeImage] ?? nft.image} alt={`Imagem ampliada de ${nft.name}`} onClick={(event) => event.stopPropagation()}/></div>}
       <section className="nft-detail-layout">
         <div className="nft-gallery">
           <div className="nft-gallery-thumbnails" aria-label="Imagens do NFT">
             {images.map((image, index) => <button key={image + index} type="button" className={activeImage === index ? 'active' : ''} onClick={() => setActiveImage(index)} aria-label={`Exibir imagem ${index + 1}`} aria-pressed={activeImage === index}><img src={image} alt=""/></button>)}
           </div>
-          <div className="nft-detail-art"><img src={images[activeImage] ?? nft.image} alt={`Arte digital ${nft.name}`}/><span className="nft-detail-edition">EDIÇÃO {nft.edition}</span><span className="nft-image-zoom" aria-hidden="true">⌕</span></div>
+          <div className="nft-detail-art"><img src={images[activeImage] ?? nft.image} alt={`Arte digital ${nft.name}`}/><span className="nft-detail-edition">EDIÇÃO {nft.edition}</span><button className="nft-image-zoom" type="button" onClick={() => setIsImageZoomed(true)} aria-label="Ampliar imagem do NFT"><Search size={19}/></button></div>
         </div>
         <div className="nft-detail-info">
           <h1>{nft.name}</h1>
