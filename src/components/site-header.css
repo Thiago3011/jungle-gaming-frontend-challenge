@@ -10,7 +10,7 @@
 .kurio-header-actions{position:relative;justify-self:end;display:flex;align-items:center;gap:16px}
 .kurio-header-search-slot{width:30px;height:34px;display:grid;place-items:center}
 .kurio-header-icon{position:relative;width:36px;height:38px;display:grid;place-items:center;color:#f1e5d8;background:transparent;border:0;text-decoration:none;cursor:pointer}
-.kurio-cart-count{position:absolute;top:-1px;right:-2px;min-width:17px;height:17px;padding:0 4px;border:1px solid #140d0a;border-radius:10px;background:#d28a4c;color:#140d0a;font-size:11px;line-height:15px;text-align:center;font-weight:800;box-shadow:0 0 0 1px rgba(210,138,76,.25)}
+.kurio-cart-count{position:absolute;top:-1px;right:-2px;min-width:17px;height:17px;padding:0 4px;border:1px solid #140d0a;border-radius:10px;background:#d28a4c;color:#140d0a;font-family:Arial,sans-serif;font-size:11px;line-height:15px;text-align:center;font-weight:800;box-shadow:0 0 0 1px rgba(210,138,76,.25)}
 .kurio-account-button{height:38px;display:inline-flex;align-items:center;gap:7px;padding:0 15px;background:#d28a4c;color:#140d0a;border-radius:3px;text-decoration:none;font-size:14px;font-weight:700;white-space:nowrap}
 .kurio-header-search-popover{position:absolute;right:calc(100% - 30px);top:42px;z-index:30}
 .kurio-header-search{display:flex;align-items:center;gap:6px;padding:6px;background:#1c110c;border:1px solid #4a2d1b}
