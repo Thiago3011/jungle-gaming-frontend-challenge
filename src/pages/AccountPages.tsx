@@ -89,7 +89,7 @@ export function FavoritesPage() {
       : (await api.get<string[]>('/favorites')).data,
   })
   const { data: favoriteCatalog } = useQuery({
-    queryKey: ['profile-favorites-catalog', sessionEmail],
+    queryKey: ['profile-favorites-catalog', sessionEmail, favoriteIds],
     queryFn: async () => {
       const results = await Promise.all(
         favoriteIds.map(async (nftId) => {
