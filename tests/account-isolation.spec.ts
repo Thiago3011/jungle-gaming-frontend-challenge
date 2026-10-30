@@ -77,6 +77,7 @@ test.describe('contratos REST críticos', () => {
     expect(first.ids).toContain('ape-009')
 
     await page.getByRole('button', { name: 'Sair' }).click()
+    await expect(page).toHaveURL(/\/login$/)
     await login(page, 'bia@kurio.demo')
     const second = await page.evaluate(async () => {
       const response = await fetch('/api/favorites')
