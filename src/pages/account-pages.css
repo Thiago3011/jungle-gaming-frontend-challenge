@@ -616,3 +616,54 @@
  .profile-page-form .avatar-actions button{font-size:14px}
  .profile-page-form .form-actions .account-primary-button{min-width:140px;min-height:46px;font-size:15px}
 }
+
+
+/* Required marker, ENS pair and avatar icon — Figma details */
+.profile-page-form .required-star{
+  display:inline-block;
+  margin-left:2px;
+  color:#f07852;
+  font-family:Arial,sans-serif;
+  font-size:1.15em;
+  font-weight:700;
+  line-height:0;
+  vertical-align:baseline;
+}
+.profile-page-form .ens-input-group{
+  display:grid;
+  grid-template-columns:117px minmax(0,1fr);
+  gap:16px;
+  width:100%;
+}
+.profile-page-form .ens-input-group select,
+.profile-page-form .ens-input-group input{
+  width:100%;
+  min-width:0;
+  height:49px;
+  box-sizing:border-box;
+  padding:0 14px;
+  border:1px solid #55301f;
+  border-radius:4px;
+  background:#160d09;
+  color:#f0e8e2;
+  font-family:inherit;
+  font-size:16px;
+}
+.profile-page-form .ens-input-group select{
+  appearance:auto;
+  cursor:pointer;
+}
+.profile-page-form .avatar-preview{
+  display:grid;
+  place-items:center;
+}
+.profile-page-form .avatar-preview>svg{
+  width:40px;
+  height:40px;
+  stroke-width:1.7;
+}
+@media(max-width:760px){
+ .profile-page-form .ens-input-group{grid-template-columns:96px minmax(0,1fr);gap:10px}
+ .profile-page-form .ens-input-group select,
+ .profile-page-form .ens-input-group input{height:46px;font-size:15px}
+}
