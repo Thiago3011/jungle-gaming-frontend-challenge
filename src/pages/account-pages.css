@@ -175,3 +175,10 @@
   .profile-page-form{grid-template-columns:1fr}
   .profile-page-form .password-section{max-width:100%}
 }
+
+.profile-account-main + .account-footer{display:none}
+.account-page:has(.profile-account-main){padding-inline:0}
+.account-page:has(.profile-account-main)>.account-header{
+  width:min(84%,1320px);
+  margin:0 auto;
+}
