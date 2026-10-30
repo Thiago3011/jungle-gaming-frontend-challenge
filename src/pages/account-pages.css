@@ -1267,3 +1267,7 @@
  .account-footer-wrap .newsletter-box{padding:0}
  .account-footer-wrap .footer-brand-row{grid-template-columns:1fr}
 }
+
+
+/* Checkout Figma: no outer frame around the NFT summary card */
+.checkout-summary{border:0!important;outline:0!important;box-shadow:none!important}
