@@ -64,13 +64,14 @@ const readUsers = (): MockUser[] => {
 const saveUsers = (users: MockUser[]) => localStorage.setItem(USERS_KEY, JSON.stringify(users))
 const readSession = (): { email: string } | null => {
   try {
-    const value = JSON.parse(localStorage.getItem(SESSION_KEY) ?? 'null') as { email?: string } | null
+    const value = JSON.parse(localStorage.getItem(SESSION_KEY) ?? 'null') as { email?: string; expiresAt?: string } | null
+    if (value?.expiresAt && Date.parse(value.expiresAt) <= Date.now()) { localStorage.removeItem(SESSION_KEY); return null }
     return value && typeof value.email === 'string' ? { email: value.email.trim().toLowerCase() } : null
   } catch {
     return null
   }
 }
-const writeSession = (email: string) => localStorage.setItem(SESSION_KEY, JSON.stringify({ email, signedInAt: new Date().toISOString() }))
+const writeSession = (email: string) => { const now = Date.now(); localStorage.setItem(SESSION_KEY, JSON.stringify({ email, signedInAt: new Date(now).toISOString(), expiresAt: new Date(now + 8 * 60 * 60 * 1000).toISOString() })) }
 const currentUser = (): MockUser | null => {
   const email = readSession()?.email
   return email ? readUsers().find((user) => user.email === email) ?? null : null
