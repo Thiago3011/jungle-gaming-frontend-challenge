@@ -2,7 +2,7 @@ import { useEffect, useState, type CSSProperties } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import {
-  ArrowRight, ChevronDown, Heart, Search, SlidersHorizontal, House, ScanLine, ShoppingCart, UserRound,
+  ArrowRight, ChevronDown, Heart, Search, SlidersHorizontal,
 } from 'lucide-react'
 import { getNfts } from '@/api/nfts'
 import { getStoredSessionEmail } from '@/api/session'
