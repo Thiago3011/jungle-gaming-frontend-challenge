@@ -38,3 +38,24 @@
  .auth-divider{margin:26px -26px 16px}
  .social-button{font-size:14px}
 }
+
+
+/* Collector profile — Figma layout */
+.profile-page-heading{margin-bottom:30px}
+.profile-page-heading h1{font-size:clamp(22px,1.5vw,30px);letter-spacing:0;margin:0}
+.account-sidebar a{font-size:13px}
+.account-sidebar a.active{position:relative}
+.account-sidebar a.active:before{content:"";position:absolute;left:-18px;top:0;bottom:0;width:4px;background:var(--kurio-button)}
+.password-section{grid-template-columns:minmax(0,408px);gap:20px;border-top:0;margin-top:4px;padding-top:0}
+.password-section h2{margin-bottom:0}
+.password-section .account-secondary-button{grid-column:1;justify-self:start}
+.profile-form .form-field label{font-size:13px}
+.profile-form .form-field input,.profile-form .input-suffix{height:40px;font-size:13px}
+.profile-form .avatar-field{grid-template-columns:58px 1fr;align-items:center}
+.profile-form .avatar-field>span{grid-column:1/-1}
+.profile-form .avatar-preview{width:50px;height:50px;border-radius:50%;background:#382116;color:var(--kurio-orange)}
+.profile-form .avatar-actions{gap:12px}
+.profile-form .avatar-actions .file-button{background:var(--kurio-button);color:#1a0e08;padding:10px 20px}
+@media(max-width:760px){
+ .password-section{grid-template-columns:minmax(0,1fr)}
+}
