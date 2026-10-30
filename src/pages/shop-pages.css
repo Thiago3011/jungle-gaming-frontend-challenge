@@ -680,3 +680,58 @@
 .nft-lightbox-close{position:absolute;top:24px;right:28px;width:44px;height:44px;display:grid;place-items:center;border:1px solid #674329;border-radius:50%;background:#21140e;color:#f4e9dc;cursor:pointer}
 .nft-lightbox-close:hover{background:#e49a4d;color:#24140b}
 @media(max-width:600px){.nft-image-lightbox{padding:16px}.nft-image-lightbox img{max-width:96vw;max-height:82vh}.nft-lightbox-close{top:12px;right:12px}}
+
+
+/* Shared responsive treatment for marketplace detail and cart routes */
+@media(max-width:680px){
+  .shop-page{padding:0 16px 28px}
+  .shop-page .kurio-site-header{display:none}
+  .shop-breadcrumb{gap:8px;padding:16px 0;font-size:10px;overflow:hidden;white-space:nowrap}
+  .shop-breadcrumb span:last-child{overflow:hidden;text-overflow:ellipsis}
+  .cart-page-content{width:100%;padding:0 0 30px}
+  .cart-heading{margin:12px 0 22px}
+  .cart-heading h1{font-size:30px;line-height:1.2}
+  .cart-heading>p:last-child{font-size:12px;line-height:1.7}
+  .cart-layout{display:flex;flex-direction:column;gap:20px}
+  .cart-table-wrap{width:100%;overflow:visible}
+  .cart-table-head{display:none}
+  .cart-items{display:flex;flex-direction:column;gap:12px}
+  .cart-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:12px;border:1px solid #49301f;border-radius:12px;background:#21140f}
+  .cart-product{min-width:0;grid-column:1/-1;display:flex;align-items:center;gap:12px}
+  .cart-product img{width:76px;height:76px;flex:0 0 76px;object-fit:cover;border-radius:8px}
+  .cart-item-info{min-width:0}
+  .cart-item-info h2{font-size:13px;overflow-wrap:anywhere}
+  .cart-unit-price,.cart-line-total{font-size:12px}
+  .cart-quantity{justify-self:start}
+  .cart-line-total{justify-self:end;align-self:center}
+  .cart-summary,.cart-summary-card,.cart-checkout-panel{width:100%;min-width:0}
+  .cart-empty{padding:34px 16px}
+  .cart-trust,.cart-site-footer{display:none}
+  .nft-detail-page .nft-detail-layout{display:flex;flex-direction:column;gap:22px;padding:0 0 28px}
+  .nft-detail-page .nft-gallery{display:flex;flex-direction:column-reverse;gap:10px;width:100%;min-width:0}
+  .nft-detail-page .nft-gallery-thumbnails{display:flex;flex-direction:row;gap:9px;width:100%;overflow-x:auto}
+  .nft-detail-page .nft-gallery-thumbnails button{width:68px;height:68px;flex:0 0 68px}
+  .nft-detail-page .nft-detail-art{width:100%;padding:10px!important;border-radius:12px}
+  .nft-detail-page .nft-detail-art img{aspect-ratio:1/1;max-height:none;object-fit:cover;border-radius:10px}
+  .nft-detail-page .nft-detail-info{width:100%;padding:0!important}
+  .nft-detail-page .nft-detail-info h1{font-size:27px!important;overflow-wrap:anywhere}
+  .nft-price-review-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+  .nft-current-price{font-size:21px}
+  .nft-detail-page .nft-review-summary{font-size:10px;white-space:normal}
+  .nft-detail-page .nft-review-summary svg{width:13px;height:13px}
+  .nft-detail-page .nft-actions-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+  .nft-buy-favorite{display:flex;flex-wrap:wrap;gap:8px}
+  .nft-detail-page .primary-cta{min-width:0;min-height:44px;padding:0 18px}
+  .nft-detail-page .detail-favorite{min-height:44px;padding:0 12px;font-size:12px}
+  .nft-token-details{font-size:12px;overflow-wrap:anywhere}
+  .nft-share-row{flex-wrap:wrap}
+  .nft-information{margin:10px 0 30px}
+  .nft-information-tabs{display:flex;gap:14px;overflow-x:auto}
+  .nft-information-tabs button{flex:0 0 auto;font-size:11px}
+  .nft-information-copy{font-size:12px;line-height:1.8}
+  .nft-more-collection{width:100%;margin:20px auto 35px}
+  .nft-more-grid{grid-auto-columns: minmax(145px,44vw);gap:12px}
+  .nft-more-card img{width:100%;aspect-ratio:1;object-fit:cover}
+  .nft-more-name{font-size:11px}
+  .shop-page .trust-newsletter,.shop-page .site-footer{display:none}
+}
