@@ -36,9 +36,23 @@ export default function NftDetailPage() {
   const [collectionPage, setCollectionPage] = useState(0)
   const sessionEmail = getStoredSessionEmail() ?? 'guest'
   const [showAddedModal, setShowAddedModal] = useState(false)
-  const [isFavorite, setIsFavorite] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('kurio-favorites:' + sessionEmail) ?? '[]') as string[] }
-    catch { return [] as string[] }
+  const { data: favoriteIds = [] } = useQuery({
+    queryKey: ['favorites', sessionEmail],
+    queryFn: async () => sessionEmail === 'guest'
+      ? JSON.parse(localStorage.getItem('kurio-favorites:guest') ?? '[]') as string[]
+      : (await api.get<string[]>('/favorites')).data,
+  })
+  const favoriteMutation = useMutation({
+    mutationFn: async () => {
+      const isSaved = favoriteIds.includes(nftId)
+      if (sessionEmail === 'guest') {
+        const next = isSaved ? favoriteIds.filter((id) => id !== nftId) : [...favoriteIds, nftId]
+        localStorage.setItem('kurio-favorites:guest', JSON.stringify(next))
+        return next
+      }
+      return (await (isSaved ? api.delete<string[]>('/favorites/' + nftId) : api.post<string[]>('/favorites', { nftId }))).data
+    },
+    onSuccess: (next) => queryClient.setQueryData(['favorites', sessionEmail], next),
   })
   const { data: nft, isPending, isError } = useQuery({ queryKey: ['nft', nftId], queryFn: () => getNft(nftId) })
   const { data: collection } = useQuery({
@@ -54,16 +68,12 @@ export default function NftDetailPage() {
     },
   })
 
-  function toggleFavorite() {
-    const next = isFavorite.includes(nftId) ? isFavorite.filter((id) => id !== nftId) : [...isFavorite, nftId]
-    setIsFavorite(next)
-    localStorage.setItem('kurio-favorites:' + sessionEmail, JSON.stringify(next))
-  }
+  function toggleFavorite() { favoriteMutation.mutate() }
 
   if (isPending) return <main className="marketplace-shell shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><span className="skeleton-line"/><span className="skeleton-block"/><span className="skeleton-line short"/></div></main>
   if (isError || !nft) return <main className="marketplace-shell shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><p className="eyebrow">PEÇA NÃO ENCONTRADA</p><h1>Não encontramos esse NFT.</h1><p>Ele pode ter sido removido ou o endereço está incorreto.</p><Link className="shop-text-link" to="/" search={homeSearch}>Voltar ao catálogo</Link></div></main>
 
-  const isSaved = isFavorite.includes(nftId)
+  const isSaved = favoriteIds.includes(nftId)
   const related = (collection ?? []).filter((item) => item.id !== nftId)
   const images = [nft.image, nft.image, nft.image, nft.image]
 
@@ -71,7 +81,7 @@ export default function NftDetailPage() {
     <main className="marketplace-shell shop-page nft-detail-page">
       <SiteHeader active="market"/>
       <div className="shop-breadcrumb"><Link to="/" search={homeSearch}>Início</Link><span>/</span><Link to="/" search={homeSearch}>Mercado</Link><span>/</span><span>{nft.name}</span></div>
-      <div className="nft-mobile-topbar"><Link to="/" search={homeSearch} aria-label="Voltar ao mercado"><ArrowLeft size={21}/></Link><button type="button" className={isSaved ? "saved" : ""} onClick={toggleFavorite} aria-label={isSaved ? "Remover dos favoritos" : "Adicionar aos favoritos"} aria-pressed={isSaved}><Heart size={21} fill={isSaved ? "currentColor" : "none"}/></button></div>
+      <div className="nft-mobile-topbar"><Link to="/" search={homeSearch} aria-label="Voltar ao mercado"><ArrowLeft size={21}/></Link><button type="button" className={isSaved ? "saved" : ""} onClick={toggleFavorite} aria-label={isSaved ? "Remover dos favoritos" : "Adicionar aos favoritos"} aria-pressed={isSaved} disabled={favoriteMutation.isPending}><Heart size={21} fill={isSaved ? "currentColor" : "none"}/></button></div>
 
       {isImageZoomed && <div className="nft-image-lightbox" role="dialog" aria-modal="true" aria-label={`Imagem ampliada de ${nft.name}`} onClick={() => setIsImageZoomed(false)}><button type="button" className="nft-lightbox-close" aria-label="Fechar imagem ampliada" onClick={() => setIsImageZoomed(false)}><X size={24}/></button><img src={images[activeImage] ?? nft.image} alt={`Imagem ampliada de ${nft.name}`} onClick={(event) => event.stopPropagation()}/></div>}
       <section className="nft-detail-layout">
