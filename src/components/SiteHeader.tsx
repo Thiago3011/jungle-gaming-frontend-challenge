@@ -5,8 +5,6 @@ import { getCart } from '@/api/cart'
 import { getStoredSessionEmail } from '@/api/session'
 import './site-header.css'
 
-const homeSearch = { q: '', category: 'Todas', sort: 'recent' as const, page: 1, view: 'all' as const, network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }
-
 export function SiteHeader({ active = '', onSearchClick, searchContent }: { active?: string; onSearchClick?: () => void; searchContent?: ReactNode }) {
   const sessionEmail = getStoredSessionEmail() ?? 'guest'
   const { data: cart } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart })
