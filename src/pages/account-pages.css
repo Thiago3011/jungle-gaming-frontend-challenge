@@ -996,3 +996,62 @@
   .checkout-form-section .check-row,
   .checkout-form-section .note-field>span{font-size:12px}
 }
+
+
+/* Final checkout form details */
+.checkout-form-section .checkout-fields .form-field label,
+.checkout-form-section .note-field>span,
+.checkout-form-section .check-row{
+  color:#f2e5d7;
+}
+.checkout-form-section .checkout-fields .required-star{
+  color:#ed7545;
+  font-size:13px;
+  font-weight:700;
+  margin-left:2px;
+}
+.checkout-form-section .checkout-required{display:none}
+.checkout-form-section .checkout-fields .checkout-ens-group{
+  display:flex;
+  align-items:center;
+  gap:0;
+  height:37px;
+  min-height:37px;
+  width:100%;
+  border:1px solid #392519;
+  background:#170e0a;
+}
+.checkout-form-section .checkout-fields .checkout-ens-group>span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  padding:0 11px;
+  color:#f2e5d7;
+  border-right:1px solid #392519;
+  font-size:11px;
+}
+.checkout-form-section .checkout-fields .checkout-ens-group input{
+  flex:1;
+  width:0;
+  height:35px;
+  min-height:35px;
+  padding:0 10px;
+  border:0;
+  background:transparent;
+}
+.checkout-form-section .checkout-fields .checkout-ens-group input::placeholder{
+  color:#80664f;
+  opacity:1;
+}
+.checkout-form-section .note-field{
+  width:100%;
+  margin-top:12px;
+}
+.checkout-form-section .note-field textarea{
+  width:100%;
+  height:88px;
+  min-height:88px;
+  padding:9px;
+  font-size:11px;
+}
