@@ -152,3 +152,19 @@
 .cart-carousel-dots button{width:11px;height:11px;padding:0;border:1px solid #e99a47;border-radius:50%;background:transparent;cursor:pointer}
 .cart-carousel-dots button.active{background:#e99a47}
 .cart-carousel-dots button:focus-visible{outline:2px solid #f4b36e;outline-offset:4px}
+
+
+/* Cart polish: keep the remove action inside each NFT row and match Figma accent */
+.cart-table-head{grid-template-columns:minmax(0,1fr) 140px 140px 140px}
+.cart-item{position:relative;grid-template-columns:minmax(0,1fr) 140px 140px 140px;padding-right:54px}
+.cart-item .remove-item{position:absolute;right:12px;top:50%;transform:translateY(-50%);justify-self:auto}
+.cart-summary .promo-control button{background:#D28A4C;color:#140d0a}
+.cart-page .cart-summary .checkout-placeholder{background:#D28A4C!important;color:#140d0a!important}
+@media(max-width:1100px){
+ .cart-table-head,.cart-item{grid-template-columns:minmax(190px,1fr) 100px 105px 110px}
+ .cart-item{padding-right:48px}
+}
+@media(max-width:760px){
+ .cart-item{position:relative;grid-template-columns:minmax(0,1fr) 90px 90px;padding:12px 48px 12px 12px}
+ .cart-item .remove-item{right:10px;top:14px;transform:none}
+}
