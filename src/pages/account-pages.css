@@ -1422,3 +1422,11 @@
     box-shadow: none;
   }
 }
+
+
+/* Mobile auth: hide the desktop promotional backdrop behind the form */
+@media (max-width: 600px) {
+  .auth-backdrop {
+    display: none;
+  }
+}
