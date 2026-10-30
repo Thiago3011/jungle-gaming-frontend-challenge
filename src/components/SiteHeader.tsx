@@ -19,8 +19,7 @@ export function SiteHeader({ active = '', onSearchClick, searchContent }: { acti
       <Link className={active === 'market' ? 'active' : ''} to="/" search={{ ...homeSearch, view: 'all' }}>Mercado</Link>
       <a href="/#criadores">Criadores</a><a href="/#aprenda">Aprenda</a>
     </nav>
-    <div className="kurio-header-actions">{searchContent}
-      {onSearchClick && <button className="kurio-header-icon" type="button" aria-label="Abrir busca" onClick={onSearchClick}><Search size={20}/></button>}
+    <div className="kurio-header-actions"><span className="kurio-header-search-slot">{onSearchClick ? <button className="kurio-header-icon" type="button" aria-label="Abrir busca" onClick={onSearchClick}><Search size={20}/></button> : null}</span>{searchContent}
       <Link className="kurio-header-icon kurio-cart-link" to="/cart" aria-label={`Carrinho com ${cartCount} itens`}><ShoppingBag size={19}/><span className="kurio-cart-count">{cartCount}</span></Link>
       <Link className="kurio-account-button" to={sessionEmail !== 'guest' ? '/profile' : '/login'}><Wallet size={15}/>{sessionEmail !== 'guest' ? 'Minha conta' : 'Entrar'}</Link>
     </div>
