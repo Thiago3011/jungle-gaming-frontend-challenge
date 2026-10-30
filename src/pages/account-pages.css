@@ -1055,3 +1055,86 @@
   padding:9px;
   font-size:11px;
 }
+
+
+/* Checkout geometry tuned to the Figma content width */
+.checkout-main{
+  max-width:1260px;
+}
+.checkout-layout{
+  grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+  gap:clamp(42px,5vw,70px);
+}
+.checkout-form-section .checkout-fields{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:18px;
+  row-gap:16px;
+}
+.checkout-form-section .checkout-fields .form-field{
+  min-width:0;
+  gap:6px;
+}
+.checkout-form-section .checkout-fields .form-field input,
+.checkout-form-section .checkout-fields .form-field select,
+.checkout-form-section .checkout-fields .checkout-ens-group{
+  box-sizing:border-box;
+  width:100%;
+  height:36px;
+  min-height:36px;
+  max-height:36px;
+  padding-top:0;
+  padding-bottom:0;
+  border-radius:0;
+  font-size:11px;
+}
+.checkout-form-section .checkout-fields .checkout-ens-group{
+  display:flex;
+  align-items:center;
+  border:1px solid #392519;
+  padding:0;
+}
+.checkout-form-section .checkout-fields .checkout-ens-group>span{
+  order:2;
+  border-right:0;
+  border-left:1px solid #392519;
+  min-width:48px;
+  padding:0 9px;
+  font-size:11px;
+}
+.checkout-form-section .checkout-fields .checkout-ens-group input{
+  order:1;
+  flex:1;
+  width:0;
+  min-width:0;
+  height:34px;
+  min-height:34px;
+  max-height:34px;
+  padding:0 10px;
+  border:0;
+  font-size:11px;
+}
+.checkout-form-section .note-field{
+  display:flex;
+  width:100%;
+  margin-top:12px;
+  gap:6px;
+}
+.checkout-form-section .note-field textarea{
+  box-sizing:border-box;
+  width:100%;
+  height:88px;
+  min-height:88px;
+  max-height:88px;
+  padding:9px;
+  border-radius:0;
+  font-size:11px;
+}
+@media(max-width:1050px){
+  .checkout-main{max-width:100%}
+  .checkout-layout{grid-template-columns:minmax(0,1fr) minmax(330px,.8fr);gap:28px}
+}
+@media(max-width:760px){
+  .checkout-layout{grid-template-columns:minmax(0,1fr)}
+  .checkout-form-section .checkout-fields{grid-template-columns:minmax(0,1fr)}
+}
