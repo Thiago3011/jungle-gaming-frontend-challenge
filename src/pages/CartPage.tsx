@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
-import { ArrowLeft, Minus, Plus, ShoppingBag, ArrowRight } from 'lucide-react'
+import { ArrowLeft, Minus, Plus, ShoppingBag, ArrowRight, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { addToCart, getCart, removeFromCart, updateCartQuantity } from '@/api/cart'
 import { getNfts } from '@/api/nfts'
@@ -73,13 +73,14 @@ export default function CartPage() {
         {isPending ? <div className="page-message"><span className="skeleton-line" /><span className="skeleton-block" /></div> : isError ? <div className="page-message"><h2>Não foi possível carregar o carrinho.</h2><Button className="primary-cta" onClick={() => void refetch()}>Tentar novamente</Button></div> : !data?.items.length ? <div className="cart-empty"><ShoppingBag size={36} /><h2>Seu carrinho está vazio.</h2><p>Encontre uma peça que combine com você e adicione-a ao carrinho.</p><Link className="shop-primary-link" to="/" search={homeSearch}>Explorar NFTs <ArrowLeft size={15} /></Link></div> : (
           <div className="cart-layout">
             <div className="cart-table-wrap">
-              <div className="cart-table-head"><span>NFTs</span><span>Preço</span><span>Edições</span><span>Total</span><span aria-hidden="true" /></div>
+              <div className="cart-table-head"><span>NFTs</span><span>Preço</span><span>Quantidade</span><span>Total</span><span aria-hidden="true" /></div>
               <div className="cart-items">{data.items.map(({ nft, quantity }) => (
                 <article className="cart-item" key={nft.id}>
                   <div className="cart-product"><img src={nft.image} alt={`Arte digital ${nft.name}`} /><div className="cart-item-info"><h2>{nft.name}</h2><span className="cart-item-edition">Edição: {nft.edition}</span><strong className="cart-mobile-price">{formatEth(nft.priceEth)}</strong></div></div>
                   <strong className="cart-unit-price">{formatEth(nft.priceEth)}</strong>
                   <div className="cart-quantity"><button type="button" aria-label={`Diminuir quantidade de ${nft.name}`} disabled={updateMutation.isPending || removeMutation.isPending} onClick={() => quantity === 1 ? removeMutation.mutate(nft.id) : updateMutation.mutate({ nftId: nft.id, quantity: quantity - 1 })}><Minus size={15} /></button><output aria-label={`Quantidade de ${nft.name}`}>{quantity}</output><button type="button" aria-label={`Aumentar quantidade de ${nft.name}`} disabled={quantity >= 10 || updateMutation.isPending} onClick={() => updateMutation.mutate({ nftId: nft.id, quantity: quantity + 1 })}><Plus size={15} /></button></div>
                   <strong className="cart-line-total">{formatEth(Number(nft.priceEth) * quantity)}</strong>
+                  <button type="button" className="remove-item" aria-label={'Remover ' + nft.name + ' do carrinho'} disabled={removeMutation.isPending} onClick={() => removeMutation.mutate(nft.id)}><Trash2 size={18}/></button>
                 </article>
               ))}</div>
             </div>
