@@ -1,10 +1,11 @@
 import { useEffect, useState, type CSSProperties } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import {
   ArrowRight, ChevronDown, Heart, Menu, Search, ShoppingBag, X, Wallet,
 } from 'lucide-react'
 import { getNfts } from '@/api/nfts'
+import { api } from '@/api/client'
 import { getCart } from '@/api/cart'
 import type { CatalogView, NftSort } from '@/types/nft'
 import './App.css'
@@ -26,13 +27,29 @@ function formatEth(value: string) {
 export default function App() {
   const search = useSearch({ from: '/' })
   const navigate = useNavigate({ from: '/' })
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    try {
-      const stored = localStorage.getItem('kurio-favorites')
-      return stored ? JSON.parse(stored) as string[] : []
-    } catch {
-      return []
-    }
+  const queryClient = useQueryClient()
+  const { data: favorites = [] } = useQuery({
+    queryKey: ['favorites'],
+    queryFn: async () => (await api.get<string[]>('/favorites')).data,
+  })
+  const favoriteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const currentlySaved = queryClient.getQueryData<string[]>(['favorites']) ?? []
+      return currentlySaved.includes(id)
+        ? (await api.delete<string[]>('/favorites', { params: { nftId: id } })).data
+        : (await api.post<string[]>('/favorites', { nftId: id })).data
+    },
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['favorites'] })
+      const previous = queryClient.getQueryData<string[]>(['favorites']) ?? []
+      const next = previous.includes(id) ? previous.filter((item) => item !== id) : [...previous, id]
+      queryClient.setQueryData(['favorites'], next)
+      return { previous }
+    },
+    onError: (_error, _id, context) => {
+      if (context?.previous) queryClient.setQueryData(['favorites'], context.previous)
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['favorites'] }),
   })
   const [searchOpen, setSearchOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -56,13 +73,6 @@ export default function App() {
     void navigate({ search: (previous) => ({ ...previous, ...patch }), replace })
   }
 
-  function toggleFavorite(id: string) {
-    setFavorites((current) => {
-      const next = current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
-      localStorage.setItem('kurio-favorites', JSON.stringify(next))
-      return next
-    })
-  }
 
   function clearFilters() {
     setMinPriceDraft(0.02)
@@ -178,7 +188,7 @@ export default function App() {
                   <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="nft-image-link" aria-label={`Ver detalhes de ${nft.name}`}>
                     <img src={nft.image} alt={`Arte digital ${nft.name}`} loading="lazy" />
                   </Link>
-                  <button type="button" className={`favorite-button ${favorites.includes(nft.id) ? 'is-favorite' : ''}`} onClick={() => toggleFavorite(nft.id)} aria-label={favorites.includes(nft.id) ? `Remover ${nft.name} dos favoritos` : `Adicionar ${nft.name} aos favoritos`} aria-pressed={favorites.includes(nft.id)}><Heart size={13} fill={favorites.includes(nft.id) ? 'currentColor' : 'none'} /></button>
+                  <button type="button" className={`favorite-button ${favorites.includes(nft.id) ? 'is-favorite' : ''}`} onClick={() => favoriteMutation.mutate(nft.id)} aria-label={favorites.includes(nft.id) ? `Remover ${nft.name} dos favoritos` : `Adicionar ${nft.name} aos favoritos`} aria-pressed={favorites.includes(nft.id)}><Heart size={13} fill={favorites.includes(nft.id) ? 'currentColor' : 'none'} /></button>
                   <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="nft-card-info">
                     <span className="nft-card-name">{nft.name}</span>
                     <span className="nft-card-price">{formatEth(nft.priceEth)} {nft.oldPriceEth && <del>{formatEth(nft.oldPriceEth)}</del>}</span>
