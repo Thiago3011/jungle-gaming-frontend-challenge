@@ -2,7 +2,7 @@ import { useEffect, useState, type CSSProperties } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import {
-  ArrowRight, ChevronDown, Heart, Menu, Search, ShoppingBag, X, Wallet,
+  ArrowRight, ChevronDown, Heart,
 } from 'lucide-react'
 import { getNfts } from '@/api/nfts'
 import { getStoredSessionEmail } from '@/api/session'
@@ -38,7 +38,6 @@ export default function App() {
     }
   })
   const [searchOpen, setSearchOpen] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [minPriceDraft, setMinPriceDraft] = useState(Number(search.minPrice))
   const [maxPriceDraft, setMaxPriceDraft] = useState(Number(search.maxPrice))
   const [newsletterMessage, setNewsletterMessage] = useState('')
