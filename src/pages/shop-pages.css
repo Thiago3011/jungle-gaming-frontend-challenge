@@ -1357,3 +1357,153 @@
   .cart-added-dialog{padding:26px 20px 20px}
   .cart-added-dialog h2{font-size:17px}
 }
+
+/* Tablet NFT detail polish (681–900px). */
+@media (min-width:681px) and (max-width:900px){
+  .nft-detail-page .nft-detail-layout{
+    grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)!important;
+    gap:24px!important;
+    padding-top:8px!important;
+  }
+  .nft-detail-page .nft-gallery{
+    grid-template-columns:52px minmax(0,1fr)!important;
+    gap:9px!important;
+  }
+  .nft-detail-page .nft-gallery-thumbnails{gap:10px}
+  .nft-detail-page .nft-gallery-thumbnails button{
+    width:52px!important;
+    height:52px!important;
+    flex:0 0 52px;
+  }
+  .nft-detail-page .nft-detail-info{
+    padding:0!important;
+    min-width:0;
+  }
+  .nft-detail-page .nft-detail-info h1{
+    margin:0 0 8px!important;
+    font-size:clamp(27px,3.8vw,34px)!important;
+    line-height:1.18;
+  }
+  .nft-detail-page .nft-price-review-row{
+    display:flex!important;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px 12px;
+    margin:0 0 8px;
+  }
+  .nft-detail-page .nft-current-price{
+    color:#e99a47!important;
+    font-size:clamp(23px,3vw,28px)!important;
+    line-height:1.25;
+    font-weight:800;
+  }
+  .nft-detail-page .nft-review-summary{
+    margin:0!important;
+    color:#c9ad8a!important;
+    font-size:11px;
+    flex-wrap:wrap;
+  }
+  .nft-detail-page .nft-about{
+    margin:8px 0 10px;
+  }
+  .nft-detail-page .nft-about h2{
+    margin:0 0 5px;
+    color:#e9a15a!important;
+    font-size:13px;
+  }
+  .nft-detail-page .nft-about p{
+    color:#c9ad8a!important;
+    font-size:12px;
+    line-height:1.55;
+  }
+  .nft-detail-page .nft-token-details{
+    display:flex!important;
+    flex-direction:column;
+    gap:5px;
+    margin:8px 0 12px!important;
+    color:#c9ad8a!important;
+    font-size:11px;
+    line-height:1.45;
+  }
+  .nft-detail-page .nft-token-details p{margin:0}
+  .nft-detail-page .nft-token-details p span{color:#e2a15e!important}
+  .nft-detail-page .nft-share-row{display:none}
+  .nft-detail-page .nft-edition-options{
+    margin:8px 0 12px!important;
+    gap:8px!important;
+    color:#e9a15a!important;
+    font-size:13px;
+  }
+  .nft-detail-page .nft-edition-options>div{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .nft-detail-page .nft-edition-options button{
+    display:inline-flex!important;
+    align-items:center;
+    justify-content:center;
+    min-height:32px;
+    padding:5px 11px!important;
+    border:1px solid #68401f!important;
+    border-radius:22px!important;
+    background:transparent!important;
+    color:#c9ad8a!important;
+    font:inherit;
+    font-size:12px!important;
+    cursor:pointer;
+  }
+  .nft-detail-page .nft-edition-options button.selected{
+    border-color:#e99a47!important;
+    color:#f2a04b!important;
+    box-shadow:0 0 0 1px #e99a47 inset;
+  }
+  .nft-detail-page .nft-purchase-meta-row,
+  .nft-detail-page .nft-purchase-left{width:100%}
+  .nft-detail-page .nft-actions-row{
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    justify-content:space-between;
+    gap:12px!important;
+  }
+  .nft-detail-page .quantity-control{
+    display:inline-flex;
+    align-items:center;
+    justify-content:space-between;
+    width:104px;
+    min-width:104px;
+    height:42px;
+  }
+  .nft-detail-page .quantity-control button{
+    width:32px;
+    height:40px;
+  }
+  .nft-detail-page .quantity-control output{font-size:16px}
+  .nft-detail-page .nft-buy-favorite{
+    display:flex;
+    flex:1;
+    align-items:center!important;
+    justify-content:flex-end;
+    flex-wrap:nowrap!important;
+    gap:8px;
+  }
+  .nft-detail-page .nft-buy-favorite .primary-cta{
+    min-width:0;
+    min-height:42px;
+    flex:1;
+    padding:0 12px;
+    font-size:12px;
+  }
+  .nft-detail-page .detail-favorite{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    min-height:42px;
+    margin:0!important;
+    padding:0 8px;
+    font-size:11px;
+    white-space:nowrap;
+  }
+}
