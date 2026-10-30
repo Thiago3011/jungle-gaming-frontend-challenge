@@ -58,14 +58,14 @@ export default function NftDetailPage() {
   }
 
   if (isPending) return <main className="marketplace-shell shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><span className="skeleton-line"/><span className="skeleton-block"/><span className="skeleton-line short"/></div></main>
-  if (isError || !nft) return <main className="shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><p className="eyebrow">PEÇA NÃO ENCONTRADA</p><h1>Não encontramos esse NFT.</h1><p>Ele pode ter sido removido ou o endereço está incorreto.</p><Link className="shop-text-link" to="/" search={homeSearch}>Voltar ao catálogo</Link></div></main>
+  if (isError || !nft) return <main className="marketplace-shell shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><p className="eyebrow">PEÇA NÃO ENCONTRADA</p><h1>Não encontramos esse NFT.</h1><p>Ele pode ter sido removido ou o endereço está incorreto.</p><Link className="shop-text-link" to="/" search={homeSearch}>Voltar ao catálogo</Link></div></main>
 
   const isSaved = isFavorite.includes(nftId)
   const related = (collection ?? []).filter((item) => item.id !== nftId)
   const images = [nft.image, nft.image, nft.image, nft.image]
 
   return (
-    <main className="shop-page nft-detail-page">
+    <main className="marketplace-shell shop-page nft-detail-page">
       <SiteHeader active="market"/>
       <div className="shop-breadcrumb"><Link to="/" search={homeSearch}>Início</Link><span>/</span><Link to="/" search={homeSearch}>Mercado</Link><span>/</span><span>{nft.name}</span></div>
 
