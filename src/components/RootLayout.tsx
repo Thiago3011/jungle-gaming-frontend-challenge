@@ -23,7 +23,7 @@ export default function RootLayout() {
       void queryClient.invalidateQueries({ queryKey: ['latest-order', sessionEmail ?? 'guest'] })
     },
     })
-  }, [pathname, queryClient, sessionEmail])
+  }, [queryClient, sessionEmail])
 
   return <><Outlet />{!hideMobileNav && <MobileBottomNav />}</>
 }
