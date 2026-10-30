@@ -156,7 +156,7 @@ export default function App() {
             <div className="nft-grid" aria-label="Carregando catálogo">{Array.from({ length: 9 }, (_, index) => <div className="nft-skeleton" key={index}><div className="skeleton-art shimmer" /><div className="skeleton-line shimmer" /><div className="skeleton-line short shimmer" /></div>)}</div>
           ) : isError ? (
             <div className="catalog-state"><strong>Não foi possível carregar o catálogo.</strong><p>Confira sua conexão e tente novamente.</p><button className="apply-price" type="button" onClick={() => void refetch()}>Tentar novamente</button></div>
-          ) : data?.items.length ? (
+          ) : (showFavoritesOnly ? data?.items.some((nft) => favorites.includes(nft.id)) : data?.items.length) ? (
             <div className="nft-grid">
               {(showFavoritesOnly ? data.items.filter((nft) => favorites.includes(nft.id)) : data.items).map((nft) => (
                 <article className="nft-card" key={nft.id}>
