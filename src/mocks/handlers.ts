@@ -1,4 +1,5 @@
-import { http, HttpResponse } from 'msw'
+import { http, HttpResponse, ws } from 'msw'
+import { SocketIo } from '@mswjs/socket.io-binding'
 import { nfts } from '@/mocks/data/nfts'
 import type { Nft, NftSort } from '@/types/nft'
 
@@ -135,7 +136,20 @@ const saveActiveCart = (items: StoredCartItem[]) => {
   else saveGuestCart(items)
 }
 
+const realtime = ws.link('ws://localhost:3001', { protocol: new SocketIo() })
+const realtimeHandler = realtime.addEventListener('connection', ({ client }) => {
+  client.send(JSON.stringify(['nft.updated', {
+    eventId: 'demo-nft-update-001',
+    version: 1,
+    nftId: 'ape-009',
+    priceEth: '1.69',
+    available: true,
+    emittedAt: new Date().toISOString(),
+  }]))
+})
+
 export const handlers = [
+  realtimeHandler,
   http.post('/api/auth/login', async ({ request }) => {
     const body = await request.json() as { email?: unknown; password?: unknown }
     const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
