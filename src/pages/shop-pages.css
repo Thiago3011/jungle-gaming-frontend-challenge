@@ -144,3 +144,11 @@
 @media(max-width:1100px){.cart-recommendation-card{flex-basis:calc((100% - 48px)/3)}}
 @media(max-width:760px){.cart-recommendations-grid{gap:16px}.cart-recommendation-card{flex-basis:calc((100% - 16px)/2)}.cart-recommendation-card:nth-child(n+5){display:block}}
 @media(max-width:420px){.cart-recommendation-card{flex-basis:82%}}
+
+
+/* Figma-style pagination below the recommendations carousel */
+.cart-carousel-controls{display:none}
+.cart-carousel-dots{display:flex;justify-content:center;align-items:center;gap:10px;margin:24px 0 0}
+.cart-carousel-dots button{width:11px;height:11px;padding:0;border:1px solid #e99a47;border-radius:50%;background:transparent;cursor:pointer}
+.cart-carousel-dots button.active{background:#e99a47}
+.cart-carousel-dots button:focus-visible{outline:2px solid #f4b36e;outline-offset:4px}
