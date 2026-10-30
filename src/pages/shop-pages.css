@@ -356,3 +356,38 @@
  .nft-detail-footer .footer-columns{gap:18px 12px}
 }
 @media(prefers-reduced-motion:reduce){.nft-detail-page *{scroll-behavior:auto;animation:none!important;transition:none!important}}
+
+
+/* NFT detail refinement: compact collection strip and reuse the homepage footer proportions */
+.nft-detail-page .nft-detail-layout{max-width:1240px;grid-template-columns:minmax(0,1fr) minmax(360px,.92fr);gap:clamp(30px,4vw,64px);padding-top:8px}
+.nft-detail-page .nft-detail-art{max-width:590px;margin-left:auto}
+.nft-gallery{grid-template-columns:68px minmax(0,1fr);gap:14px}
+.nft-gallery-thumbnails button{width:68px}
+.nft-detail-page .nft-detail-info h1{font-size:clamp(32px,2.8vw,46px)}
+.nft-more-collection{max-width:1240px}
+.nft-more-arrows{display:none!important}
+.nft-more-dots{display:flex;align-items:center;justify-content:center;gap:10px}
+.nft-more-dots button{width:11px;height:11px;padding:0;border:1px solid #e99a47;border-radius:50%;background:transparent;cursor:pointer}
+.nft-more-dots button.active{background:#e99a47}
+.nft-detail-trust{width:82%;max-width:1180px;margin:52px auto 0}
+.nft-detail-footer{width:82%;max-width:1180px;margin:0 auto 18px}
+.nft-detail-footer .footer-brand-row{grid-template-columns:.9fr 1.2fr 1fr 1fr;min-height:68px;padding:12px 24px}
+.nft-detail-footer .footer-columns{grid-template-columns:repeat(4,minmax(0,1fr));gap:25px;padding:20px 24px 22px}
+.nft-detail-footer .footer-columns>div{gap:7px}
+.nft-detail-footer .footer-columns h3{font-size:10px}
+.nft-detail-footer .footer-columns a{font-size:8px}
+.nft-detail-footer .copyright{font-size:8px;padding:11px 0 2px}
+@media(max-width:900px){
+ .nft-detail-page .nft-detail-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+ .nft-gallery{grid-template-columns:56px minmax(0,1fr);gap:10px}
+ .nft-gallery-thumbnails button{width:56px}
+}
+@media(max-width:680px){
+ .nft-detail-page .nft-detail-layout{grid-template-columns:1fr}
+ .nft-gallery{grid-template-columns:1fr}
+ .nft-gallery-thumbnails{flex-direction:row}
+ .nft-gallery-thumbnails button{width:62px;flex:0 0 62px}
+ .nft-detail-trust,.nft-detail-footer{width:100%}
+ .nft-detail-footer .footer-brand-row{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px}
+ .nft-detail-footer .footer-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;padding:22px 18px}
+}
