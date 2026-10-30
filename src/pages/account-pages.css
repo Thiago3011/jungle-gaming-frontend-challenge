@@ -807,3 +807,82 @@
   .wallet-figma-form{grid-template-columns:1fr;row-gap:18px}
   .wallet-form-submit{grid-column:1}
 }
+
+
+/* Checkout page — closer match to the supplied Figma frame */
+.checkout-main{
+  width:min(84%,1400px);
+  max-width:1400px;
+  padding-bottom:76px;
+}
+.checkout-layout{
+  grid-template-columns:minmax(0,1.72fr) minmax(390px,.92fr);
+  gap:clamp(30px,3.2vw,54px);
+}
+.checkout-form-section h1{
+  font-size:20px;
+  line-height:1.35;
+  letter-spacing:0;
+  margin:0 0 18px;
+}
+.checkout-subtitle{display:none}
+.checkout-fields{
+  column-gap:22px;
+  row-gap:20px;
+}
+.checkout-fields .form-field label{
+  font-size:14px;
+  line-height:1.35;
+}
+.checkout-fields .form-field input,
+.checkout-fields .form-field select,
+.checkout-fields .input-suffix{
+  height:43px;
+  font-size:13px;
+}
+.checkout-fields .input-suffix input{height:41px}
+.checkout-fields .form-field{gap:7px}
+.check-row{margin:22px 0 18px;font-size:14px}
+.note-field{margin-top:18px}
+.note-field textarea{min-height:160px;font-size:13px}
+.checkout-summary{
+  padding:20px;
+  position:static;
+}
+.checkout-summary h2{font-size:18px;margin-bottom:16px}
+.checkout-item{
+  grid-template-columns:76px minmax(0,1fr) auto;
+  gap:10px;
+  padding:8px;
+}
+.checkout-item img{width:76px;height:76px;border-radius:4px}
+.checkout-item strong{font-size:13px;line-height:1.4}
+.checkout-item small{font-size:10px}
+.checkout-item>b{font-size:13px}
+.promo-form{margin:18px 0 20px}
+.promo-form label{font-size:12px}
+.promo-form input{height:40px;font-size:12px}
+.promo-form button{font-size:12px}
+.checkout-summary .summary-line{font-size:13px;margin:15px 0}
+.checkout-summary .summary-total{font-size:15px;margin:20px 0 24px}
+.checkout-summary .summary-total strong{font-size:20px}
+.payment-method-title{font-size:16px;margin-bottom:14px}
+.payment-methods label{min-height:44px;font-size:13px}
+.checkout-disclaimer{font-size:10px}
+.checkout-submit{
+  width:100%;
+  min-height:48px;
+  margin-top:18px;
+  font-size:14px;
+}
+@media(max-width:900px){
+  .checkout-main{width:92%}
+  .checkout-layout{grid-template-columns:minmax(0,1fr) minmax(320px,.9fr);gap:24px}
+}
+@media(max-width:760px){
+  .checkout-main{width:100%;padding:0 18px 50px}
+  .checkout-layout{grid-template-columns:1fr}
+  .checkout-summary{grid-row:auto}
+  .checkout-fields{grid-template-columns:1fr}
+  .note-field textarea{min-height:120px}
+}
