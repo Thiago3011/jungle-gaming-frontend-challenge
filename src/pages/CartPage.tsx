@@ -19,6 +19,7 @@ export default function CartPage() {
   const queryClient = useQueryClient()
   const sessionEmail = getStoredSessionEmail() ?? 'guest'
   const carouselRef = useRef<HTMLDivElement>(null)
+  const [activeRecommendationPage, setActiveRecommendationPage] = useState(1)
   const [promoDraft, setPromoDraft] = useState('')
   const [promoApplied, setPromoApplied] = useState(false)
   const [promoMessage, setPromoMessage] = useState('')
@@ -103,11 +104,12 @@ export default function CartPage() {
       {suggested.length > 0 && (
         <section className="cart-recommendations" aria-labelledby="cart-recommendations-title">
           <div className="cart-recommendations-heading"><h2 id="cart-recommendations-title">Colecionadores também viram</h2><Link to="/" search={homeSearch}>Ver mercado <ArrowRight size={15}/></Link></div>
-          <div className="cart-carousel-controls">
-            <button type="button" aria-label="Ver NFTs anteriores" onClick={() => carouselRef.current?.scrollBy({ left: -carouselRef.current.clientWidth * 0.85, behavior: 'smooth' })}><ChevronLeft size={19}/></button>
-            <button type="button" aria-label="Ver próximos NFTs" onClick={() => carouselRef.current?.scrollBy({ left: carouselRef.current.clientWidth * 0.85, behavior: 'smooth' })}><ChevronRight size={19}/></button>
-          </div>
-          <div className="cart-recommendations-viewport" ref={carouselRef}>
+          <div className="cart-recommendations-viewport" ref={carouselRef} onScroll={() => {
+            const element = carouselRef.current
+            if (!element) return
+            const maxScroll = element.scrollWidth - element.clientWidth
+            setActiveRecommendationPage(maxScroll > 0 ? Math.min(2, Math.round((element.scrollLeft / maxScroll) * 2)) : 0)
+          }}>
             <div className="cart-recommendations-grid">{suggested.map((nft) => {
               const alreadyInCart = cartIds.has(nft.id)
               return <article className="cart-recommendation-card" key={nft.id}>
@@ -116,6 +118,14 @@ export default function CartPage() {
                 <div className="cart-recommendation-bottom"><strong>{formatEth(nft.priceEth)}</strong><button type="button" disabled={alreadyInCart || addMutation.isPending} onClick={() => addMutation.mutate(nft.id)}>{alreadyInCart ? 'No carrinho' : 'Adicionar'}</button></div>
               </article>
             })}</div>
+          </div>
+          <div className="cart-carousel-dots" aria-label="Páginas de recomendações">
+            {[0, 1, 2].map((page) => <button key={page} type="button" className={activeRecommendationPage === page ? 'active' : ''} aria-label={`Ir para página ${page + 1} das recomendações`} aria-current={activeRecommendationPage === page ? 'page' : undefined} onClick={() => {
+              const element = carouselRef.current
+              if (!element) return
+              const maxScroll = element.scrollWidth - element.clientWidth
+              element.scrollTo({ left: maxScroll * (page / 2), behavior: 'smooth' })
+            }}/>)}
           </div>
         </section>
       )}
