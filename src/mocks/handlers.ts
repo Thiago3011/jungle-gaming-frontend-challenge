@@ -321,10 +321,8 @@ export const handlers = [
     return HttpResponse.json(updated?.wallets ?? [])
   }),
   http.post('/api/quote', async ({ request }) => {
-    const auth = requireUser()
-    if ('response' in auth) return auth.response
     const body = await request.json() as { promoCode?: unknown }
-    const cart = buildCartResponse(auth.user.cart)
+    const cart = buildCartResponse(readActiveCart().items)
     const subtotalWei = decimalToWei(cart.subtotalEth)
     const networkFeeWei = decimalToWei(cart.networkFeeEth)
     const code = String(body.promoCode ?? '').trim().toUpperCase()
