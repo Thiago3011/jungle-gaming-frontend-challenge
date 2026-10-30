@@ -8,7 +8,11 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "typecheck": "tsc -b --pretty false",
+    "test:e2e:report": "playwright show-report",
+    "audit:lighthouse:mobile": "lighthouse http://127.0.0.1:4173 --chrome-flags=\"--headless=new --no-sandbox\" --output=html,json --output-path=./lighthouse-mobile",
+    "audit:lighthouse:desktop": "lighthouse http://127.0.0.1:4173 --preset=desktop --chrome-flags=\"--headless=new --no-sandbox\" --output=html,json --output-path=./lighthouse-desktop"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
