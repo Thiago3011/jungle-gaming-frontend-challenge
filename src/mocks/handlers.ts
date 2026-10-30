@@ -1,12 +1,43 @@
-import { http, HttpResponse } from 'msw'
+import { http, HttpResponse, ws } from 'msw'
+import { toSocketIo } from '@mswjs/socket.io-binding'
 import { nfts } from '@/mocks/data/nfts'
 import type { Nft, NftSort } from '@/types/nft'
 
 const PAGE_SIZE = 9
 type StoredCartItem = { nftId: string; quantity: number }
 type CartItemResponse = { nftId: string; quantity: number; nft: Nft; lineTotalEth: string }
-const CART_KEY = 'kurio-cart'
+type MockProfile = { displayName: string; username: string; email: string; ensName: string; walletNickname: string; avatar: string }
+type MockWallet = { id: string; displayName?: string; nickname: string; network: string; profileName: string; address: string; type: string; email: string; ensName: string; primary: boolean }
+type MockUser = { email: string; password: string; profile: MockProfile; wallets: MockWallet[]; cart: StoredCartItem[]; favorites: string[]; latestOrder: Record<string, unknown> | null }
+
+const USERS_KEY = 'kurio-users-v2'
+const SESSION_KEY = 'kurio-session-v2'
+const GUEST_CART_KEY = 'kurio-cart-guest'
+const LEGACY_CART_KEY = 'kurio-cart'
+const DEFAULT_PROFILE: MockProfile = { displayName: '', username: '', email: '', ensName: '', walletNickname: '', avatar: '' }
 const WEI = 10n ** 18n
+
+const demoUsers: MockUser[] = [
+  {
+    email: 'thiago@kurio.demo',
+    password: 'Kurio123!',
+    profile: { ...DEFAULT_PROFILE, displayName: 'Thiago Colecionador', username: 'thiago', email: 'thiago@kurio.demo', walletNickname: 'Minha MetaMask' },
+    wallets: [{ id: 'wallet-thiago-main', nickname: 'Minha MetaMask', network: 'Ethereum', profileName: 'Thiago', address: '0xA91F00000000000000000000000000000000E82C', type: 'MetaMask', email: 'thiago@kurio.demo', ensName: 'thiago.eth', primary: true }],
+    cart: [],
+    favorites: [],
+    latestOrder: null,
+  },
+  {
+    email: 'bia@kurio.demo',
+    password: 'Kurio123!',
+    profile: { ...DEFAULT_PROFILE, displayName: 'Beatriz Colecionadora', username: 'bia', email: 'bia@kurio.demo', walletNickname: 'WalletConnect principal' },
+    wallets: [{ id: 'wallet-bia-main', nickname: 'WalletConnect principal', network: 'Polygon', profileName: 'Bia', address: '0xB1A0000000000000000000000000000000001234', type: 'WalletConnect', email: 'bia@kurio.demo', ensName: 'bia.eth', primary: true }],
+    cart: [],
+    favorites: [],
+    latestOrder: null,
+  },
+]
+
 const decimalToWei = (value: string): bigint => {
   const [whole = '0', fraction = ''] = value.split('.')
   return BigInt(whole || '0') * WEI + BigInt((fraction + '0'.repeat(18)).slice(0, 18) || '0')
@@ -14,20 +45,82 @@ const decimalToWei = (value: string): bigint => {
 const weiToDecimal = (value: bigint): string => {
   const whole = value / WEI
   const fraction = (value % WEI).toString().padStart(18, '0').replace(/0+$/, '')
-  return fraction ? `${whole}.${fraction}` : whole.toString()
+  return fraction ? String(whole) + '.' + fraction : String(whole)
 }
-const readCart = (): StoredCartItem[] => {
+const cartError = (message: string, status: number) => HttpResponse.json({ detail: message }, { status })
+
+const readUsers = (): MockUser[] => {
   try {
-    const value = localStorage.getItem(CART_KEY)
-    const parsed = value ? JSON.parse(value) as StoredCartItem[] : []
+    const stored = localStorage.getItem(USERS_KEY)
+    if (stored !== null) {
+      const users = JSON.parse(stored) as MockUser[]
+      return Array.isArray(users) ? users.map((user) => ({ ...user, favorites: Array.isArray(user.favorites) ? user.favorites : [] })) : []
+    }
+  } catch {
+    // Restore the demo fixtures when local mock storage is invalid.
+  }
+  localStorage.setItem(USERS_KEY, JSON.stringify(demoUsers))
+  return demoUsers
+}
+const saveUsers = (users: MockUser[]) => localStorage.setItem(USERS_KEY, JSON.stringify(users))
+const readSession = (): { email: string } | null => {
+  try {
+    const value = JSON.parse(localStorage.getItem(SESSION_KEY) ?? 'null') as { email?: string; expiresAt?: string } | null
+    if (value?.expiresAt && Date.parse(value.expiresAt) <= Date.now()) { localStorage.removeItem(SESSION_KEY); return null }
+    return value && typeof value.email === 'string' ? { email: value.email.trim().toLowerCase() } : null
+  } catch {
+    return null
+  }
+}
+const writeSession = (email: string) => { const now = Date.now(); localStorage.setItem(SESSION_KEY, JSON.stringify({ email, signedInAt: new Date(now).toISOString(), expiresAt: new Date(now + 8 * 60 * 60 * 1000).toISOString() })) }
+const currentUser = (): MockUser | null => {
+  const email = readSession()?.email
+  return email ? readUsers().find((user) => user.email === email) ?? null : null
+}
+const updateUser = (email: string, updater: (user: MockUser) => MockUser): MockUser | null => {
+  const users = readUsers()
+  const index = users.findIndex((user) => user.email === email)
+  if (index < 0) return null
+  users[index] = updater(users[index])
+  saveUsers(users)
+  return users[index]
+}
+const requireUser = () => {
+  const user = currentUser()
+  return user ? { user } : { response: cartError('Faça login para acessar seus dados.', 401) }
+}
+const readGuestCart = (): StoredCartItem[] => {
+  try {
+    // Move the old anonymous cart once, without assigning it to another person's account.
+    if (localStorage.getItem(GUEST_CART_KEY) === null) {
+      const legacy = localStorage.getItem(LEGACY_CART_KEY)
+      if (legacy) localStorage.setItem(GUEST_CART_KEY, legacy)
+      localStorage.removeItem(LEGACY_CART_KEY)
+    }
+    const parsed = JSON.parse(localStorage.getItem(GUEST_CART_KEY) ?? '[]') as StoredCartItem[]
     return Array.isArray(parsed) ? parsed.filter((item) => typeof item.nftId === 'string' && Number.isInteger(item.quantity) && item.quantity > 0) : []
   } catch {
     return []
   }
 }
-const saveCart = (items: StoredCartItem[]) => localStorage.setItem(CART_KEY, JSON.stringify(items))
-const buildCartResponse = () => {
-  const items: CartItemResponse[] = readCart().flatMap((item) => {
+const saveGuestCart = (cart: StoredCartItem[]) => localStorage.setItem(GUEST_CART_KEY, JSON.stringify(cart))
+const mergeCarts = (accountCart: StoredCartItem[], guestCart: StoredCartItem[]): StoredCartItem[] => {
+  const merged = accountCart.map((item) => ({ ...item }))
+  guestCart.forEach((guestItem) => {
+    const existing = merged.find((item) => item.nftId === guestItem.nftId)
+    if (existing) existing.quantity = Math.min(10, existing.quantity + guestItem.quantity)
+    else merged.push({ ...guestItem, quantity: Math.min(10, guestItem.quantity) })
+  })
+  return merged
+}
+const moveGuestCartToUser = (email: string) => {
+  const guestCart = readGuestCart()
+  if (!guestCart.length) return
+  updateUser(email, (user) => ({ ...user, cart: mergeCarts(user.cart, guestCart) }))
+  saveGuestCart([])
+}
+const buildCartResponse = (cart: StoredCartItem[]) => {
+  const items: CartItemResponse[] = cart.flatMap((item) => {
     const nft = nfts.find((candidate) => candidate.id === item.nftId)
     return nft ? [{ ...item, nft, lineTotalEth: weiToDecimal(decimalToWei(nft.priceEth) * BigInt(item.quantity)) }] : []
   })
@@ -35,142 +128,270 @@ const buildCartResponse = () => {
   const networkFee = items.length ? decimalToWei('0.003') : 0n
   return { items, subtotalEth: weiToDecimal(subtotal), networkFeeEth: weiToDecimal(networkFee), totalEth: weiToDecimal(subtotal + networkFee) }
 }
-const cartError = (message: string, status: number) => HttpResponse.json({ detail: message }, { status })
+const readActiveCart = () => {
+  const user = currentUser()
+  return user ? { owner: user.email, items: user.cart } : { owner: null, items: readGuestCart() }
+}
+const saveActiveCart = (items: StoredCartItem[]) => {
+  const user = currentUser()
+  if (user) updateUser(user.email, (current) => ({ ...current, cart: items }))
+  else saveGuestCart(items)
+}
 
-type MockProfile = { displayName: string; username: string; email: string; ensName: string; walletNickname: string; avatar: string }
-type MockWallet = { id: string; nickname: string; network: string; profileName: string; address: string; type: string; email: string; ensName: string; primary: boolean }
-const PROFILE_KEY = 'kurio-profile'
-const WALLETS_KEY = 'kurio-wallets'
-const ORDER_KEY = 'kurio-latest-order'
-const FAVORITES_KEY = 'kurio-favorites'
-const readFavorites = (): string[] => {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(FAVORITES_KEY) ?? '[]') as unknown
-    return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : []
-  } catch { return [] }
+const realtimeClients = new Map<string, Set<(eventName: string, payload: unknown) => void>>()
+const publishOrderUpdated = (email: string, order: Record<string, unknown>) => {
+  const clients = realtimeClients.get(email)
+  if (!clients) return
+  const payload = {
+    eventId: 'order-' + String(order.id) + '-v1',
+    version: 1,
+    orderId: String(order.id),
+    status: order.status,
+    emittedAt: new Date().toISOString(),
+  }
+  clients.forEach((emit) => emit('order.updated', payload))
 }
-const saveFavorites = (favorites: string[]) => localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites))
-const DEFAULT_PROFILE: MockProfile = { displayName: 'Thiago Colecionador', username: 'thiago', email: 'contato@email.com', ensName: '', walletNickname: 'Carteira principal', avatar: '' }
-const readProfile = (): MockProfile => {
-  try { return { ...DEFAULT_PROFILE, ...(JSON.parse(localStorage.getItem(PROFILE_KEY) ?? '{}') as Partial<MockProfile>) } }
-  catch { return DEFAULT_PROFILE }
-}
-const saveProfile = (profile: MockProfile) => localStorage.setItem(PROFILE_KEY, JSON.stringify(profile))
-const readWallets = (): MockWallet[] => {
-  try {
-    const stored = localStorage.getItem(WALLETS_KEY)
-    if (stored) return JSON.parse(stored) as MockWallet[]
-  } catch { /* use demo defaults */ }
-  return [{ id: 'wallet-main', nickname: 'Carteira principal', network: 'Ethereum', profileName: 'Thiago', address: '0xA91F...E82C', type: 'MetaMask', email: 'contato@email.com', ensName: '', primary: true }]
-}
-const saveWallets = (wallets: MockWallet[]) => localStorage.setItem(WALLETS_KEY, JSON.stringify(wallets))
-const readLatestOrder = (): Record<string, unknown> | null => {
-  try { return JSON.parse(localStorage.getItem(ORDER_KEY) ?? 'null') as Record<string, unknown> | null }
-  catch { return null }
-}
+const realtime = ws.link('ws://localhost:3001')
+const realtimeHandler = realtime.addEventListener('connection', (connection) => {
+  const { client, server } = toSocketIo(connection)
+  let identifiedEmail: string | null = null
+  const emit = (eventName: string, payload: unknown) => server.emit(eventName, payload)
+  client.on('session:identify', (_event, payload: { email?: string }) => {
+    if (typeof payload?.email !== 'string') return
+    const email = payload.email.trim().toLowerCase()
+    if (!readUsers().some((user) => user.email === email)) return
+    if (identifiedEmail) realtimeClients.get(identifiedEmail)?.delete(emit)
+    identifiedEmail = email
+    const clients = realtimeClients.get(email) ?? new Set<(eventName: string, payload: unknown) => void>()
+    clients.add(emit)
+    realtimeClients.set(email, clients)
+    server.emit('nft.updated', {
+      eventId: 'demo-nft-update-001',
+      version: 1,
+      nftId: 'ape-009',
+      priceEth: '1.69',
+      available: true,
+      emittedAt: new Date().toISOString(),
+    })
+  })
+  connection.client.addEventListener('close', () => {
+    if (!identifiedEmail) return
+    const clients = realtimeClients.get(identifiedEmail)
+    clients?.delete(emit)
+    if (clients?.size === 0) realtimeClients.delete(identifiedEmail)
+  })
+})
 
 export const handlers = [
-  http.get('/api/favorites', () => HttpResponse.json(readFavorites())),
-  http.post('/api/favorites', async ({ request }) => {
-    const body = await request.json() as { nftId?: unknown }
-    if (typeof body.nftId !== 'string' || !nfts.some((nft) => nft.id === body.nftId)) return cartError('NFT inválido.', 404)
-    const favorites = readFavorites()
-    if (!favorites.includes(body.nftId)) favorites.push(body.nftId)
-    saveFavorites(favorites)
-    return HttpResponse.json(favorites, { status: 201 })
-  }),
-  http.delete('/api/favorites', ({ request }) => {
-    const nftId = new URL(request.url).searchParams.get('nftId')
-    if (!nftId) return cartError('Informe o NFT que deseja remover.', 422)
-    const favorites = readFavorites().filter((id) => id !== nftId)
-    saveFavorites(favorites)
-    return HttpResponse.json(favorites)
-  }),
+  realtimeHandler,
   http.post('/api/auth/login', async ({ request }) => {
     const body = await request.json() as { email?: unknown; password?: unknown }
-    if (typeof body.email !== 'string' || !body.email.includes('@') || typeof body.password !== 'string' || body.password.length < 6) {
+    const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
+    const user = readUsers().find((candidate) => candidate.email === email)
+    if (!user || typeof body.password !== 'string' || user.password !== body.password) {
       return cartError('E-mail ou senha inválidos.', 401)
     }
-    localStorage.setItem('kurio-session', JSON.stringify({ email: body.email, signedInAt: new Date().toISOString() }))
-    const profile = readProfile()
-    saveProfile({ ...profile, email: body.email })
-    return HttpResponse.json({ authenticated: true, profile: readProfile() })
+    writeSession(email)
+    moveGuestCartToUser(email)
+    return HttpResponse.json({ authenticated: true, profile: user.profile })
   }),
   http.post('/api/auth/register', async ({ request }) => {
     const body = await request.json() as { username?: unknown; email?: unknown; password?: unknown; confirmPassword?: unknown }
-    if (typeof body.username !== 'string' || body.username.trim().length < 3 || typeof body.email !== 'string' || !body.email.includes('@') || typeof body.password !== 'string' || body.password.length < 6 || body.password !== body.confirmPassword) {
+    const username = typeof body.username === 'string' ? body.username.trim() : ''
+    const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
+    if (username.length < 3 || !email.includes('@') || typeof body.password !== 'string' || body.password.length < 6 || body.password !== body.confirmPassword) {
       return cartError('Dados de cadastro inválidos.', 422)
     }
-    const profile = { ...readProfile(), username: body.username.trim(), displayName: body.username.trim(), email: body.email }
-    saveProfile(profile)
-    localStorage.setItem('kurio-session', JSON.stringify({ email: body.email, signedInAt: new Date().toISOString() }))
+    const users = readUsers()
+    if (users.some((user) => user.email === email)) return cartError('Este e-mail já está cadastrado.', 409)
+    const profile = { ...DEFAULT_PROFILE, username, displayName: username, email }
+    const user: MockUser = { email, password: body.password, profile, wallets: [], cart: [], favorites: [], latestOrder: null }
+    users.push(user)
+    saveUsers(users)
+    writeSession(email)
+    moveGuestCartToUser(email)
     return HttpResponse.json({ authenticated: true, profile }, { status: 201 })
   }),
-  http.get('/api/profile', () => HttpResponse.json(readProfile())),
+  http.post('/api/auth/logout', () => {
+    localStorage.removeItem(SESSION_KEY)
+    return HttpResponse.json({ authenticated: false })
+  }),
+  http.get('/api/auth/session', () => {
+    const user = currentUser()
+    return user
+      ? HttpResponse.json({ authenticated: true, email: user.email, profile: user.profile })
+      : cartError('Não autenticado.', 401)
+  }),
+  http.get('/api/profile', () => {
+    const auth = requireUser()
+    return 'response' in auth ? auth.response : HttpResponse.json(auth.user.profile)
+  }),
   http.patch('/api/profile', async ({ request }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
     const body = await request.json() as Partial<MockProfile>
-    const current = readProfile()
-    const next = { ...current, ...body }
-    if (!next.displayName.trim() || !next.username.trim() || !next.email.includes('@')) return cartError('Nome, usuário e e-mail são obrigatórios.', 422)
-    saveProfile(next)
+    const next = { ...auth.user.profile, ...body, email: auth.user.email }
+    if (!next.displayName.trim() || !next.username.trim()) return cartError('Nome e usuário são obrigatórios.', 422)
+    updateUser(auth.user.email, (user) => ({ ...user, profile: next }))
     return HttpResponse.json(next)
   }),
   http.post('/api/profile/password', async ({ request }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
     const body = await request.json() as { currentPassword?: unknown; newPassword?: unknown; confirmPassword?: unknown }
-    if (typeof body.currentPassword !== 'string' || body.currentPassword.length < 1 || typeof body.newPassword !== 'string' || body.newPassword.length < 6 || body.newPassword !== body.confirmPassword) return cartError('Dados de senha inválidos.', 422)
+    if (body.currentPassword !== auth.user.password || typeof body.newPassword !== 'string' || body.newPassword.length < 6 || body.newPassword !== body.confirmPassword) {
+      return cartError('Confira a senha atual e confirme a nova senha.', 422)
+    }
+    updateUser(auth.user.email, (user) => ({ ...user, password: body.newPassword as string }))
     return HttpResponse.json({ updated: true })
   }),
-  http.get('/api/wallets', () => HttpResponse.json(readWallets())),
+  http.get('/api/favorites', () => {
+    const auth = requireUser()
+    return 'response' in auth ? auth.response : HttpResponse.json(auth.user.favorites ?? [])
+  }),
+  http.post('/api/favorites', async ({ request }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
+    const body = await request.json() as { nftId?: unknown }
+    if (typeof body.nftId !== 'string' || !nfts.some((nft) => nft.id === body.nftId)) return cartError('NFT inválido.', 404)
+    const favorites = [...new Set([...(auth.user.favorites ?? []), body.nftId])]
+    updateUser(auth.user.email, (user) => ({ ...user, favorites }))
+    return HttpResponse.json(favorites, { status: 201 })
+  }),
+  http.delete('/api/favorites/:nftId', ({ params }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
+    const favorites = (auth.user.favorites ?? []).filter((id) => id !== params.nftId)
+    updateUser(auth.user.email, (user) => ({ ...user, favorites }))
+    return HttpResponse.json(favorites)
+  }),
+  http.get('/api/wallets', () => {
+    const auth = requireUser()
+    return 'response' in auth ? auth.response : HttpResponse.json(auth.user.wallets)
+  }),
   http.post('/api/wallets', async ({ request }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
     const body = await request.json() as Partial<MockWallet>
-    if (!body.nickname?.trim() || !body.network || !body.profileName?.trim() || !body.address?.trim() || !body.type || !body.email?.includes('@')) return cartError('Preencha os campos obrigatórios da carteira.', 422)
-    const wallets = readWallets()
-    const wallet: MockWallet = { id: `wallet-${Date.now()}`, nickname: body.nickname.trim(), network: body.network, profileName: body.profileName.trim(), address: body.address.trim(), type: body.type, email: body.email, ensName: body.ensName ?? '', primary: wallets.length === 0 }
-    wallets.push(wallet)
-    saveWallets(wallets)
+    if (!body.nickname?.trim() || !body.network || !body.profileName?.trim() || !body.address?.trim() || !body.type || !body.email?.includes('@')) {
+      return cartError('Preencha os campos obrigatórios da carteira.', 422)
+    }
+    const wallet: MockWallet = {
+      id: 'wallet-' + Date.now(),
+      displayName: body.displayName?.trim() ?? body.profileName?.trim() ?? '',
+      nickname: body.nickname.trim(),
+      network: body.network,
+      profileName: body.profileName.trim(),
+      address: body.address.trim(),
+      type: body.type,
+      email: body.email.trim().toLowerCase(),
+      ensName: body.ensName ?? '',
+      primary: auth.user.wallets.length === 0,
+    }
+    updateUser(auth.user.email, (user) => ({ ...user, wallets: [...user.wallets, wallet] }))
     return HttpResponse.json(wallet, { status: 201 })
   }),
-  http.delete('/api/wallets/:walletId', ({ params }) => {
-    const wallets = readWallets().filter((wallet) => wallet.id !== params.walletId || wallet.primary)
-    saveWallets(wallets)
-    return HttpResponse.json(wallets)
+  http.put('/api/wallets/:walletId', async ({ params, request }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
+    const body = await request.json() as Partial<MockWallet>
+    if (!body.nickname?.trim() || !body.displayName?.trim() || !body.profileName?.trim() || !body.address?.trim() || !body.email?.includes('@')) return cartError('Preencha os campos obrigatórios da carteira.', 422)
+    let updatedWallet: MockWallet | undefined
+    updateUser(auth.user.email, (user) => ({
+      ...user,
+      wallets: user.wallets.map((wallet) => {
+        if (wallet.id !== params.walletId || !wallet.primary) return wallet
+        updatedWallet = { ...wallet, displayName: body.displayName!.trim(), nickname: body.nickname!.trim(), network: body.network ?? wallet.network, profileName: body.profileName!.trim(), address: body.address!.trim(), type: body.type ?? wallet.type, email: body.email!.trim().toLowerCase(), ensName: body.ensName ?? '' }
+        return updatedWallet
+      }),
+    }))
+    return updatedWallet ? HttpResponse.json(updatedWallet) : cartError('Carteira principal não encontrada.', 404)
   }),
-  http.get('/api/orders/latest', () => HttpResponse.json(readLatestOrder())),
+  http.delete('/api/wallets/:walletId', ({ params }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
+    const updated = updateUser(auth.user.email, (user) => ({
+      ...user,
+      wallets: user.wallets.filter((wallet) => wallet.id !== params.walletId || wallet.primary),
+    }))
+    return HttpResponse.json(updated?.wallets ?? [])
+  }),
+  http.post('/api/quote', async ({ request }) => {
+    const body = await request.json() as { promoCode?: unknown }
+    const cart = buildCartResponse(readActiveCart().items)
+    const subtotalWei = decimalToWei(cart.subtotalEth)
+    const networkFeeWei = decimalToWei(cart.networkFeeEth)
+    const code = String(body.promoCode ?? '').trim().toUpperCase()
+    const expired = code === 'KURIOEXPIRED'
+    const valid = code === '' || code === 'KURIO10'
+    const discountWei = code === 'KURIO10' ? subtotalWei / 10n : 0n
+    return HttpResponse.json({
+      valid: valid && !expired,
+      reason: expired ? 'expired' : valid ? null : 'invalid',
+      items: cart.items,
+      subtotalEth: weiToDecimal(subtotalWei),
+      discountEth: weiToDecimal(discountWei),
+      networkFeeEth: weiToDecimal(networkFeeWei),
+      totalEth: weiToDecimal(subtotalWei - discountWei + networkFeeWei),
+      quotedAt: new Date().toISOString(),
+    })
+  }),
+  http.get('/api/orders/latest', () => {
+    const auth = requireUser()
+    return 'response' in auth ? auth.response : HttpResponse.json(auth.user.latestOrder)
+  }),
   http.post('/api/orders', async ({ request }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
     const body = await request.json() as { profile?: Record<string, unknown>; paymentMethod?: unknown; promoCode?: unknown }
+    const idempotencyKey = request.headers.get('Idempotency-Key')?.trim()
+    if (!idempotencyKey) return cartError('Informe a chave de idempotência da tentativa de compra.', 400)
+    const fingerprint = JSON.stringify(body)
+    const previous = auth.user.latestOrder
+    if (previous?.idempotencyKey === idempotencyKey) {
+      if (previous.requestFingerprint !== fingerprint) return cartError('A chave de idempotência já foi utilizada com outro conteúdo.', 409)
+      return HttpResponse.json(previous)
+    }
     const profile = body.profile ?? {}
     const required = ['displayName', 'username', 'profileName', 'address', 'email']
-    if (required.some((key) => typeof profile[key] !== 'string' || !(profile[key] as string).trim()) || typeof profile.email !== 'string' || !profile.email.includes('@')) return cartError('Preencha todos os campos obrigatórios do colecionador.', 422)
-    const cart = buildCartResponse()
+    if (required.some((key) => typeof profile[key] !== 'string' || !(profile[key] as string).trim()) || typeof profile.email !== 'string' || profile.email.trim().toLowerCase() !== auth.user.email) {
+      return cartError('Preencha os campos obrigatórios e use o e-mail da conta autenticada.', 422)
+    }
+    const cart = buildCartResponse(auth.user.cart)
     if (!cart.items.length) return cartError('O carrinho está vazio.', 409)
     if (!['MetaMask', 'WalletConnect', 'Coinbase Wallet'].includes(String(body.paymentMethod))) return cartError('Selecione uma carteira válida.', 422)
-    const subtotal = Number(cart.subtotalEth)
-    const discount = String(body.promoCode ?? '').trim().toUpperCase() === 'KURIO10' ? subtotal * 0.1 : 0
-    const networkFee = Number(cart.networkFeeEth)
-    const total = Math.max(0, subtotal - discount + networkFee)
+    const subtotalWei = decimalToWei(cart.subtotalEth)
+    const discountWei = String(body.promoCode ?? '').trim().toUpperCase() === 'KURIO10' ? subtotalWei / 10n : 0n
+    const networkFeeWei = decimalToWei(cart.networkFeeEth)
+    const totalWei = subtotalWei - discountWei + networkFeeWei
     const order = {
-      id: `KUR-${Date.now()}`,
+      id: 'KUR-' + Date.now(),
+      idempotencyKey,
+      requestFingerprint: fingerprint,
       createdAt: new Date().toISOString(),
+      status: 'confirmed',
       paymentMethod: String(body.paymentMethod),
       network: String(profile.network ?? 'Ethereum'),
       items: cart.items,
-      subtotalEth: subtotal.toFixed(4),
-      networkFeeEth: networkFee.toFixed(4),
-      discountEth: discount.toFixed(4),
-      totalEth: total.toFixed(4),
-      txHash: `0x${Math.random().toString(16).slice(2, 8).toUpperCase()}...${Math.random().toString(16).slice(2, 6).toUpperCase()}`,
+      subtotalEth: weiToDecimal(subtotalWei),
+      networkFeeEth: weiToDecimal(networkFeeWei),
+      discountEth: weiToDecimal(discountWei),
+      totalEth: weiToDecimal(totalWei),
+      txHash: '0x' + Math.random().toString(16).slice(2, 8).toUpperCase() + '...' + Math.random().toString(16).slice(2, 6).toUpperCase(),
     }
-    localStorage.setItem(ORDER_KEY, JSON.stringify(order))
-    localStorage.setItem(CART_KEY, JSON.stringify([]))
-    saveProfile({ ...readProfile(), displayName: String(profile.displayName), username: String(profile.username), email: String(profile.email), ensName: String(profile.ensName ?? '') })
+    updateUser(auth.user.email, (user) => ({
+      ...user,
+      latestOrder: order,
+      cart: [],
+      profile: { ...user.profile, displayName: String(profile.displayName), username: String(profile.username), ensName: String(profile.ensName ?? '') },
+    }))
+    publishOrderUpdated(auth.user.email, order)
     return HttpResponse.json(order, { status: 201 })
   }),
-  http.get('/api/nfts/:nftId', ({ params }) => {
-    const nft = nfts.find((item) => item.id === params.nftId)
-    if (!nft) return HttpResponse.json({ detail: 'NFT não encontrado.' }, { status: 404 })
-    return HttpResponse.json(nft)
+  http.get('/api/cart', () => {
+    const active = readActiveCart()
+    return HttpResponse.json(buildCartResponse(active.items))
   }),
-  http.get('/api/cart', () => HttpResponse.json(buildCartResponse())),
   http.post('/api/cart', async ({ request }) => {
     const body = await request.json() as { nftId?: unknown; quantity?: unknown }
     if (typeof body.nftId !== 'string' || !Number.isInteger(body.quantity ?? 1) || Number(body.quantity ?? 1) < 1) {
@@ -178,31 +399,36 @@ export const handlers = [
     }
     const nft = nfts.find((item) => item.id === body.nftId)
     if (!nft) return cartError('NFT não encontrado.', 404)
-    const cart = readCart()
+    const cart = readActiveCart().items.map((item) => ({ ...item }))
     const existing = cart.find((item) => item.nftId === nft.id)
     const nextQuantity = (existing?.quantity ?? 0) + Number(body.quantity ?? 1)
     if (nextQuantity > 10) return cartError('Limite de 10 unidades por NFT.', 409)
     if (existing) existing.quantity = nextQuantity
     else cart.push({ nftId: nft.id, quantity: nextQuantity })
-    saveCart(cart)
-    return HttpResponse.json(buildCartResponse())
+    saveActiveCart(cart)
+    return HttpResponse.json(buildCartResponse(cart))
   }),
   http.patch('/api/cart/:nftId', async ({ params, request }) => {
     const body = await request.json() as { quantity?: unknown }
     if (!Number.isInteger(body.quantity) || Number(body.quantity) < 1 || Number(body.quantity) > 10) {
       return cartError('A quantidade deve ser um inteiro entre 1 e 10.', 422)
     }
-    const cart = readCart()
+    const cart = readActiveCart().items.map((item) => ({ ...item }))
     const item = cart.find((entry) => entry.nftId === params.nftId)
     if (!item) return cartError('Item não encontrado no carrinho.', 404)
     item.quantity = Number(body.quantity)
-    saveCart(cart)
-    return HttpResponse.json(buildCartResponse())
+    saveActiveCart(cart)
+    return HttpResponse.json(buildCartResponse(cart))
   }),
   http.delete('/api/cart/:nftId', ({ params }) => {
-    const cart = readCart().filter((item) => item.nftId !== params.nftId)
-    saveCart(cart)
-    return HttpResponse.json(buildCartResponse())
+    const cart = readActiveCart().items.filter((item) => item.nftId !== params.nftId)
+    saveActiveCart(cart)
+    return HttpResponse.json(buildCartResponse(cart))
+  }),
+  http.get('/api/nfts/:nftId', ({ params }) => {
+    const nft = nfts.find((item) => item.id === params.nftId)
+    if (!nft) return HttpResponse.json({ detail: 'NFT não encontrado.' }, { status: 404 })
+    return HttpResponse.json(nft)
   }),
   http.get('/api/nfts', ({ request }) => {
     const url = new URL(request.url)

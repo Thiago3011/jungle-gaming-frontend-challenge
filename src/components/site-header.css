@@ -1,0 +1,49 @@
+.kurio-site-header{width:100vw;height:68px;margin-left:calc(50% - 50vw);border-bottom:1px solid rgba(231,148,69,.22);background:#140d0a;color:#f4e9dc;font-family:'Space Mono',monospace;position:relative;z-index:20}
+.kurio-site-header *{box-sizing:border-box}
+.kurio-site-header-inner{width:min(82%,1400px);height:100%;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 420px minmax(0,1fr);align-items:center;gap:28px}
+.kurio-brand{justify-self:start;color:#f7eee5;text-decoration:none;font-size:16px;font-weight:850;letter-spacing:.16em;white-space:nowrap}
+.kurio-brand span{color:#d28a4c}
+.kurio-main-nav{width:420px;height:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;justify-items:center}
+.kurio-main-nav a{position:relative;width:100%;display:flex;align-items:center;justify-content:center;color:#d0bba7;text-decoration:none;font-size:15px;font-weight:400;white-space:nowrap;cursor:pointer;transition:color .15s ease}
+.kurio-main-nav a:hover{color:#d28a4c}
+.kurio-main-nav a:hover:after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:#d28a4c}
+.kurio-header-actions{position:relative;justify-self:end;display:flex;align-items:center;gap:16px}
+.kurio-header-search-slot{width:30px;height:34px;display:grid;place-items:center}
+.kurio-header-icon{position:relative;width:36px;height:38px;display:grid;place-items:center;color:#f1e5d8;background:transparent;border:0;text-decoration:none;cursor:pointer}
+.kurio-cart-count{position:absolute;top:-1px;right:-2px;min-width:17px;height:17px;padding:0 4px;border:1px solid #140d0a;border-radius:10px;background:#d28a4c;color:#140d0a;font-family:Arial,sans-serif;font-size:11px;line-height:15px;text-align:center;font-weight:800;box-shadow:0 0 0 1px rgba(210,138,76,.25)}
+.kurio-account-button{height:38px;display:inline-flex;align-items:center;gap:7px;padding:0 15px;background:#d28a4c;color:#140d0a;border-radius:3px;text-decoration:none;font-size:14px;font-weight:700;white-space:nowrap}
+.kurio-header-search-popover{position:absolute;right:calc(100% - 30px);top:42px;z-index:30}
+.kurio-header-search{display:flex;align-items:center;gap:6px;padding:6px;background:#1c110c;border:1px solid #4a2d1b}
+.kurio-header-search input{width:190px;height:34px;padding:0 9px;background:#1c110c;border:0;color:#f4e9dc;font:inherit;font-size:12px;outline:none}
+.kurio-header-search button{border:0;background:transparent;color:#d28a4c;cursor:pointer;font-size:18px}
+@media(max-width:900px){.kurio-site-header-inner{width:94%;grid-template-columns:auto 1fr auto;gap:12px}.kurio-main-nav{width:min(420px,100%)}.kurio-main-nav a{font-size:13px}.kurio-header-actions{gap:9px}}
+@media(max-width:620px){.kurio-site-header{height:60px}.kurio-site-header-inner{grid-template-columns:auto 1fr;gap:10px}.kurio-brand{font-size:13px}.kurio-main-nav{display:none}.kurio-header-actions{grid-column:2;grid-row:1;gap:9px}.kurio-header-search-slot{width:26px}.kurio-account-button{height:34px;padding:0 10px;font-size:12px}.kurio-header-search input{width:110px}}
+
+/* Keep the account CTA text dark on every page, including pages with global link colors. */
+.kurio-site-header .kurio-account-button{color:#140d0a}
+
+
+/* Larger marketplace cart icon and circular quantity badge, shared across all routes */
+.kurio-site-header .kurio-cart-link{
+  width:44px;
+  height:44px;
+}
+.kurio-site-header .kurio-cart-link>svg{
+  width:32px;
+  height:32px;
+}
+.kurio-site-header .kurio-cart-count{
+  top:0;
+  right:-1px;
+  min-width:20px;
+  height:20px;
+  padding:0 5px;
+  border-radius:50%;
+  font-size:12px;
+  line-height:18px;
+  box-shadow:0 0 0 1px #140d0a;
+}
+@media(max-width:620px){
+  .kurio-site-header .kurio-cart-link{width:40px;height:40px}
+  .kurio-site-header .kurio-cart-link>svg{width:29px;height:29px}
+}

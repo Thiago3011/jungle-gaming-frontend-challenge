@@ -1,1 +1,1625 @@
 .shop-page{min-height:100vh;background:#100a07;color:#f1e4d4;padding:0 clamp(20px,4.1vw,68px);font-family:var(--font-sans,Arial,sans-serif)}.shop-page a{color:inherit;text-decoration:none}.shop-page-header{height:76px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #392316}.shop-page-header nav{display:flex;align-items:center;gap:28px;color:#b9a08b;font-size:13px}.shop-page-header nav a:hover,.shop-text-link:hover{color:#f2a04b}.shop-header-cart{display:flex;align-items:center;gap:8px;border:1px solid #4b2b19;padding:10px 14px}.shop-page .brand{font-weight:900;letter-spacing:2px;font-size:22px;color:#fff2e2}.shop-page .brand span{color:#ed963f}.shop-breadcrumb{display:flex;gap:12px;color:#9f8674;font-size:12px;padding:24px 0}.shop-breadcrumb span:last-child{color:#e9d7c4}.nft-detail-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);gap:clamp(30px,7vw,110px);align-items:start;padding:20px 0 80px;max-width:1280px;margin:0 auto}.nft-detail-art{position:relative;background:#21140c;border:1px solid #49301f;padding:14px;max-height:690px}.nft-detail-art img{width:100%;height:auto;max-height:660px;object-fit:contain;display:block}.nft-detail-edition{position:absolute;top:28px;left:28px;background:#150d08e8;border:1px solid #5b3c24;padding:7px 9px;font-size:10px;letter-spacing:.06em}.nft-detail-info{padding:12px 0}.nft-detail-info h1,.cart-heading h1{font-size:clamp(32px,4vw,56px);line-height:1.06;letter-spacing:-.04em;margin:12px 0;color:#f3e5d5}.nft-detail-info h1{font-weight:750}.nft-detail-info h1 span,.cart-heading h1 span{color:#ed963f}.nft-detail-creator{color:#b69d88;font-size:14px}.nft-detail-creator strong{color:#f2a04b}.nft-detail-description{max-width:510px;color:#bda995;line-height:1.8;font-size:14px;margin:28px 0}.nft-detail-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-block:1px solid #3a2518;padding:18px 0;gap:16px}.nft-detail-facts div{display:flex;flex-direction:column;gap:8px;min-width:0}.nft-detail-facts span,.detail-label,.detail-hint{font-size:10px;color:#9a7e68}.nft-detail-facts strong{font-size:12px;overflow-wrap:anywhere}.detail-purchase-box{border:1px solid #54321b;background:#1b100a;padding:22px;margin-top:24px;display:flex;flex-direction:column;gap:9px}.detail-price{font-size:30px;color:#f2a04b}.detail-hint{margin-bottom:8px}.detail-purchase-row{display:flex;gap:12px;align-items:center;margin-top:10px}.quantity-control{display:inline-flex;align-items:center;justify-content:space-between;border:1px solid #674329;min-width:108px;height:44px}.quantity-control button{height:42px;width:34px;display:grid;place-items:center;background:transparent;color:#efd9c5;border:0;cursor:pointer}.quantity-control button:disabled{opacity:.35;cursor:not-allowed}.quantity-control output{font-size:13px;min-width:22px;text-align:center}.shop-page .primary-cta{display:inline-flex;gap:10px;align-items:center;justify-content:center;border:0!important;background:#eea04d!important;color:#1b0f07!important;font-weight:750;min-height:44px;padding:0 18px;border-radius:2px;cursor:pointer;flex:1;opacity:1}.shop-page .primary-cta:disabled{opacity:.6;cursor:wait}.detail-favorite{margin-top:8px;display:flex;align-items:center;gap:9px;background:transparent;border:0;color:#c2a993;cursor:pointer;padding:10px 0;font-size:12px}.detail-favorite.saved{color:#f2a04b}.inline-success,.inline-error{display:flex;align-items:center;gap:7px;font-size:12px;margin:4px 0}.inline-success{color:#8fca8d}.inline-error{color:#ff9898}.shop-text-link{display:inline-flex;align-items:center;gap:10px;margin-top:20px;color:#ed963f!important;font-size:13px}.shop-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #392316;padding:28px 0;color:#977d68;font-size:11px}.page-message{max-width:580px;margin:80px auto 120px;display:flex;flex-direction:column;gap:20px;align-items:flex-start;min-height:240px}.page-message h1{font-size:38px;margin:0}.page-message p{color:#bda995}.skeleton-line,.skeleton-block{display:block;background:linear-gradient(90deg,#21150e 25%,#392316 50%,#21150e 75%);background-size:200% 100%;animation:shop-shimmer 1.2s infinite linear}.skeleton-line{height:16px;width:60%;}.skeleton-line.short{width:35%}.skeleton-block{height:400px;width:100%;}@keyframes shop-shimmer{to{background-position:-200% 0}}.cart-page-content{max-width:1240px;margin:0 auto;padding:18px 0 88px}.cart-heading{margin:10px 0 34px}.cart-heading>p:last-child{font-size:14px;color:#bda995}.cart-empty{min-height:300px;border:1px solid #3b2518;background:#190e08;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px;gap:12px}.cart-empty svg{color:#ed963f}.cart-empty h2{font-size:26px;margin:0}.cart-empty p{color:#bda995;font-size:14px}.shop-primary-link{display:inline-flex;align-items:center;gap:10px;background:#eea04d;color:#190e08!important;padding:13px 18px;margin-top:12px;font-weight:700;font-size:13px}.cart-layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:28px;align-items:start}.cart-items{display:flex;flex-direction:column;gap:14px}.cart-item{display:grid;grid-template-columns:132px minmax(0,1fr) auto;gap:20px;align-items:center;border:1px solid #3b2518;padding:14px;background:#190e08}.cart-item>img{width:132px;aspect-ratio:1;object-fit:cover;background:#2a1b11}.cart-item-info{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:7px}.cart-collection{font-size:11px;color:#e19a4f}.cart-item-info h2{font-size:18px;margin:0;color:#f3e5d5}.cart-edition{font-size:11px;color:#a78c75;margin-bottom:5px}.cart-item-price{display:flex;flex-direction:column;align-items:flex-end;gap:7px}.cart-item-price strong{font-size:17px;color:#f2a04b}.cart-item-price span{font-size:10px;color:#9f8674}.remove-item{display:inline-flex;align-items:center;gap:5px;background:transparent;border:0;color:#b79d88;cursor:pointer;font-size:11px;padding:5px 0}.remove-item:hover{color:#ff9a9a}.cart-summary{border:1px solid #5a351e;background:#1b100a;padding:22px;position:sticky;top:20px}.cart-summary h2{font-size:20px;margin:0 0 22px}.summary-line,.summary-total{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;font-size:12px;color:#bda995;margin:16px 0}.summary-line strong{color:#f1e4d4;font-weight:600;white-space:nowrap}.summary-total{border-top:1px solid #52311e;padding-top:19px;margin-top:22px;color:#f1e4d4}.summary-total strong{color:#f2a04b;font-size:20px;white-space:nowrap}.cart-summary>p{color:#927763;font-size:10px;line-height:1.6}.checkout-placeholder{width:100%;margin-top:10px}.continue-shopping{display:flex;align-items:center;justify-content:center;gap:8px;color:#e6a052!important;font-size:12px;margin-top:18px}@media(max-width:900px){.nft-detail-layout{grid-template-columns:1fr;gap:30px;max-width:680px}.nft-detail-art{max-height:none}.nft-detail-art img{max-height:560px;margin:auto}.cart-layout{grid-template-columns:1fr}.cart-summary{position:static}.cart-item{grid-template-columns:100px minmax(0,1fr) auto;gap:13px}.cart-item>img{width:100px}}@media(max-width:540px){.shop-page{padding:0 18px}.shop-page-header{height:64px}.shop-page-header nav{gap:14px;font-size:12px}.shop-page .brand{font-size:19px}.shop-header-cart{padding:8px}.nft-detail-layout{padding-bottom:45px}.nft-detail-info h1,.cart-heading h1{font-size:36px}.detail-purchase-row{align-items:stretch;flex-direction:column}.detail-purchase-row .primary-cta{width:100%;flex:auto}.quantity-control{width:120px}.nft-detail-facts{gap:8px}.nft-detail-facts strong{font-size:11px}.shop-footer{align-items:flex-start;gap:14px;flex-direction:column}.cart-item{grid-template-columns:78px minmax(0,1fr);align-items:start;padding:10px;gap:12px}.cart-item>img{width:78px}.cart-item-info h2{font-size:14px}.cart-item-price{grid-column:2;align-items:flex-start;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px}.cart-item-price strong{font-size:14px}.cart-item-price span{font-size:10px}.remove-item{margin-left:auto}.cart-item .quantity-control{height:34px;min-width:100px}.cart-item .quantity-control button{height:32px}.cart-summary{padding:17px}}
+
+
+/* Cart page - Figma layout */
+.cart-page{padding-inline:clamp(20px,4.1vw,68px)}
+.cart-page .cart-page-content{max-width:1240px;padding:18px 0 72px}
+.cart-page .cart-heading{display:none}
+.cart-page .shop-breadcrumb{max-width:1240px;margin:0 auto;padding:22px 0 26px}
+.cart-layout{grid-template-columns:minmax(0,1fr) minmax(300px,414px);gap:clamp(28px,5.5vw,90px)}
+.cart-table-wrap{min-width:0}
+.cart-table-head{display:grid;grid-template-columns:minmax(250px,1fr) 150px 150px 150px 36px;gap:16px;align-items:center;padding:0 0 12px;border-bottom:1px solid #5a351e;color:#f1e4d4;font-family:'Space Mono',monospace;font-size:15px;font-weight:700}
+.cart-table-head span:not(:first-child){text-align:center}
+.cart-items{gap:14px;padding-top:14px}
+.cart-item{grid-template-columns:minmax(250px,1fr) 150px 150px 150px 36px;gap:16px;min-height:104px;padding:10px 0;border:0;background:#21140e}
+.cart-product{display:flex;align-items:center;gap:18px;min-width:0}
+.cart-product>img{width:88px;height:88px;flex:0 0 88px;object-fit:cover}
+.cart-item-info{gap:6px}
+.cart-item-info h2{font-family:'Space Mono',monospace;font-size:15px;font-weight:700}
+.cart-token-id{font-family:'Space Mono',monospace;font-size:12px;color:#a88a6b}
+.cart-unit-price,.cart-line-total{font-family:'Space Mono',monospace;font-size:15px;text-align:center;white-space:nowrap}
+.cart-unit-price{color:#c7a982}
+.cart-line-total{color:#e99a47}
+.cart-quantity{display:flex;align-items:center;justify-content:center;gap:11px}
+.cart-quantity button{display:grid;place-items:center;width:24px;height:34px;border:0;border-radius:16px;background:#e49a4d;color:#1b100a;cursor:pointer}
+.cart-quantity button:disabled{opacity:.4;cursor:not-allowed}
+.cart-quantity output{min-width:14px;text-align:center;font-family:'Space Mono',monospace;font-size:15px}
+.cart-item .remove-item{justify-self:center;color:#b9935d;padding:6px}
+.cart-item .remove-item:hover{color:#f3a04c}
+.cart-summary{position:static;border:0;border-top:1px solid #5a351e;background:transparent;padding:0}
+.cart-summary h2{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;padding-bottom:12px;border-bottom:1px solid #5a351e;margin-bottom:22px}
+.promo-label{display:block;margin-bottom:9px;font-family:'Space Mono',monospace;font-size:14px;font-weight:700}
+.promo-control{display:flex;width:100%;margin-bottom:22px}
+.promo-control input{min-width:0;flex:1;height:42px;padding:0 12px;border:1px solid #b77a3d;border-radius:3px 0 0 3px;background:#170e09;color:#f2e4d7;font-family:'Space Mono',monospace;font-size:12px}
+.promo-control input::placeholder{color:#a98a68}
+.promo-control button{padding:0 18px;border:0;border-radius:0 3px 3px 0;background:#e49a4d;color:#1b100a;font-family:'Space Mono',monospace;font-weight:700;cursor:pointer}
+.promo-feedback{margin:-12px 0 14px;color:#f0a078;font-size:11px}
+.promo-feedback.success{color:#9bc78d}
+.cart-summary .summary-line{font-family:'Space Mono',monospace;font-size:14px;color:#e0d2c3;margin:18px 0}
+.cart-summary .summary-line strong{font-size:14px;font-weight:400;color:#e0d2c3}
+.cart-summary .network-fee{margin-bottom:4px}
+.fee-caption{display:block;text-align:right;color:#e99a47;font-family:'Space Mono',monospace;font-size:11px;margin-top:8px}
+.cart-summary .summary-total{border:0;padding:12px 0 0;margin:18px 0 24px;font-family:'Space Mono',monospace;font-size:17px;font-weight:700}
+.cart-summary .summary-total strong{font-size:22px}
+.cart-summary-note{display:none}
+.cart-summary .checkout-placeholder{width:100%;min-height:48px;margin:0;border-radius:3px;font-family:'Space Mono',monospace;font-size:14px}
+.cart-summary .continue-shopping{font-family:'Space Mono',monospace;font-size:14px;margin-top:16px}
+.cart-recommendations{width:82%;max-width:1240px;margin:8px auto 86px}
+.cart-recommendations-heading{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #69401f;padding-bottom:12px;margin-bottom:24px}
+.cart-recommendations-heading h2{margin:0;color:#e99a47;font-family:'Space Mono',monospace;font-size:20px}
+.cart-recommendations-heading>a{display:flex;align-items:center;gap:7px;color:#d99a58;font-size:12px}
+.cart-recommendations-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}
+.cart-recommendation-card{min-width:0;background:transparent}
+.cart-recommendation-image{display:block;aspect-ratio:1;background:#21140e;padding:9px;margin-bottom:10px}
+.cart-recommendation-image img{display:block;width:100%;height:100%;object-fit:cover;border-radius:14px}
+.cart-recommendation-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Space Mono',monospace;font-size:13px;color:#e8d9ca}
+.cart-recommendation-bottom{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:7px}
+.cart-recommendation-bottom strong{color:#e99a47;font-family:'Space Mono',monospace;font-size:14px}
+.cart-recommendation-bottom button{border:1px solid #81502c;background:transparent;color:#e6a05b;padding:5px 7px;font-size:10px;cursor:pointer}
+.cart-recommendation-bottom button:disabled{opacity:.5}
+.cart-carousel-dots{display:flex;justify-content:center;gap:9px;margin-top:24px}
+.cart-carousel-dots span{width:10px;height:10px;border:1px solid #e99a47;border-radius:50%}
+.cart-carousel-dots span.active{background:#e99a47}
+.cart-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.38fr);width:82%;max-width:1240px;margin:0 auto;padding:30px 28px;background:#21140e}
+.cart-trust .trust-item{min-width:0;padding:0 18px;border-right:1px solid #8e542b}
+.cart-trust .trust-item:first-child{padding-left:0}
+.cart-trust .trust-initial{display:grid;place-items:center;width:74px;height:74px;margin-bottom:14px;border-radius:50%;background:#e49a4d;color:#24140b;font-family:'Space Mono',monospace;font-size:20px;font-weight:700}
+.cart-trust .trust-item h3,.cart-trust .newsletter-box h3{margin:0 0 9px;color:#f0e4d7;font-family:'Space Mono',monospace;font-size:14px;font-weight:700;line-height:1.3}
+.cart-trust .trust-item p,.cart-trust .newsletter-box p{margin:0;color:#b99c81;font-family:'Space Mono',monospace;font-size:12px;line-height:1.65}
+.cart-trust .newsletter-box{min-width:0;padding-left:20px}
+.cart-trust .newsletter-box h3{font-size:16px}
+.cart-trust .newsletter-box form{display:flex;min-width:0;margin:14px 0 12px}
+.cart-trust .newsletter-box input{width:100%;min-width:0;height:44px;padding:0 12px;border:0;background:#3a2415;color:#f2e4d7;font-family:'Space Mono',monospace;font-size:12px}
+.cart-trust .newsletter-box input::placeholder{color:#b39678}
+.cart-trust .newsletter-box form button{flex:0 0 auto;height:44px;padding:0 16px;border:0;background:#e49a4d;color:#24140b;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;cursor:pointer}
+.cart-site-footer{width:82%;max-width:1240px;margin:0 auto 22px;background:#21140e;font-family:'Space Mono',monospace}
+.cart-site-footer .footer-brand-row{display:grid;grid-template-columns:.9fr 1.2fr 1fr 1fr;align-items:center;gap:15px;min-height:90px;padding:16px 34px;background:#38220f}
+.cart-site-footer .footer-brand-row .brand{font-family:'Space Mono',monospace;font-size:16px}
+.cart-site-footer .footer-brand-row .brand span{color:#e99a47}
+.cart-site-footer .footer-brand-row p,.cart-site-footer .footer-brand-row a:not(.brand),.cart-site-footer .footer-brand-row>span{margin:0;color:#e0cbb6;font-size:13px;line-height:1.65}
+.cart-site-footer .footer-brand-row a:not(.brand){justify-self:center}
+.cart-site-footer .footer-brand-row>span{justify-self:end}
+.cart-site-footer .footer-columns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;padding:28px 34px 34px}
+.cart-site-footer .footer-columns>div{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-width:0}
+.cart-site-footer .footer-columns h3{margin:0 0 4px;color:#f0e5db;font-family:'Space Mono',monospace;font-size:16px;font-weight:700}
+.cart-site-footer .footer-columns a{color:#c0a58b;font-size:13px}
+.cart-site-footer .footer-columns a:hover{color:#e99a47}
+.cart-site-footer .social-links{display:flex;align-items:center;gap:9px;margin-bottom:5px}
+.cart-site-footer .social-links a{display:grid;place-items:center;width:34px;height:34px;border:1px solid #9b6033;border-radius:4px;color:#e4a366;font-family:Arial,sans-serif;font-size:15px;font-weight:700}
+.cart-site-footer .wallet-title{margin-top:8px!important}
+.cart-site-footer .wallet-tags{display:flex;flex-wrap:wrap;gap:5px}
+.cart-site-footer .wallet-tags span{padding:6px 8px;border-radius:4px;background:#4a2a13;color:#dba568;font-size:9px}
+.cart-site-footer .copyright{margin:0;padding:14px 0 4px;color:#bca38a;font-size:12px;text-align:center}
+@media(max-width:1100px){
+ .cart-table-head,.cart-item{grid-template-columns:minmax(190px,1fr) 100px 105px 110px 28px;gap:10px}
+ .cart-product{gap:10px}.cart-product>img{width:70px;height:70px;flex-basis:70px}
+ .cart-recommendations,.cart-trust,.cart-site-footer{width:92%}
+ .cart-trust{padding:24px 18px}.cart-trust .trust-item{padding:0 12px}
+}
+@media(max-width:760px){
+ .cart-page .cart-page-content{padding-bottom:50px}
+ .cart-layout{grid-template-columns:1fr;gap:30px}
+ .cart-table-head{display:none}
+ .cart-item{grid-template-columns:minmax(0,1fr) 90px 90px;gap:8px;padding:12px}
+ .cart-product{grid-column:1/3}
+ .cart-product>img{width:68px;height:68px;flex-basis:68px}
+ .cart-unit-price{grid-column:1;text-align:left;font-size:12px}
+ .cart-quantity{grid-column:2;grid-row:2}
+ .cart-line-total{grid-column:1;text-align:left;font-size:13px}
+ .cart-item .remove-item{grid-column:3;grid-row:1;justify-self:end}
+ .cart-summary{max-width:none}
+ .cart-recommendations{width:100%;margin:12px auto 54px}
+ .cart-recommendations-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+ .cart-recommendation-card:nth-child(n+5){display:none}
+ .cart-trust{width:100%;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;padding:24px 18px}
+ .cart-trust .trust-item{border:0;padding:0}
+ .cart-trust .newsletter-box{grid-column:1/-1;padding:0}
+ .cart-site-footer{width:100%}
+ .cart-site-footer .footer-brand-row{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px}
+ .cart-site-footer .footer-brand-row a:not(.brand){justify-self:start}
+ .cart-site-footer .footer-brand-row>span{justify-self:start}
+ .cart-site-footer .footer-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;padding:22px 18px}
+}
+@media(max-width:420px){
+ .cart-page{padding-inline:14px}
+ .cart-recommendations-heading h2{font-size:15px}
+ .cart-trust{grid-template-columns:1fr}
+ .cart-trust .newsletter-box{grid-column:auto}
+ .cart-site-footer .footer-columns{gap:20px 12px}
+ .cart-site-footer .footer-columns h3{font-size:13px}
+ .cart-site-footer .footer-columns a{font-size:11px}
+}
+
+
+/* Recommendations carousel: real horizontal navigation and responsive cards */
+.cart-recommendations-heading{gap:18px}
+.cart-carousel-controls{display:flex;justify-content:flex-end;gap:8px;margin:-8px 0 12px}
+.cart-carousel-controls button{display:grid;place-items:center;width:34px;height:34px;border:1px solid #81502c;background:transparent;color:#e6a05b;cursor:pointer}
+.cart-carousel-controls button:hover{background:#3a2415;color:#f4b36e}
+.cart-recommendations-viewport{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scrollbar-width:none}
+.cart-recommendations-viewport::-webkit-scrollbar{display:none}
+.cart-recommendations-grid{display:flex;gap:24px;width:100%}
+.cart-recommendation-card{flex:0 0 calc((100% - 96px)/5);scroll-snap-align:start}
+.cart-recommendation-bottom button:disabled{opacity:.55;cursor:default}
+@media(max-width:1100px){.cart-recommendation-card{flex-basis:calc((100% - 48px)/3)}}
+@media(max-width:760px){.cart-recommendations-grid{gap:16px}.cart-recommendation-card{flex-basis:calc((100% - 16px)/2)}.cart-recommendation-card:nth-child(n+5){display:block}}
+@media(max-width:420px){.cart-recommendation-card{flex-basis:82%}}
+
+
+/* Figma-style pagination below the recommendations carousel */
+.cart-carousel-controls{display:none}
+.cart-carousel-dots{display:flex;justify-content:center;align-items:center;gap:10px;margin:24px 0 0}
+.cart-carousel-dots button{width:11px;height:11px;padding:0;border:1px solid #e99a47;border-radius:50%;background:transparent;cursor:pointer}
+.cart-carousel-dots button.active{background:#e99a47}
+.cart-carousel-dots button:focus-visible{outline:2px solid #f4b36e;outline-offset:4px}
+
+
+/* Cart polish: keep the remove action inside each NFT row and match Figma accent */
+.cart-table-head{grid-template-columns:minmax(0,1fr) 140px 140px 140px}
+.cart-item{position:relative;grid-template-columns:minmax(0,1fr) 140px 140px 140px;padding-right:54px}
+.cart-item .remove-item{position:absolute;right:12px;top:50%;transform:translateY(-50%);justify-self:auto}
+.cart-summary .promo-control button{background:#D28A4C;color:#140d0a}
+.cart-page .cart-summary .checkout-placeholder{background:#D28A4C!important;color:#140d0a!important}
+@media(max-width:1100px){
+ .cart-table-head,.cart-item{grid-template-columns:minmax(190px,1fr) 100px 105px 110px}
+ .cart-item{padding-right:48px}
+}
+@media(max-width:760px){
+ .cart-item{position:relative;grid-template-columns:minmax(0,1fr) 90px 90px;padding:12px 48px 12px 12px}
+ .cart-item .remove-item{right:10px;top:14px;transform:none}
+}
+
+
+/* Cart table — increase horizontal breathing room to match the Figma proportions */
+.cart-page .cart-page-content,
+.cart-page .shop-breadcrumb{
+  max-width:1480px;
+}
+.cart-page .cart-layout{
+  grid-template-columns:minmax(0,1.58fr) minmax(340px,.82fr);
+  gap:clamp(42px,5vw,82px);
+}
+.cart-page .cart-table-head{
+  grid-template-columns:minmax(0,1.5fr) minmax(125px,.62fr) minmax(145px,.72fr) minmax(135px,.68fr) 38px;
+  gap:20px;
+  font-size:18px;
+  padding-bottom:16px;
+}
+.cart-page .cart-item{
+  grid-template-columns:minmax(0,1.5fr) minmax(125px,.62fr) minmax(145px,.72fr) minmax(135px,.68fr) 38px;
+  gap:20px;
+  min-height:118px;
+  padding:10px 0;
+}
+.cart-page .cart-product{gap:24px}
+.cart-page .cart-product>img{
+  width:116px;
+  height:116px;
+  flex-basis:116px;
+}
+.cart-page .cart-item-info h2{font-size:19px;line-height:1.4}
+.cart-page .cart-token-id{font-size:16px}
+.cart-page .cart-unit-price,
+.cart-page .cart-line-total{font-size:20px}
+.cart-page .cart-quantity{gap:15px}
+.cart-page .cart-quantity button{width:32px;height:48px}
+.cart-page .cart-quantity button svg{width:20px;height:20px}
+.cart-page .cart-quantity output{min-width:22px;font-size:20px}
+.cart-page .cart-item .remove-item svg{width:28px;height:28px}
+@media(max-width:1100px){
+  .cart-page .cart-layout{grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr);gap:30px}
+  .cart-page .cart-table-head,
+  .cart-page .cart-item{grid-template-columns:minmax(0,1fr) 105px 115px 110px 34px;gap:10px}
+  .cart-page .cart-product{gap:12px}
+  .cart-page .cart-product>img{width:78px;height:78px;flex-basis:78px}
+  .cart-page .cart-item-info h2{font-size:15px}
+  .cart-page .cart-token-id{font-size:12px}
+  .cart-page .cart-unit-price,.cart-page .cart-line-total{font-size:15px}
+  .cart-page .cart-quantity{gap:8px}
+  .cart-page .cart-quantity button{width:26px;height:36px}
+  .cart-page .cart-quantity output{font-size:15px}
+}
+@media(max-width:760px){
+  .cart-page .cart-page-content,
+  .cart-page .shop-breadcrumb{max-width:none}
+  .cart-page .cart-item{grid-template-columns:minmax(0,1fr) 90px 90px;gap:8px;padding:12px 48px 12px 12px;min-height:0}
+  .cart-page .cart-product>img{width:68px;height:68px;flex-basis:68px}
+  .cart-page .cart-item-info h2{font-size:14px}
+  .cart-page .cart-token-id{font-size:11px}
+  .cart-page .cart-unit-price,.cart-page .cart-line-total{font-size:13px}
+  .cart-page .cart-quantity button{width:24px;height:34px}
+  .cart-page .cart-quantity output{font-size:14px}
+}
+
+
+/* Cart rows — reduce vertical scale while retaining the wider Figma columns */
+@media(min-width:761px){
+  .cart-page .cart-items{gap:12px}
+  .cart-page .cart-item{
+    min-height:96px;
+    padding:8px 0;
+  }
+  .cart-page .cart-product{gap:20px}
+  .cart-page .cart-product>img{
+    width:88px;
+    height:88px;
+    flex-basis:88px;
+  }
+  .cart-page .cart-item-info h2{font-size:17px;line-height:1.3}
+  .cart-page .cart-token-id{font-size:14px}
+  .cart-page .cart-quantity{gap:12px}
+  .cart-page .cart-quantity button{width:28px;height:40px}
+  .cart-page .cart-quantity button svg{width:17px;height:17px}
+  .cart-page .cart-quantity output{font-size:17px}
+  .cart-page .cart-unit-price,
+  .cart-page .cart-line-total{font-size:17px}
+  .cart-page .cart-item .remove-item svg{width:24px;height:24px}
+}
+
+
+/* Final cart details: summary has only its bottom divider; prices and editions use the button accent */
+.cart-page .cart-summary{
+  border-top:0;
+}
+.cart-page .cart-unit-price,
+.cart-page .cart-quantity output{
+  color:#D28A4C;
+}
+
+
+/* NFT detail page — marketplace reference layout */
+.nft-detail-page{padding-inline:clamp(18px,3.2vw,54px)}
+.nft-detail-page .shop-breadcrumb{max-width:1480px;margin:0 auto;padding:18px 0 28px}
+.nft-detail-page .nft-detail-layout{max-width:1320px;grid-template-columns:minmax(0,1.08fr) minmax(390px,.92fr);gap:clamp(36px,6vw,92px);padding:18px 0 74px;align-items:start}
+.nft-gallery{display:grid;grid-template-columns:78px minmax(0,1fr);gap:18px;align-items:start;min-width:0}
+.nft-gallery-thumbnails{display:flex;flex-direction:column;gap:14px}
+.nft-gallery-thumbnails button{width:78px;aspect-ratio:1;padding:0;border:1px solid transparent;background:#241612;cursor:pointer;overflow:hidden}
+.nft-gallery-thumbnails button.active{border-color:#e49a4d}
+.nft-gallery-thumbnails img{width:100%;height:100%;display:block;object-fit:cover}
+.nft-detail-page .nft-detail-art{padding:12px;max-height:none;background:#21140e;border:1px solid #49301f}
+.nft-detail-page .nft-detail-art img{width:100%;height:auto;aspect-ratio:1;max-height:none;object-fit:cover}
+.nft-image-zoom{position:absolute;right:22px;top:20px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#21140e;color:#f4e9dc;font-size:25px}
+.nft-detail-page .nft-detail-info{padding:8px 0}
+.nft-detail-page .nft-detail-info h1{font-size:clamp(34px,3.4vw,54px);margin:10px 0 12px;letter-spacing:-.035em}
+.nft-review-summary{display:flex;align-items:center;gap:10px;margin:16px 0;color:#c4a98e;font-size:12px}
+.nft-stars{display:inline-flex;gap:3px;color:#e49a4d}
+.nft-stars svg{width:15px;height:15px;fill:currentColor;stroke-width:1}
+.nft-detail-page .nft-detail-description{max-width:620px;margin:22px 0;line-height:1.8}
+.nft-detail-page .nft-detail-facts{grid-template-columns:repeat(3,minmax(0,1fr));padding:18px 0}
+.nft-edition-options{display:flex;flex-direction:column;gap:12px;margin:18px 0;color:#f1e4d4;font-size:13px}
+.nft-edition-options>div{display:flex;flex-wrap:wrap;gap:8px}
+.nft-edition-options span{border:1px solid #674329;border-radius:20px;padding:6px 11px;color:#c4a98e;font-size:12px}
+.nft-edition-options span.selected{border-color:#e49a4d;color:#f2a04b}
+.nft-edition-options span.edition-open{border-color:#674329}
+.nft-detail-page .detail-purchase-box{margin-top:14px;padding:22px;background:#1b100a}
+.nft-detail-page .detail-purchase-row{display:grid;grid-template-columns:112px minmax(0,1fr);gap:12px}
+.nft-detail-page .quantity-control{min-width:0;width:112px}
+.nft-detail-page .detail-favorite{margin-top:12px}
+.nft-information{max-width:1480px;margin:0 auto 58px}
+.nft-information-tabs{display:flex;gap:34px;border-bottom:1px solid #69401f}
+.nft-information-tabs button{padding:12px 0 10px;border:0;border-bottom:3px solid transparent;background:transparent;color:#d9c7b5;font-family:'Space Mono',monospace;font-size:15px}
+.nft-information-tabs button.active{border-color:#e49a4d;color:#e99a47;font-weight:700}
+.nft-information-copy{padding:18px 0;color:#c4a98e;font-family:'Space Mono',monospace;font-size:13px;line-height:1.9}
+.nft-information-copy p{margin:0 0 22px}
+.nft-information-copy h3{margin:16px 0 2px;color:#f0e5db;font-size:13px}
+.nft-reviews-panel{min-height:170px;padding:28px 0;color:#c4a98e}
+.nft-reviews-panel h3{color:#f0e5db}
+.nft-more-collection{max-width:1480px;margin:0 auto 70px}
+.nft-more-heading{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #69401f;padding-bottom:12px;margin-bottom:24px}
+.nft-more-heading h2{margin:0;color:#e99a47;font-family:'Space Mono',monospace;font-size:20px}
+.nft-more-heading>div{display:flex;gap:8px}
+.nft-more-heading button{display:grid;place-items:center;width:34px;height:34px;border:1px solid #81502c;background:transparent;color:#e6a05b}
+.nft-more-grid{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:#81502c transparent;padding-bottom:8px}
+.nft-more-card{flex:0 0 calc((100% - 96px)/5);min-width:0;scroll-snap-align:start}
+.nft-more-card>a:first-child{display:block;padding:9px;background:#21140e;margin-bottom:10px}
+.nft-more-card img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}
+.nft-more-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e8d9ca;font-family:'Space Mono',monospace;font-size:13px}
+.nft-more-card>strong{display:block;margin-top:5px;color:#e99a47;font-family:'Space Mono',monospace;font-size:14px}
+.nft-more-dots{display:flex;justify-content:center;gap:9px;margin-top:24px}
+.nft-more-dots span{width:11px;height:11px;border:1px solid #e99a47;border-radius:50%}
+.nft-more-dots span.active{background:#e99a47}
+.nft-detail-trust,.nft-detail-footer{width:100%;max-width:1480px;margin-inline:auto}
+.nft-detail-trust{margin-bottom:0}
+.nft-detail-footer{margin-bottom:22px}
+@media(max-width:900px){
+ .nft-detail-page .nft-detail-layout{grid-template-columns:1fr;gap:28px;max-width:720px}
+ .nft-gallery{grid-template-columns:64px minmax(0,1fr);gap:12px}
+ .nft-gallery-thumbnails button{width:64px}
+ .nft-more-card{flex-basis:calc((100% - 48px)/3)}
+}
+@media(max-width:600px){
+ .nft-detail-page{padding-inline:16px}
+ .nft-detail-page .shop-breadcrumb{padding:16px 0}
+ .nft-gallery{grid-template-columns:1fr;gap:10px}
+ .nft-gallery-thumbnails{order:2;flex-direction:row;overflow-x:auto}
+ .nft-gallery-thumbnails button{width:66px;flex:0 0 66px}
+ .nft-detail-page .nft-detail-layout{padding:8px 0 42px}
+ .nft-detail-page .nft-detail-info h1{font-size:34px}
+ .nft-detail-page .detail-purchase-row{grid-template-columns:1fr;display:flex;flex-direction:column;align-items:stretch}
+ .nft-detail-page .quantity-control{width:118px}
+ .nft-information-tabs{gap:20px;overflow-x:auto}
+ .nft-information-tabs button{white-space:nowrap;font-size:12px}
+ .nft-information-copy{font-size:11px}
+ .nft-more-collection{margin-bottom:44px}
+ .nft-more-heading h2{font-size:16px}
+ .nft-more-card{flex-basis:78%}
+ .nft-detail-trust{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding:22px 16px}
+ .nft-detail-trust .trust-item{border:0;padding:0}
+ .nft-detail-trust .newsletter-box{grid-column:1/-1;padding:0}
+ .nft-detail-footer .footer-brand-row{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px}
+ .nft-detail-footer .footer-brand-row a:not(.brand),.nft-detail-footer .footer-brand-row>span{justify-self:start}
+ .nft-detail-footer .footer-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;padding:22px 18px}
+}
+@media(max-width:420px){
+ .nft-detail-trust{grid-template-columns:1fr}
+ .nft-detail-trust .newsletter-box{grid-column:auto}
+ .nft-detail-footer .footer-columns{gap:18px 12px}
+}
+@media(prefers-reduced-motion:reduce){.nft-detail-page *{scroll-behavior:auto;animation:none!important;transition:none!important}}
+
+
+/* NFT detail refinement: compact collection strip and reuse the homepage footer proportions */
+.nft-detail-page .nft-detail-layout{max-width:1240px;grid-template-columns:minmax(0,1fr) minmax(360px,.92fr);gap:clamp(30px,4vw,64px);padding-top:8px}
+.nft-detail-page .nft-detail-art{max-width:590px;margin-left:auto}
+.nft-gallery{grid-template-columns:68px minmax(0,1fr);gap:14px}
+.nft-gallery-thumbnails button{width:68px}
+.nft-detail-page .nft-detail-info h1{font-size:clamp(32px,2.8vw,46px)}
+.nft-more-collection{max-width:1240px}
+.nft-more-arrows{display:none!important}
+.nft-more-dots{display:flex;align-items:center;justify-content:center;gap:10px}
+.nft-more-dots button{width:11px;height:11px;padding:0;border:1px solid #e99a47;border-radius:50%;background:transparent;cursor:pointer}
+.nft-more-dots button.active{background:#e99a47}
+.nft-detail-trust{width:82%;max-width:1180px;margin:52px auto 0}
+.nft-detail-footer{width:82%;max-width:1180px;margin:0 auto 18px}
+.nft-detail-footer .footer-brand-row{grid-template-columns:.9fr 1.2fr 1fr 1fr;min-height:68px;padding:12px 24px}
+.nft-detail-footer .footer-columns{grid-template-columns:repeat(4,minmax(0,1fr));gap:25px;padding:20px 24px 22px}
+.nft-detail-footer .footer-columns>div{gap:7px}
+.nft-detail-footer .footer-columns h3{font-size:10px}
+.nft-detail-footer .footer-columns a{font-size:8px}
+.nft-detail-footer .copyright{font-size:8px;padding:11px 0 2px}
+@media(max-width:900px){
+ .nft-detail-page .nft-detail-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+ .nft-gallery{grid-template-columns:56px minmax(0,1fr);gap:10px}
+ .nft-gallery-thumbnails button{width:56px}
+}
+@media(max-width:680px){
+ .nft-detail-page .nft-detail-layout{grid-template-columns:1fr}
+ .nft-gallery{grid-template-columns:1fr}
+ .nft-gallery-thumbnails{flex-direction:row}
+ .nft-gallery-thumbnails button{width:62px;flex:0 0 62px}
+ .nft-detail-trust,.nft-detail-footer{width:100%}
+ .nft-detail-footer .footer-brand-row{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px}
+ .nft-detail-footer .footer-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;padding:22px 18px}
+}
+
+
+/* Desktop first-fold geometry: match the Figma's balanced two-column composition */
+@media (min-width: 901px) {
+  .nft-detail-page .shop-breadcrumb { width: min(100%, 1330px); }
+  .nft-detail-page .nft-detail-layout {
+    width: min(100%, 1330px) !important;
+    max-width: 1330px !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: clamp(38px, 4.2vw, 68px) !important;
+    padding: 20px 0 72px !important;
+  }
+  .nft-detail-page .nft-gallery {
+    width: 100% !important;
+    min-width: 0;
+    grid-template-columns: 78px minmax(0, 1fr) !important;
+    gap: 16px !important;
+    align-items: start;
+  }
+  .nft-detail-page .nft-gallery-thumbnails { width: 78px; gap: 14px; }
+  .nft-detail-page .nft-gallery-thumbnails button { width: 78px !important; height: 78px; flex: 0 0 78px; }
+  .nft-detail-page .nft-detail-art {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 12px !important;
+    box-sizing: border-box;
+  }
+  .nft-detail-page .nft-detail-art img {
+    display: block;
+    width: 100% !important;
+    max-width: none !important;
+    aspect-ratio: 1 / 1;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: cover;
+  }
+  .nft-detail-page .nft-detail-info { width: 100%; min-width: 0; padding-top: 8px; }
+  .nft-detail-page .nft-detail-info h1 { font-size: clamp(38px, 3.1vw, 54px) !important; }
+}
+
+
+/* NFT detail — Figma first section, desktop */
+@media (min-width: 901px) {
+  .nft-detail-page { padding-inline: 15px !important; }
+  .nft-detail-page .shop-breadcrumb {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 16px 0 12px !important;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: #f0e5db;
+  }
+  .nft-detail-page .nft-detail-layout {
+    width: 100% !important;
+    max-width: none !important;
+    grid-template-columns: minmax(0, 636px) minmax(0, 1fr) !important;
+    gap: 36px !important;
+    padding: 0 0 64px !important;
+    margin: 0 !important;
+    align-items: start;
+  }
+  .nft-detail-page .nft-gallery {
+    grid-template-columns: 112px minmax(0, 1fr) !important;
+    gap: 29px !important;
+    width: 100%;
+  }
+  .nft-detail-page .nft-gallery-thumbnails { width: 112px; gap: 17px; }
+  .nft-detail-page .nft-gallery-thumbnails button {
+    width: 112px !important;
+    height: 112px !important;
+    flex: 0 0 112px;
+    border-radius: 9px;
+  }
+  .nft-detail-page .nft-detail-art {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 22px !important;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: #241611;
+  }
+  .nft-detail-page .nft-detail-art img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    max-height: none !important;
+    object-fit: cover;
+    border-radius: 26px;
+  }
+  .nft-detail-page .nft-detail-edition { display: none; }
+  .nft-detail-page .nft-image-zoom { right: 16px; top: 16px; }
+  .nft-detail-page .nft-detail-info {
+    width: 100%;
+    min-width: 0;
+    padding: 0 !important;
+    font-family: 'Space Mono', monospace;
+  }
+  .nft-detail-page .nft-detail-info h1 {
+    margin: 0 0 12px !important;
+    color: #f2e9e2;
+    font-family: 'Space Mono', monospace;
+    font-size: 32px !important;
+    line-height: 1.35;
+    letter-spacing: 0 !important;
+    font-weight: 700;
+  }
+  .nft-price-review-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    min-height: 38px;
+  }
+  .nft-current-price {
+    flex: 0 0 auto;
+    color: #e99a47;
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+  .nft-detail-page .nft-review-summary {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin: 0 !important;
+    color: #eee3d9;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .nft-detail-page .nft-stars { gap: 3px; }
+  .nft-detail-page .nft-stars svg { width: 15px; height: 15px; }
+  .nft-detail-divider { height: 1px; width: 100%; background: #75451f; margin: 8px 0 14px; }
+  .nft-about h2 {
+    margin: 0 0 12px;
+    color: #f1e7df;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .nft-about p {
+    margin: 0;
+    max-width: 100%;
+    color: #c9ad8a;
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  .nft-detail-page .nft-edition-options {
+    margin: 8px 0 14px !important;
+    gap: 10px !important;
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+  }
+  .nft-detail-page .nft-edition-options > div { gap: 8px; }
+  .nft-detail-page .nft-edition-options button {
+    border: 1px solid #68401f;
+    border-radius: 22px;
+    background: transparent;
+    color: #c9ad8a;
+    padding: 5px 10px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .nft-detail-page .nft-edition-options button.selected {
+    border-color: #e99a47;
+    color: #f2a04b;
+    box-shadow: 0 0 0 1px #e99a47 inset;
+  }
+  .nft-purchase-meta-row,.nft-purchase-left { width: 100%; }
+  .nft-detail-page .nft-actions-row {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) auto;
+    align-items: center;
+    gap: 18px;
+  }
+  .nft-detail-page .quantity-control {
+    width: 116px;
+    height: 52px;
+    border: 0;
+    justify-content: space-between;
+  }
+  .nft-detail-page .quantity-control button {
+    width: 36px;
+    height: 52px;
+    border-radius: 22px;
+    background: #d9914b;
+    color: #170e09;
+  }
+  .nft-detail-page .quantity-control output {
+    color: #f1e5da;
+    font-size: 19px;
+  }
+  .nft-buy-favorite { display: flex; align-items: center; gap: 9px; }
+  .nft-detail-page .primary-cta {
+    min-width: 148px;
+    min-height: 46px;
+    padding: 0 22px;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+  }
+  .nft-detail-page .detail-favorite {
+    min-height: 46px;
+    margin: 0;
+    padding: 0 14px;
+    border: 1px solid #d9914b;
+    border-radius: 7px;
+    color: #e99a47;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .nft-detail-page .detail-favorite.saved { color: #f2a04b; }
+  .nft-token-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+    color: #c19c6b;
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+  }
+  .nft-token-details p { margin: 0; line-height: 1.45; }
+  .nft-token-details p span { color: #c19c6b; }
+  .nft-share-row { display: flex; align-items: center; gap: 9px; color: #f0e5db; }
+  .nft-share-row strong { font-size: 15px; }
+  .nft-share-row a { color: #f0e5db; font-weight: 700; font-family: Arial,sans-serif; font-size: 17px; }
+}
+@media (max-width: 900px) {
+  .nft-price-review-row { display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; }
+  .nft-detail-page .nft-detail-info h1 { font-size:32px !important; }
+  .nft-detail-page .nft-actions-row { display:flex; flex-wrap:wrap; align-items:center; gap:14px; }
+  .nft-buy-favorite { display:flex; flex-wrap:wrap; gap:8px; }
+  .nft-token-details { margin-top:14px; }
+}
+
+
+/* Center the complete NFT detail content on the same page grid as the marketplace */
+@media (min-width: 901px) {
+  .nft-detail-page .shop-breadcrumb {
+    width: min(100%, 1330px) !important;
+    max-width: 1330px !important;
+    margin-inline: auto !important;
+  }
+  .nft-detail-page .nft-detail-layout {
+    width: min(100%, 1330px) !important;
+    max-width: 1330px !important;
+    margin-inline: auto !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 36px !important;
+  }
+  .nft-detail-page .nft-gallery {
+    grid-template-columns: 112px minmax(0, 1fr) !important;
+    gap: 20px !important;
+  }
+  .nft-detail-page .nft-detail-info { min-width: 0; }
+}
+
+
+/* Collection carousel pagination controls */
+.nft-more-dots button {
+  display: block;
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: 1px solid #e99a47;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+.nft-more-dots button.active { background: #e99a47; }
+.nft-more-grid { scroll-behavior: smooth; }
+.nft-more-collection { width: min(100% - 32px, 1240px); margin-inline: auto; }
+
+
+/* NFT image zoom */
+.nft-detail-page .nft-image-zoom{position:absolute;right:22px;top:20px;width:38px;height:38px;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:#21140e;color:#f4e9dc;cursor:zoom-in}
+.nft-detail-page .nft-image-zoom svg{display:block;flex:none}
+.nft-detail-page .nft-image-zoom:hover{background:#e49a4d;color:#24140b}
+.nft-image-lightbox{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:5vh 5vw;background:rgba(10,6,4,.94);cursor:zoom-out}
+.nft-image-lightbox img{display:block;max-width:min(90vw,1100px);max-height:90vh;width:auto;height:auto;object-fit:contain;border:1px solid #674329;background:#21140e;padding:8px;cursor:default}
+.nft-lightbox-close{position:absolute;top:24px;right:28px;width:44px;height:44px;display:grid;place-items:center;border:1px solid #674329;border-radius:50%;background:#21140e;color:#f4e9dc;cursor:pointer}
+.nft-lightbox-close:hover{background:#e49a4d;color:#24140b}
+@media(max-width:600px){.nft-image-lightbox{padding:16px}.nft-image-lightbox img{max-width:96vw;max-height:82vh}.nft-lightbox-close{top:12px;right:12px}}
+
+
+/* Shared responsive treatment for marketplace detail and cart routes */
+@media(max-width:680px){
+  .shop-page{padding:0 16px 28px}
+  .shop-page .kurio-site-header{display:none}
+  .shop-breadcrumb{gap:8px;padding:16px 0;font-size:10px;overflow:hidden;white-space:nowrap}
+  .shop-breadcrumb span:last-child{overflow:hidden;text-overflow:ellipsis}
+  .cart-page-content{width:100%;padding:0 0 30px}
+  .cart-heading{margin:12px 0 22px}
+  .cart-heading h1{font-size:30px;line-height:1.2}
+  .cart-heading>p:last-child{font-size:12px;line-height:1.7}
+  .cart-layout{display:flex;flex-direction:column;gap:20px}
+  .cart-table-wrap{width:100%;overflow:visible}
+  .cart-table-head{display:none}
+  .cart-items{display:flex;flex-direction:column;gap:12px}
+  .cart-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:12px;border:1px solid #49301f;border-radius:12px;background:#21140f}
+  .cart-product{min-width:0;grid-column:1/-1;display:flex;align-items:center;gap:12px}
+  .cart-product img{width:76px;height:76px;flex:0 0 76px;object-fit:cover;border-radius:8px}
+  .cart-item-info{min-width:0}
+  .cart-item-info h2{font-size:13px;overflow-wrap:anywhere}
+  .cart-unit-price,.cart-line-total{font-size:12px}
+  .cart-quantity{justify-self:start}
+  .cart-line-total{justify-self:end;align-self:center}
+  .cart-summary,.cart-summary-card,.cart-checkout-panel{width:100%;min-width:0}
+  .cart-empty{padding:34px 16px}
+  .cart-trust,.cart-site-footer{display:none}
+  .nft-detail-page .nft-detail-layout{display:flex;flex-direction:column;gap:22px;padding:0 0 28px}
+  .nft-detail-page .nft-gallery{display:flex;flex-direction:column-reverse;gap:10px;width:100%;min-width:0}
+  .nft-detail-page .nft-gallery-thumbnails{display:flex;flex-direction:row;gap:9px;width:100%;overflow-x:auto}
+  .nft-detail-page .nft-gallery-thumbnails button{width:68px;height:68px;flex:0 0 68px}
+  .nft-detail-page .nft-detail-art{width:100%;padding:10px!important;border-radius:12px}
+  .nft-detail-page .nft-detail-art img{aspect-ratio:1/1;max-height:none;object-fit:cover;border-radius:10px}
+  .nft-detail-page .nft-detail-info{width:100%;padding:0!important}
+  .nft-detail-page .nft-detail-info h1{font-size:27px!important;overflow-wrap:anywhere}
+  .nft-price-review-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+  .nft-current-price{font-size:21px}
+  .nft-detail-page .nft-review-summary{font-size:10px;white-space:normal}
+  .nft-detail-page .nft-review-summary svg{width:13px;height:13px}
+  .nft-detail-page .nft-actions-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+  .nft-buy-favorite{display:flex;flex-wrap:wrap;gap:8px}
+  .nft-detail-page .primary-cta{min-width:0;min-height:44px;padding:0 18px}
+  .nft-detail-page .detail-favorite{min-height:44px;padding:0 12px;font-size:12px}
+  .nft-token-details{font-size:12px;overflow-wrap:anywhere}
+  .nft-share-row{flex-wrap:wrap}
+  .nft-information{margin:10px 0 30px}
+  .nft-information-tabs{display:flex;gap:14px;overflow-x:auto}
+  .nft-information-tabs button{flex:0 0 auto;font-size:11px}
+  .nft-information-copy{font-size:12px;line-height:1.8}
+  .nft-more-collection{width:100%;margin:20px auto 35px}
+  .nft-more-grid{grid-auto-columns: minmax(145px,44vw);gap:12px}
+  .nft-more-card img{width:100%;aspect-ratio:1;object-fit:cover}
+  .nft-more-name{font-size:11px}
+  .shop-page .trust-newsletter,.shop-page .site-footer{display:none}
+}
+
+/* Mobile cart: compact NFT rows and a fixed checkout summary above bottom navigation. */
+@media(max-width:680px){
+  .cart-page{
+    padding-bottom:calc(470px + 78px + env(safe-area-inset-bottom))!important;
+  }
+  .cart-page .shop-breadcrumb{display:none}
+  .cart-page .cart-heading{margin:18px 0 16px;text-align:center}
+  .cart-page .cart-heading .eyebrow,
+  .cart-page .cart-heading>p:last-child{display:none}
+  .cart-page .cart-heading h1{font-size:25px;line-height:1.2;margin:0}
+  .cart-page .cart-heading h1 span{color:inherit}
+  .cart-page .cart-layout{display:block}
+  .cart-page .cart-items{gap:10px;padding-bottom:18px}
+  .cart-page .cart-item{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 112px;
+    grid-template-areas:"product controls";
+    align-items:center;
+    gap:8px;
+    min-height:126px;
+    padding:0 12px 0 0;
+    border:0;
+    border-radius:14px;
+    background:#241612;
+    overflow:hidden;
+  }
+  .cart-page .cart-product{
+    grid-area:product;
+    display:flex;
+    align-items:center;
+    align-self:stretch;
+    gap:12px;
+    min-width:0;
+  }
+  .cart-page .cart-product img{
+    width:112px;
+    height:126px;
+    flex:0 0 112px;
+    object-fit:cover;
+    border-radius:0;
+  }
+  .cart-page .cart-item-info{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
+    gap:5px;
+    min-width:0;
+  }
+  .cart-page .cart-item-info h2{
+    margin:0;
+    color:#f1e7df;
+    font-size:13px;
+    line-height:1.35;
+    overflow-wrap:anywhere;
+  }
+  .cart-page .cart-item-edition{
+    color:#c9ad8a;
+    font-size:11px;
+    line-height:1.3;
+  }
+  .cart-page .cart-mobile-price{
+    display:block;
+    margin-top:3px;
+    color:#e99a47;
+    font-size:17px;
+    white-space:nowrap;
+  }
+  .cart-page .cart-unit-price,
+  .cart-page .cart-line-total{display:none}
+  .cart-page .cart-item>.cart-quantity{
+    grid-area:controls;
+    justify-self:end;
+    align-self:center;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:9px;
+    width:100%;
+  }
+  .cart-page .cart-quantity button{
+    width:30px;
+    height:30px;
+    border:1px solid #50301d;
+    border-radius:50%;
+    background:#2a1a12;
+    color:#e9a05b;
+  }
+  .cart-page .cart-quantity button:disabled{opacity:.35}
+  .cart-page .cart-quantity output{min-width:12px;text-align:center;color:#f0e5db;font-size:14px}
+  .cart-page .remove-item{
+    grid-area:controls;
+    justify-self:end;
+    align-self:end;
+    margin:0 7px 8px 0;
+    width:23px;
+    height:23px;
+    padding:0;
+    display:grid;
+    place-items:center;
+    border:0;
+    background:transparent;
+    color:#c99a60;
+  }
+  .cart-page .remove-item svg{width:16px;height:16px}
+  .cart-page .cart-summary{
+    position:fixed;
+    z-index:110;
+    left:0;
+    right:0;
+    bottom:calc(78px + env(safe-area-inset-bottom));
+    width:100%;
+    max-height:min(44vh,390px);
+    overflow-y:auto;
+    margin:0;
+    padding:14px 18px 16px;
+    border:1px solid #4a2c1b;
+    border-radius:28px 28px 0 0;
+    background:#241612;
+    box-shadow:0 -10px 32px #0007;
+  }
+  .cart-page .cart-summary h2,
+  .cart-page .promo-label,
+  .cart-page .cart-summary-note,
+  .cart-page .continue-shopping{display:none}
+  .cart-page .promo-control{
+    display:flex;
+    gap:0;
+    margin:0 0 12px;
+    padding:0;
+    border:1px solid #52321f;
+    border-radius:30px;
+    overflow:hidden;
+    background:#1b100b;
+  }
+  .cart-page .promo-control input{
+    min-width:0;
+    height:48px;
+    flex:1;
+    padding:0 14px;
+    border:0;
+    background:transparent;
+    color:#f2e5d7;
+    font:inherit;
+    font-size:11px;
+  }
+  .cart-page .promo-control button{
+    flex:0 0 auto;
+    min-width:88px;
+    padding:0 16px;
+    border:0;
+    border-radius:26px;
+    background:#d28a4c;
+    color:#1b100b;
+    font:inherit;
+    font-weight:700;
+  }
+  .cart-page .promo-feedback{margin:0 0 8px;font-size:10px}
+  .cart-page .summary-line{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin:8px 0;
+    color:#f0e5db;
+    font-size:12px;
+  }
+  .cart-page .summary-line strong{font-size:12px;white-space:nowrap}
+  .cart-page .fee-caption{display:block;text-align:right;margin-top:-8px;color:#e99a47;font-size:9px}
+  .cart-page .summary-total{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin:10px 0 14px;
+    padding-top:9px;
+    border-top:0;
+    color:#f0e5db;
+    font-size:14px;
+    font-weight:700;
+  }
+  .cart-page .summary-total strong{color:#e99a47;font-size:18px;white-space:nowrap}
+  .cart-page .checkout-placeholder{
+    display:flex;
+    width:100%;
+    min-height:52px;
+    align-items:center;
+    justify-content:center;
+    border-radius:30px;
+    background:#d28a4c;
+    color:#1b100b;
+    font-size:14px;
+    font-weight:700;
+  }
+  .cart-page .cart-recommendations,
+  .cart-page .cart-trust,
+  .cart-page .cart-site-footer{display:none!important}
+}
+@media(max-width:390px){
+  .cart-page .cart-item{grid-template-columns:minmax(0,1fr) 96px}
+  .cart-page .cart-product img{width:96px;height:118px;flex-basis:96px}
+  .cart-page .cart-item-info h2{font-size:12px}
+  .cart-page .cart-mobile-price{font-size:15px}
+  .cart-page .cart-summary{padding-inline:14px}
+}
+
+
+/* Final mobile cart behavior: scrollable items, anchored summary, no global bottom bar. */
+@media(max-width:680px){
+  .cart-page{
+    padding-bottom:24px!important;
+    min-height:100svh;
+  }
+  .cart-page .cart-mobile-back{
+    display:grid;
+    place-items:center;
+    width:42px;
+    height:42px;
+    margin:12px 0 10px;
+    border:1px solid #50301d;
+    border-radius:50%;
+    background:#241612;
+    color:#d99a60;
+  }
+  .cart-page .cart-heading{margin:0 0 16px}
+  .cart-page .cart-heading h1{font-size:25px}
+  .cart-page .cart-item{
+    grid-template-columns:minmax(0,1fr) 92px;
+    min-height:122px;
+    padding-right:9px;
+  }
+  .cart-page .cart-product img{
+    width:100px;
+    height:122px;
+    flex-basis:100px;
+  }
+  .cart-page .cart-product{gap:10px}
+  .cart-page .cart-item-info h2{
+    font-size:12px;
+    line-height:1.25;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:100%;
+  }
+  .cart-page .cart-item>.cart-quantity{
+    grid-area:controls;
+    align-self:center;
+    justify-content:flex-end;
+    gap:7px;
+  }
+  .cart-page .cart-quantity button{width:29px;height:29px}
+  .cart-page .cart-summary{
+    position:sticky!important;
+    bottom:0!important;
+    z-index:30;
+    max-height:none;
+    overflow:visible;
+    margin:16px -16px 0;
+    width:calc(100% + 32px);
+    padding:16px 18px calc(16px + env(safe-area-inset-bottom));
+    border:1px solid #4a2c1b;
+    border-bottom:0;
+    border-radius:26px 26px 0 0;
+    background:#241612;
+    box-shadow:0 -10px 32px #0007;
+  }
+  .cart-page .cart-summary .promo-control{margin-bottom:10px}
+  .cart-page .cart-summary .summary-line{margin:7px 0}
+  .cart-page .cart-summary .summary-total{margin:9px 0 12px;padding-top:7px}
+  .cart-page .cart-summary .checkout-placeholder{min-height:52px}
+  body:has(.cart-page){padding-bottom:0!important}
+}
+@media(max-width:390px){
+  .cart-page .cart-item{grid-template-columns:minmax(0,1fr) 86px}
+  .cart-page .cart-product img{width:90px;height:116px;flex-basis:90px}
+  .cart-page .cart-item-info h2{font-size:11px}
+  .cart-page .cart-quantity{gap:5px}
+  .cart-page .cart-quantity button{width:27px;height:27px}
+}
+@media(min-width:681px){
+  .cart-mobile-back{display:none}
+}
+
+/* Dedicated mobile NFT detail layout based on the Figma reference. */
+.nft-mobile-topbar,.nft-mobile-purchase-bar{display:none}\n.nft-mobile-title-row{display:contents}\n.nft-mobile-rating{display:none}
+@media(max-width:680px){
+  .nft-detail-page{
+    padding:0 8px 0!important;
+    min-height:100svh;
+  }
+  .nft-detail-page .shop-breadcrumb,
+  .nft-detail-page>.kurio-site-header,
+  .nft-detail-page>.shop-page-header,
+  .nft-detail-page .nft-gallery-thumbnails,
+  .nft-detail-page .nft-detail-edition,
+  .nft-detail-page .nft-image-zoom,
+  .nft-detail-page .nft-price-review-row,
+  .nft-detail-page .nft-about h2,
+  .nft-detail-page .nft-share-row,
+  .nft-detail-page .nft-information,
+  .nft-detail-page .nft-more-collection,
+  .nft-detail-page>.site-footer,
+  .nft-detail-page>.shop-footer{display:none!important}
+  .nft-mobile-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    height:64px;
+    padding:8px 24px;
+    background:#241612;
+    border-radius:28px 28px 0 0;
+  }
+  .nft-mobile-topbar>a,
+  .nft-mobile-topbar>button{
+    display:grid;
+    place-items:center;
+    width:44px;
+    height:44px;
+    border:1px solid #51321f;
+    border-radius:50%;
+    background:transparent;
+    color:#d5a16c;
+  }
+  .nft-mobile-topbar>button.saved{color:#e99a47}
+  .nft-detail-page .nft-detail-layout{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    width:100%;
+    max-width:none;
+    margin:0;
+    padding:8px 24px 190px;
+  }
+  .nft-detail-page .nft-gallery{
+    display:block;
+    width:100%;
+    margin:0;
+  }
+  .nft-detail-page .nft-detail-art{
+    width:100%;
+    max-width:none;
+    max-height:none;
+    margin:0;
+    padding:0!important;
+    border:0;
+    border-radius:22px 22px 0 0;
+    background:#241612;
+    overflow:hidden;
+  }
+  .nft-detail-page .nft-detail-art img{
+    display:block;
+    width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    border-radius:22px 22px 0 0;
+  }
+  .nft-detail-page .nft-purchase-meta-row{
+    display:block!important;
+    margin:0;
+  }
+  .nft-detail-page .nft-purchase-left{display:block!important}
+  .nft-detail-page .nft-purchase-meta-row .nft-actions-row,
+  .nft-detail-page .nft-purchase-meta-row .inline-success,
+  .nft-detail-page .nft-purchase-meta-row .inline-error{display:none!important}
+  .nft-detail-page .nft-token-details{
+    display:flex!important;
+    flex-direction:column;
+    gap:12px;
+    margin:0!important;
+    color:#c9ad8a;
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+  }
+  .nft-detail-page .nft-token-details p{margin:0;line-height:1.5}
+  .nft-detail-page .nft-token-details p span{color:#c9ad8a}
+  .nft-detail-page .nft-detail-info{
+    width:calc(100% + 48px);
+    margin:0 -24px;
+    padding:26px 28px 28px!important;
+    border-radius:28px 28px 0 0;
+    background:#241612;
+    position:relative;
+    z-index:2;
+  }
+  .nft-mobile-title-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin:0 0 14px;
+  }
+  .nft-detail-page .nft-mobile-title-row h1{
+    min-width:0;
+    margin:0!important;
+    color:#f2e9e2;
+    font-family:'Space Mono',monospace;
+    font-size:clamp(18px,5vw,25px)!important;
+    line-height:1.25;
+    letter-spacing:0!important;
+    overflow-wrap:anywhere;
+  }
+  .nft-mobile-rating{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    flex:0 0 auto;
+    padding:5px 8px;
+    border:1px solid #b87939;
+    border-radius:20px;
+    color:#e8a04d;
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+  }
+  .nft-mobile-rating span{color:#c8ad91}
+  .nft-detail-page .nft-about{margin:0 0 14px}
+  .nft-detail-page .nft-about p{
+    margin:0;
+    max-width:none;
+    color:#c9ad8a;
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+    line-height:1.75;
+  }
+  .nft-detail-page .nft-edition-options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin:14px 0 16px!important;
+    color:#f0e5db;
+    font-family:'Space Mono',monospace;
+    font-size:14px;
+  }
+  .nft-detail-page .nft-edition-options>div{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .nft-detail-page .nft-edition-options button{
+    padding:6px 10px;
+    border:1px solid #5b3923;
+    border-radius:22px;
+    background:transparent;
+    color:#c9ad8a;
+    font:inherit;
+    font-size:12px;
+  }
+  .nft-detail-page .nft-edition-options button.selected{
+    border-color:#e99a47;
+    color:#f2a04b;
+    box-shadow:0 0 0 1px #e99a47 inset;
+  }
+  .nft-detail-page .nft-token-details{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin:0;
+    color:#c9ad8a;
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+  }
+  .nft-detail-page .nft-token-details p{margin:0;line-height:1.5}
+  .nft-detail-page .nft-token-details p span{color:#c9ad8a}
+  .nft-mobile-purchase-bar{
+    position:fixed;
+    z-index:115;
+    right:8px;
+    bottom:0;
+    left:8px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    padding:18px 28px calc(22px + env(safe-area-inset-bottom));
+    border-radius:30px 30px 0 0;
+    background:#241612;
+    box-shadow:0 -10px 30px #0008;
+  }
+  .nft-mobile-purchase-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#c9ad8a;
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+  }
+  .nft-mobile-purchase-top .quantity-control{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:96px;
+    min-width:96px;
+    height:38px;
+    border:0;
+  }
+  .nft-mobile-purchase-top .quantity-control button{
+    width:30px;
+    height:36px;
+    border:1px solid #5b3923;
+    border-radius:18px;
+    background:#d28a4c;
+    color:#241612;
+  }
+  .nft-mobile-purchase-top .quantity-control output{
+    color:#f2e9e2;
+    font-size:16px;
+  }
+  .nft-mobile-purchase-top>strong{
+    margin-left:auto;
+    color:#e99a47;
+    font-family:'Space Mono',monospace;
+    font-size:21px;
+    white-space:nowrap;
+  }
+  .nft-mobile-purchase-actions{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .nft-mobile-purchase-actions .primary-cta{
+    flex:1;
+    min-height:58px;
+    border-radius:32px;
+    font-family:'Space Mono',monospace;
+    font-size:15px;
+    text-transform:none;
+  }
+  .nft-mobile-purchase-actions>a{
+    display:grid;
+    place-items:center;
+    width:58px;
+    height:58px;
+    flex:0 0 58px;
+    border:1px solid #51321f;
+    border-radius:50%;
+    color:#d28a4c;
+  }
+  body:has(.nft-detail-page) .mobile-bottom-nav{display:none!important}
+  body:has(.nft-detail-page){padding-bottom:0!important}
+}
+@media(max-width:390px){
+  .nft-detail-page .nft-detail-layout{padding-inline:18px}
+  .nft-detail-page .nft-detail-info{width:calc(100% + 36px);margin-inline:-18px;padding-inline:22px!important}
+  .nft-mobile-topbar{padding-inline:18px}
+  .nft-mobile-purchase-bar{padding-inline:22px}
+  .nft-mobile-purchase-top>strong{font-size:18px}
+}
+
+/* Add-to-cart confirmation dialog. */
+.cart-added-overlay{
+  position:fixed;
+  z-index:300;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:22px;
+  background:#090604c9;
+  backdrop-filter:blur(5px);
+}
+.cart-added-dialog{
+  width:min(100%,420px);
+  padding:30px 26px 24px;
+  border:1px solid #684225;
+  border-radius:24px;
+  background:#241612;
+  color:#f1e7df;
+  text-align:center;
+  box-shadow:0 22px 70px #0009;
+}
+.cart-added-icon{
+  display:grid;
+  place-items:center;
+  width:52px;
+  height:52px;
+  margin:0 auto 16px;
+  border-radius:50%;
+  background:#d28a4c;
+  color:#241612;
+}
+.cart-added-dialog h2{
+  margin:0 0 9px;
+  font-family:'Space Mono',monospace;
+  font-size:19px;
+}
+.cart-added-dialog p{
+  margin:0;
+  color:#c9ad8a;
+  font-size:14px;
+  line-height:1.6;
+}
+.cart-added-actions{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:24px;
+}
+.cart-added-actions>a{
+  display:flex;
+  min-height:48px;
+  align-items:center;
+  justify-content:center;
+  padding:10px 16px;
+  border-radius:28px;
+  font-family:'Space Mono',monospace;
+  font-size:13px;
+  font-weight:700;
+  text-decoration:none;
+}
+.cart-added-continue{
+  border:1px solid #80512f;
+  color:#e5a15f;
+}
+.cart-added-view{
+  background:#d28a4c;
+  color:#1b100b;
+}
+@media(max-width:680px){
+  .cart-added-dialog{padding:26px 20px 20px}
+  .cart-added-dialog h2{font-size:17px}
+}
+
+/* Tablet NFT detail polish (681–900px). */
+@media (min-width:681px) and (max-width:900px){
+  .nft-detail-page .nft-detail-layout{
+    grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)!important;
+    gap:24px!important;
+    padding-top:8px!important;
+  }
+  .nft-detail-page .nft-gallery{
+    grid-template-columns:52px minmax(0,1fr)!important;
+    gap:9px!important;
+  }
+  .nft-detail-page .nft-gallery-thumbnails{gap:10px}
+  .nft-detail-page .nft-gallery-thumbnails button{
+    width:52px!important;
+    height:52px!important;
+    flex:0 0 52px;
+  }
+  .nft-detail-page .nft-detail-info{
+    padding:0!important;
+    min-width:0;
+  }
+  .nft-detail-page .nft-detail-info h1{
+    margin:0 0 8px!important;
+    font-size:clamp(27px,3.8vw,34px)!important;
+    line-height:1.18;
+  }
+  .nft-detail-page .nft-price-review-row{
+    display:flex!important;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px 12px;
+    margin:0 0 8px;
+  }
+  .nft-detail-page .nft-current-price{
+    color:#e99a47!important;
+    font-size:clamp(23px,3vw,28px)!important;
+    line-height:1.25;
+    font-weight:800;
+  }
+  .nft-detail-page .nft-review-summary{
+    margin:0!important;
+    color:#c9ad8a!important;
+    font-size:11px;
+    flex-wrap:wrap;
+  }
+  .nft-detail-page .nft-about{
+    margin:8px 0 10px;
+  }
+  .nft-detail-page .nft-about h2{
+    margin:0 0 5px;
+    color:#e9a15a!important;
+    font-size:13px;
+  }
+  .nft-detail-page .nft-about p{
+    color:#c9ad8a!important;
+    font-size:12px;
+    line-height:1.55;
+  }
+  .nft-detail-page .nft-token-details{
+    display:flex!important;
+    flex-direction:column;
+    gap:5px;
+    margin:8px 0 12px!important;
+    color:#c9ad8a!important;
+    font-size:11px;
+    line-height:1.45;
+  }
+  .nft-detail-page .nft-token-details p{margin:0}
+  .nft-detail-page .nft-token-details p span{color:#e2a15e!important}
+  .nft-detail-page .nft-share-row{display:none}
+  .nft-detail-page .nft-edition-options{
+    margin:8px 0 12px!important;
+    gap:8px!important;
+    color:#e9a15a!important;
+    font-size:13px;
+  }
+  .nft-detail-page .nft-edition-options>div{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .nft-detail-page .nft-edition-options button{
+    display:inline-flex!important;
+    align-items:center;
+    justify-content:center;
+    min-height:32px;
+    padding:5px 11px!important;
+    border:1px solid #68401f!important;
+    border-radius:22px!important;
+    background:transparent!important;
+    color:#c9ad8a!important;
+    font:inherit;
+    font-size:12px!important;
+    cursor:pointer;
+  }
+  .nft-detail-page .nft-edition-options button.selected{
+    border-color:#e99a47!important;
+    color:#f2a04b!important;
+    box-shadow:0 0 0 1px #e99a47 inset;
+  }
+  .nft-detail-page .nft-purchase-meta-row,
+  .nft-detail-page .nft-purchase-left{width:100%}
+  .nft-detail-page .nft-actions-row{
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    justify-content:space-between;
+    gap:12px!important;
+  }
+  .nft-detail-page .quantity-control{
+    display:inline-flex;
+    align-items:center;
+    justify-content:space-between;
+    width:104px;
+    min-width:104px;
+    height:42px;
+  }
+  .nft-detail-page .quantity-control button{
+    width:32px;
+    height:40px;
+  }
+  .nft-detail-page .quantity-control output{font-size:16px}
+  .nft-detail-page .nft-buy-favorite{
+    display:flex;
+    flex:1;
+    align-items:center!important;
+    justify-content:flex-end;
+    flex-wrap:nowrap!important;
+    gap:8px;
+  }
+  .nft-detail-page .nft-buy-favorite .primary-cta{
+    min-width:0;
+    min-height:42px;
+    flex:1;
+    padding:0 12px;
+    font-size:12px;
+  }
+  .nft-detail-page .detail-favorite{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    min-height:42px;
+    margin:0!important;
+    padding:0 8px;
+    font-size:11px;
+    white-space:nowrap;
+  }
+}
+
+/* Tablet cart rows: compact NFT card with inline quantity, total and remove action. */
+@media (min-width:761px) and (max-width:900px){
+  .cart-page .cart-layout{
+    grid-template-columns:minmax(0,1.15fr) minmax(275px,.85fr)!important;
+    gap:22px!important;
+    align-items:start;
+  }
+  .cart-page .cart-table-head{
+    grid-template-columns:minmax(0,1fr) 72px 82px 24px!important;
+    gap:8px!important;
+    font-size:13px!important;
+    padding-bottom:10px!important;
+  }
+  .cart-page .cart-table-head span:nth-child(2){display:none}
+  .cart-page .cart-table-head span:nth-child(3),
+  .cart-page .cart-table-head span:nth-child(4){text-align:center}
+  .cart-page .cart-items{gap:10px!important;padding-top:10px}
+  .cart-page .cart-item{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) 72px 82px 24px!important;
+    gap:8px!important;
+    align-items:center!important;
+    min-height:86px!important;
+    padding:9px 10px!important;
+    border:1px solid #49301f!important;
+    border-radius:10px;
+    background:#21140e!important;
+  }
+  .cart-page .cart-product{
+    grid-column:1!important;
+    display:flex;
+    align-items:center;
+    gap:9px!important;
+    min-width:0;
+  }
+  .cart-page .cart-product>img{
+    width:62px!important;
+    height:62px!important;
+    flex:0 0 62px!important;
+    border-radius:7px;
+    object-fit:cover;
+  }
+  .cart-page .cart-item-info{
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:5px!important;
+  }
+  .cart-page .cart-item-info h2{
+    max-width:100%;
+    font-size:12px!important;
+    line-height:1.25!important;
+    overflow-wrap:anywhere;
+  }
+  .cart-page .cart-item-edition{
+    color:#c9ad8a;
+    font-size:10px!important;
+    line-height:1.3;
+  }
+  .cart-page .cart-mobile-price{display:none!important}
+  .cart-page .cart-unit-price{display:none!important}
+  .cart-page .cart-quantity{
+    grid-column:2!important;
+    grid-row:1!important;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px!important;
+    min-width:0;
+  }
+  .cart-page .cart-quantity button{
+    width:25px!important;
+    height:30px!important;
+    border-radius:50%;
+  }
+  .cart-page .cart-quantity button svg{width:14px;height:14px}
+  .cart-page .cart-quantity output{
+    min-width:14px;
+    font-size:13px!important;
+  }
+  .cart-page .cart-line-total{
+    grid-column:3!important;
+    grid-row:1!important;
+    text-align:right!important;
+    font-size:12px!important;
+    white-space:nowrap;
+  }
+  .cart-page .cart-item .remove-item{
+    grid-column:4!important;
+    grid-row:1!important;
+    position:static!important;
+    display:grid;
+    place-items:center;
+    width:24px;
+    height:30px;
+    margin:0;
+    padding:0;
+    transform:none!important;
+    color:#c99a5c!important;
+  }
+  .cart-page .cart-item .remove-item svg{width:17px;height:17px}
+  .cart-page .cart-summary{
+    padding:0 0 0 16px!important;
+    border-left:1px solid #4b2e1d!important;
+    border-top:0!important;
+  }
+  .cart-page .cart-summary h2{font-size:17px!important;margin-bottom:18px!important}
+  .cart-page .promo-control input{font-size:10px}
+  .cart-page .promo-control button{padding-inline:12px;font-size:11px}
+  .cart-page .summary-line{font-size:11px!important;gap:8px}
+  .cart-page .summary-line strong{font-size:11px!important}
+  .cart-page .summary-total strong{font-size:19px!important}
+  .cart-page .cart-recommendations{width:92%;margin-top:34px}
+}
