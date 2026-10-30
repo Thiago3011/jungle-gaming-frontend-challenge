@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
-import { ArrowLeft, Minus, Plus, ShoppingBag, Trash2, ArrowRight } from 'lucide-react'
+import { ArrowLeft, Minus, Plus, ShoppingBag, Trash2, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { addToCart, getCart, removeFromCart, updateCartQuantity } from '@/api/cart'
 import { getNfts } from '@/api/nfts'
@@ -18,13 +18,17 @@ function formatEth(value: number | string) {
 export default function CartPage() {
   const queryClient = useQueryClient()
   const sessionEmail = getStoredSessionEmail() ?? 'guest'
+  const carouselRef = useRef<HTMLDivElement>(null)
   const [promoDraft, setPromoDraft] = useState('')
   const [promoApplied, setPromoApplied] = useState(false)
   const [promoMessage, setPromoMessage] = useState('')
   const { data, isPending, isError, refetch } = useQuery({ queryKey: ['cart', sessionEmail], queryFn: getCart })
   const { data: recommendations } = useQuery({
     queryKey: ['cart-recommendations'],
-    queryFn: () => getNfts({ q: '', category: 'Todas', sort: 'featured', page: 1, view: 'all', network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }),
+    queryFn: async () => {
+      const pages = await Promise.all([1, 2, 3, 4].map((page) => getNfts({ q: '', category: 'Todas', sort: 'featured', page, view: 'all', network: 'Todas', minPrice: '0.02', maxPrice: '12.30' })))
+      return pages.flatMap((result) => result.items)
+    },
   })
   const updateMutation = useMutation({
     mutationFn: ({ nftId, quantity }: { nftId: string; quantity: number }) => updateCartQuantity(nftId, quantity),
@@ -39,7 +43,9 @@ export default function CartPage() {
     onSuccess: (cart) => { queryClient.setQueryData(['cart', sessionEmail], cart); void queryClient.invalidateQueries({ queryKey: ['cart'] }) },
   })
   const cartIds = useMemo(() => new Set(data?.items.map((item) => item.nftId) ?? []), [data?.items])
-  const suggested = (recommendations?.items ?? []).filter((nft) => !cartIds.has(nft.id)).slice(0, 5)
+  const availableSuggestions = (recommendations ?? []).filter((nft) => !cartIds.has(nft.id))
+  // Keep the carousel useful even when every catalog NFT is already in the cart.
+  const suggested = (availableSuggestions.length ? availableSuggestions : recommendations ?? []).slice(0, 36)
   const subtotal = Number(data?.subtotalEth ?? 0)
   const discount = promoApplied ? subtotal * 0.1 : 0
   const networkFee = Number(data?.networkFeeEth ?? 0)
@@ -97,14 +103,20 @@ export default function CartPage() {
       {suggested.length > 0 && (
         <section className="cart-recommendations" aria-labelledby="cart-recommendations-title">
           <div className="cart-recommendations-heading"><h2 id="cart-recommendations-title">Colecionadores também viram</h2><Link to="/" search={homeSearch}>Ver mercado <ArrowRight size={15}/></Link></div>
-          <div className="cart-recommendations-grid">{suggested.map((nft) => (
-            <article className="cart-recommendation-card" key={nft.id}>
-              <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="cart-recommendation-image"><img src={nft.image} alt={nft.name} loading="lazy"/></Link>
-              <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="cart-recommendation-name">{nft.name}</Link>
-              <div className="cart-recommendation-bottom"><strong>{formatEth(nft.priceEth)}</strong><button type="button" disabled={addMutation.isPending} onClick={() => addMutation.mutate(nft.id)}>Adicionar</button></div>
-            </article>
-          ))}</div>
-          <div className="cart-carousel-dots" aria-hidden="true"><span/><span className="active"/><span/></div>
+          <div className="cart-carousel-controls">
+            <button type="button" aria-label="Ver NFTs anteriores" onClick={() => carouselRef.current?.scrollBy({ left: -carouselRef.current.clientWidth * 0.85, behavior: 'smooth' })}><ChevronLeft size={19}/></button>
+            <button type="button" aria-label="Ver próximos NFTs" onClick={() => carouselRef.current?.scrollBy({ left: carouselRef.current.clientWidth * 0.85, behavior: 'smooth' })}><ChevronRight size={19}/></button>
+          </div>
+          <div className="cart-recommendations-viewport" ref={carouselRef}>
+            <div className="cart-recommendations-grid">{suggested.map((nft) => {
+              const alreadyInCart = cartIds.has(nft.id)
+              return <article className="cart-recommendation-card" key={nft.id}>
+                <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="cart-recommendation-image"><img src={nft.image} alt={nft.name} loading="lazy"/></Link>
+                <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="cart-recommendation-name">{nft.name}</Link>
+                <div className="cart-recommendation-bottom"><strong>{formatEth(nft.priceEth)}</strong><button type="button" disabled={alreadyInCart || addMutation.isPending} onClick={() => addMutation.mutate(nft.id)}>{alreadyInCart ? 'No carrinho' : 'Adicionar'}</button></div>
+              </article>
+            })}</div>
+          </div>
         </section>
       )}
 
