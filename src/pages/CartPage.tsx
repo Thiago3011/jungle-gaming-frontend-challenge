@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
-import { ArrowLeft, Minus, Plus, ShoppingBag, Trash2, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowLeft, Minus, Plus, ShoppingBag, Trash2, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { addToCart, getCart, removeFromCart, updateCartQuantity } from '@/api/cart'
 import { getNfts } from '@/api/nfts'
