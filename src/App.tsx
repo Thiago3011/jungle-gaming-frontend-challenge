@@ -1,10 +1,11 @@
 import { useEffect, useState, type CSSProperties } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import {
   ArrowRight, ChevronDown, Heart, Search, SlidersHorizontal,
 } from 'lucide-react'
 import { getNfts } from '@/api/nfts'
+import { api } from '@/api/client'
 import { getStoredSessionEmail } from '@/api/session'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
@@ -29,14 +30,48 @@ export default function App() {
   const search = useSearch({ from: '/' })
   const navigate = useNavigate({ from: '/' })
   const sessionEmail = getStoredSessionEmail() ?? 'guest'
-  const favoritesKey = 'kurio-favorites:' + sessionEmail
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    try {
-      const stored = localStorage.getItem(favoritesKey)
-      return stored ? JSON.parse(stored) as string[] : []
-    } catch {
-      return []
-    }
+  const queryClient = useQueryClient()
+  const favoritesQueryKey = ['favorites', sessionEmail] as const
+  const { data: favorites = [] } = useQuery({
+    queryKey: favoritesQueryKey,
+    queryFn: async () => {
+      if (sessionEmail === 'guest') {
+        try {
+          return JSON.parse(localStorage.getItem('kurio-favorites:guest') ?? '[]') as string[]
+        } catch {
+          return []
+        }
+      }
+      return (await api.get<string[]>('/favorites')).data
+    },
+  })
+  const favoriteMutation = useMutation({
+    mutationFn: async ({ nftId, shouldSave }: { nftId: string; shouldSave: boolean }) => {
+      if (sessionEmail === 'guest') {
+        const stored = JSON.parse(localStorage.getItem('kurio-favorites:guest') ?? '[]') as string[]
+        const next = shouldSave
+          ? [...new Set([...stored, nftId])]
+          : stored.filter((id) => id !== nftId)
+        localStorage.setItem('kurio-favorites:guest', JSON.stringify(next))
+        return next
+      }
+      return (await (shouldSave
+        ? api.post<string[]>('/favorites', { nftId })
+        : api.delete<string[]>('/favorites/' + nftId))).data
+    },
+    onMutate: async ({ nftId, shouldSave }) => {
+      await queryClient.cancelQueries({ queryKey: favoritesQueryKey })
+      const previous = queryClient.getQueryData<string[]>(favoritesQueryKey) ?? []
+      const next = shouldSave
+        ? [...new Set([...previous, nftId])]
+        : previous.filter((id) => id !== nftId)
+      queryClient.setQueryData(favoritesQueryKey, next)
+      return { previous }
+    },
+    onError: (_error, _variables, context) => {
+      if (context) queryClient.setQueryData(favoritesQueryKey, context.previous)
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: favoritesQueryKey }),
   })
   const [searchOpen, setSearchOpen] = useState(false)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
@@ -61,11 +96,7 @@ export default function App() {
   }
 
   function toggleFavorite(id: string) {
-    setFavorites((current) => {
-      const next = current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
-      localStorage.setItem(favoritesKey, JSON.stringify(next))
-      return next
-    })
+    favoriteMutation.mutate({ nftId: id, shouldSave: !favorites.includes(id) })
   }
 
   function clearFilters() {
