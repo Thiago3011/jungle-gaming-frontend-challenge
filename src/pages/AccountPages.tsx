@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useNavigate } from '@tanstack/react-router'
-import { ArrowLeft, CheckCircle2, CircleUserRound, CreditCard, Plus, ShieldCheck, Wallet, X, Eye, EyeOff, ShoppingCart, Heart, ChartNoAxesCombined, Download, TriangleAlert, LogOut } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, CircleUserRound, CreditCard, Plus, ShieldCheck, WalletCards, X, Eye, EyeOff, ShoppingCart, Heart, ChartNoAxesCombined, Download, TriangleAlert, LogOut } from 'lucide-react'
 import { api } from '@/api/client'
 import { getStoredSessionEmail } from '@/api/session'
 import { getCart } from '@/api/cart'
@@ -24,7 +24,7 @@ function PageFooter() {
 }
 function AccountShell({ children, active, showFooter = true }: { children: ReactNode; active: string; showFooter?: boolean }) {
   const queryClient = useQueryClient()
-  return <main className="account-page"><SiteHeader/><div className={`account-main ${active === "profile" ? "profile-account-main" : ""}`}><aside className={`account-sidebar ${active === "profile" ? "profile-account-sidebar" : ""}`}><h2>Meu perfil</h2><Link className={active === 'profile' ? 'active' : ''} to="/profile"><CircleUserRound size={16}/> Dados do perfil</Link><Link className={active === 'wallets' ? 'active' : ''} to="/wallets"><Wallet size={16}/> Carteiras</Link><a href="#atividade"><ShoppingCart size={16}/> Atividade</a><a href="#interesses"><Heart size={16}/> Lista de interesse</a><a href="#ofertas"><ChartNoAxesCombined size={16}/> Ofertas</a><a href="#arquivos"><Download size={16}/> Arquivos baixados</a><a href="#suporte"><TriangleAlert size={16}/> Suporte</a><button type="button" onClick={() => { void api.post('/auth/logout').then(() => { queryClient.clear(); window.location.assign('/login') }) }}><LogOut size={16}/> Sair</button></aside><section className="account-content">{children}</section></div>{showFooter && <PageFooter/>}</main>
+  return <main className="account-page"><SiteHeader/><div className={`account-main ${active === "profile" ? "profile-account-main" : ""}`}><aside className={`account-sidebar ${active === "profile" ? "profile-account-sidebar" : ""}`}><h2>Meu perfil</h2><Link className={active === 'profile' ? 'active' : ''} to="/profile"><CircleUserRound size={16}/> Dados do perfil</Link><Link className={active === 'wallets' ? 'active' : ''} to="/wallets"><WalletCards size={16}/> Carteiras</Link><a href="#atividade"><ShoppingCart size={16}/> Atividade</a><a href="#interesses"><Heart size={16}/> Lista de interesse</a><a href="#ofertas"><ChartNoAxesCombined size={16}/> Ofertas</a><a href="#arquivos"><Download size={16}/> Arquivos baixados</a><a href="#suporte"><TriangleAlert size={16}/> Suporte</a><button type="button" onClick={() => { void api.post('/auth/logout').then(() => { queryClient.clear(); window.location.assign('/login') }) }}><LogOut size={16}/> Sair</button></aside><section className="account-content">{children}</section></div>{showFooter && <PageFooter/>}</main>
 }
 
 export function LoginPage() {
