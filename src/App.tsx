@@ -205,13 +205,7 @@ export default function App() {
         </div>
       </section>
 
-      <nav className="mobile-bottom-nav" aria-label="Navegação mobile">
-        <Link to="/" search={initialSearch} hash="inicio" aria-label="Início" className="active"><House size={21} fill="currentColor"/></Link>
-        <button type="button" aria-label="Favoritos" aria-pressed={showFavoritesOnly} className={showFavoritesOnly ? "active" : ""} onClick={() => { setShowFavoritesOnly((value) => !value); document.getElementById("mercado")?.scrollIntoView({ behavior: "smooth" }) }}><Heart size={22} fill="currentColor"/></button>
-        <button type="button" className="mobile-scan-button" aria-label="Leitor de QR Code"><ScanLine size={25}/></button>
-        <Link to="/cart" aria-label="Carrinho"><ShoppingCart size={21}/></Link>
-        <Link to={sessionEmail !== "guest" ? "/profile" : "/login"} aria-label="Minha conta"><UserRound size={21} fill="currentColor"/></Link>
-      </nav>
+
       <SiteFooter newsletterMessage={newsletterMessage} onNewsletterSubmit={(event) => { event.preventDefault(); setNewsletterMessage('Inscrições não estão disponíveis nesta demonstração.') }} />
     </main>
   )
