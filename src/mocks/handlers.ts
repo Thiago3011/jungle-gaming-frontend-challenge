@@ -268,6 +268,28 @@ export const handlers = [
     }))
     return HttpResponse.json(updated?.wallets ?? [])
   }),
+  http.post('/api/quote', async ({ request }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
+    const body = await request.json() as { promoCode?: unknown }
+    const cart = buildCartResponse(auth.user.cart)
+    const subtotalWei = decimalToWei(cart.subtotalEth)
+    const networkFeeWei = decimalToWei(cart.networkFeeEth)
+    const code = String(body.promoCode ?? '').trim().toUpperCase()
+    const expired = code === 'KURIOEXPIRED'
+    const valid = code === '' || code === 'KURIO10'
+    const discountWei = code === 'KURIO10' ? subtotalWei / 10n : 0n
+    return HttpResponse.json({
+      valid: valid && !expired,
+      reason: expired ? 'expired' : valid ? null : 'invalid',
+      items: cart.items,
+      subtotalEth: weiToDecimal(subtotalWei),
+      discountEth: weiToDecimal(discountWei),
+      networkFeeEth: weiToDecimal(networkFeeWei),
+      totalEth: weiToDecimal(subtotalWei - discountWei + networkFeeWei),
+      quotedAt: new Date().toISOString(),
+    })
+  }),
   http.get('/api/orders/latest', () => {
     const auth = requireUser()
     return 'response' in auth ? auth.response : HttpResponse.json(auth.user.latestOrder)
