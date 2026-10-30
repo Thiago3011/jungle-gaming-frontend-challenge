@@ -42,6 +42,14 @@ type MockWallet = { id: string; nickname: string; network: string; profileName: 
 const PROFILE_KEY = 'kurio-profile'
 const WALLETS_KEY = 'kurio-wallets'
 const ORDER_KEY = 'kurio-latest-order'
+const FAVORITES_KEY = 'kurio-favorites'
+const readFavorites = (): string[] => {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(FAVORITES_KEY) ?? '[]') as unknown
+    return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : []
+  } catch { return [] }
+}
+const saveFavorites = (favorites: string[]) => localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites))
 const DEFAULT_PROFILE: MockProfile = { displayName: 'Thiago Colecionador', username: 'thiago', email: 'contato@email.com', ensName: '', walletNickname: 'Carteira principal', avatar: '' }
 const readProfile = (): MockProfile => {
   try { return { ...DEFAULT_PROFILE, ...(JSON.parse(localStorage.getItem(PROFILE_KEY) ?? '{}') as Partial<MockProfile>) } }
@@ -62,6 +70,22 @@ const readLatestOrder = (): Record<string, unknown> | null => {
 }
 
 export const handlers = [
+  http.get('/api/favorites', () => HttpResponse.json(readFavorites())),
+  http.post('/api/favorites', async ({ request }) => {
+    const body = await request.json() as { nftId?: unknown }
+    if (typeof body.nftId !== 'string' || !nfts.some((nft) => nft.id === body.nftId)) return cartError('NFT inválido.', 404)
+    const favorites = readFavorites()
+    if (!favorites.includes(body.nftId)) favorites.push(body.nftId)
+    saveFavorites(favorites)
+    return HttpResponse.json(favorites, { status: 201 })
+  }),
+  http.delete('/api/favorites', ({ request }) => {
+    const nftId = new URL(request.url).searchParams.get('nftId')
+    if (!nftId) return cartError('Informe o NFT que deseja remover.', 422)
+    const favorites = readFavorites().filter((id) => id !== nftId)
+    saveFavorites(favorites)
+    return HttpResponse.json(favorites)
+  }),
   http.post('/api/auth/login', async ({ request }) => {
     const body = await request.json() as { email?: unknown; password?: unknown }
     if (typeof body.email !== 'string' || !body.email.includes('@') || typeof body.password !== 'string' || body.password.length < 6) {
