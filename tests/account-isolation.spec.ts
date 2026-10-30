@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test'
 async function login(page: Page, email: string, password = 'Kurio123!') {
   await page.goto('/login')
   await page.getByLabel('E-mail').fill(email)
-  await page.getByLabel('Senha').fill(password)
+  await page.getByRole('textbox', { name: 'Senha', exact: true }).fill(password)
   await page.getByRole('button', { name: 'Entrar', exact: true }).click()
   await expect(page).toHaveURL(/\/profile$/)
 }
@@ -49,7 +49,7 @@ test.describe('isolamento de dados por conta', () => {
   test('rejeita credenciais inválidas e e-mail duplicado no cadastro', async ({ page }) => {
     await page.goto('/login')
     await page.getByLabel('E-mail').fill('nao-existe@kurio.demo')
-    await page.getByLabel('Senha').fill('senhaerrada')
+    await page.getByRole('textbox', { name: 'Senha', exact: true }).fill('senhaerrada')
     await page.getByRole('button', { name: 'Entrar', exact: true }).click()
     await expect(page.getByRole('alert')).toContainText('Não foi possível entrar')
 
