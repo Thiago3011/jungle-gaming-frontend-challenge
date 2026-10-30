@@ -59,3 +59,119 @@
 @media(max-width:760px){
  .password-section{grid-template-columns:minmax(0,1fr)}
 }
+
+
+/* Profile page: match the Figma canvas proportions */
+.profile-account-main{
+  width:min(84%,1320px);
+  max-width:1320px;
+  grid-template-columns:minmax(220px,26%) minmax(0,1fr);
+  gap:clamp(20px,2vw,30px);
+  padding-top:22px;
+  padding-bottom:48px;
+  min-height:0;
+}
+.profile-account-sidebar{
+  padding:14px 0 12px;
+  gap:0;
+  background:#241611;
+}
+.profile-account-sidebar h2{
+  font-size:14px;
+  padding:0 16px;
+  margin:0 0 10px;
+}
+.profile-account-sidebar a,
+.profile-account-sidebar button{
+  min-height:32px;
+  padding:8px 12px;
+  font-size:11px;
+  gap:9px;
+}
+.profile-account-sidebar a.active:before{left:0}
+.profile-page-heading{margin:0 0 22px}
+.profile-page-heading h1{
+  font-size:18px;
+  line-height:1.35;
+  font-weight:700;
+  letter-spacing:0;
+}
+.profile-page-form{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px 20px;
+}
+.profile-page-form .form-field{gap:6px}
+.profile-page-form .form-field label,
+.profile-page-form .avatar-field>span{
+  font-size:11px;
+  color:#e0cbb7;
+}
+.profile-page-form .form-field input,
+.profile-page-form .input-suffix{
+  height:34px;
+  padding-left:10px;
+  padding-right:10px;
+  font-size:11px;
+  border-color:#3d281e;
+  background:#160d09;
+}
+.profile-page-form .input-suffix input{height:32px;padding:0}
+.profile-page-form .avatar-field{
+  display:grid;
+  grid-template-columns:42px auto;
+  justify-content:start;
+  gap:8px 12px;
+}
+.profile-page-form .avatar-field>span{grid-column:1/-1}
+.profile-page-form .avatar-preview{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:0;
+  background:#382116;
+  color:#bd936b;
+}
+.profile-page-form .avatar-preview svg{width:22px;height:22px}
+.profile-page-form .avatar-actions{gap:8px}
+.profile-page-form .avatar-actions .file-button{
+  padding:7px 16px;
+  font-size:11px;
+}
+.profile-page-form .avatar-actions button{
+  padding:7px 8px;
+  font-size:11px;
+}
+.profile-page-form .password-section{
+  grid-template-columns:minmax(0,1fr);
+  max-width: min(100%, 460px);
+  gap:14px;
+  margin-top:0;
+  padding-top:0;
+  border-top:0;
+}
+.profile-page-form .password-section h2{
+  font-size:14px;
+  margin:0 0 2px;
+}
+.profile-page-form .password-section .form-field input{height:34px}
+.profile-page-form .password-section .account-secondary-button{
+  grid-column:1;
+  justify-self:start;
+  padding:8px 12px;
+  font-size:11px;
+}
+.profile-page-form .form-actions{
+  grid-column:1/-1;
+  border-top:1px solid #3d281e;
+  padding-top:14px;
+  margin-top:0;
+}
+.profile-page-form .form-actions .account-primary-button{
+  padding:9px 18px;
+  font-size:11px;
+}
+@media(max-width:760px){
+  .profile-account-main{width:100%;grid-template-columns:1fr;padding-top:20px}
+  .profile-page-form{grid-template-columns:1fr}
+  .profile-page-form .password-section{max-width:100%}
+}
