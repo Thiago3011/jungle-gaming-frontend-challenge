@@ -184,7 +184,7 @@ export const handlers = [
     const next = { ...auth.user.profile, ...body, email: auth.user.email }
     if (!next.displayName.trim() || !next.username.trim()) return cartError('Nome e usuário são obrigatórios.', 422)
     updateUser(auth.user.email, (user) => ({ ...user, profile: next }))
-    return HttpResponse.json(updated?.profile ?? next)
+    return HttpResponse.json(next)
   }),
   http.post('/api/profile/password', async ({ request }) => {
     const auth = requireUser()
@@ -228,7 +228,7 @@ export const handlers = [
     const body = await request.json() as Partial<MockWallet>
     if (!body.nickname?.trim() || !body.displayName?.trim() || !body.profileName?.trim() || !body.address?.trim() || !body.email?.includes('@')) return cartError('Preencha os campos obrigatórios da carteira.', 422)
     let updatedWallet: MockWallet | undefined
-    const updated = updateUser(auth.user.email, (user) => ({
+    updateUser(auth.user.email, (user) => ({
       ...user,
       wallets: user.wallets.map((wallet) => {
         if (wallet.id !== params.walletId || !wallet.primary) return wallet
