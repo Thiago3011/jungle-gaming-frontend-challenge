@@ -7,6 +7,7 @@ import { getStoredSessionEmail } from '@/api/session'
 import { getCart } from '@/api/cart'
 import type { CartResponse } from '@/api/cart'
 import './account-pages.css'
+import { SiteHeader } from '@/components/SiteHeader'
 
 const homeSearch = { q: '', category: 'Todas', sort: 'recent' as const, page: 1, view: 'all' as const, network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }
 const money = (value: number | string) => `${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 4 })} ETH`
@@ -15,10 +16,6 @@ type Profile = { displayName: string; username: string; email: string; ensName: 
 type WalletItem = { id: string; nickname: string; network: string; profileName: string; address: string; type: string; email: string; ensName: string; primary: boolean }
 type Order = { id: string; createdAt: string; paymentMethod: string; network: string; items: CartResponse['items']; subtotalEth: string; networkFeeEth: string; discountEth: string; totalEth: string; txHash: string }
 
-function SiteHeader() {
-  const sessionEmail = getStoredSessionEmail()
-  return <header className="account-header"><Link to="/" search={homeSearch} className="account-brand">KURIO<span>.</span></Link><nav><Link to="/" search={homeSearch}>Início</Link><Link to="/" search={{ ...homeSearch, view: 'all' }}>Mercado</Link><a href="/#criadores">Criadores</a><a href="/#aprenda">Aprenda</a></nav><div className="account-header-actions"><Link to="/cart">♧ Carrinho</Link><Link className="account-header-cta" to={sessionEmail ? "/profile" : "/login"}>{sessionEmail ? "Minha conta" : "Entrar"}</Link></div></header>
-}
 function PageFooter() {
   return <footer className="account-footer"><div className="footer-benefits"><div><b>W</b><strong>Segurança da carteira</strong><p>Proteja sua carteira e colecione arte digital verificada com confiança.</p></div><div><b>C</b><strong>Criadores em destaque</strong><p>Conheça artistas, estúdios e comunidades que moldam a cultura digital.</p></div><div><b>D</b><strong>Alertas de lançamentos</strong><p>Receba calendários de cunhagem, novidades de listas de acesso e análises do mercado.</p></div><form onSubmit={(event) => { event.preventDefault(); window.alert('Inscrição demonstrativa realizada!') }}><strong>Antecipe-se ao próximo lançamento</strong><div className="newsletter-row"><input aria-label="E-mail para novidades" type="email" placeholder="digite seu e-mail..." required/><button>Enviar</button></div><p>Receba lançamentos selecionados, histórias de criadores e novidades do mercado.</p></form></div><div className="footer-band"><b>KURIO</b><strong>Feito para colecionadores,<br/> criadores e cultura</strong><span>contato@email.com</span><span>+55 11 4002 8922</span></div><div className="footer-links"><div><b>Meu perfil</b><Link to="/profile">Meu perfil</Link><Link to="/profile">Minha coleção</Link><Link to="/profile">Atividade</Link><Link to="/wallets">Carteiras</Link></div><div><b>Central de ajuda</b><a href="#ajuda">Como comprar NFTs</a><a href="#ajuda">Carteira e segurança</a><a href="#ajuda">Política do mercado</a></div><div><b>Coleções</b><a href="#colecoes">Arte digital</a><a href="#colecoes">Fotografia</a><a href="#colecoes">Música</a><a href="#colecoes">Arte 3D</a></div><div><b>Redes sociais</b><p>f　◎　♥　in</p><b>Carteiras compatíveis</b><small>METAMASK　•　WALLETCONNECT　•　COINBASE</small></div></div><p className="copyright">© 2026 Kurio. Propriedade digital para todos.</p></footer>
 }
