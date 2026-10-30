@@ -183,7 +183,7 @@ export const handlers = [
     const body = await request.json() as Partial<MockProfile>
     const next = { ...auth.user.profile, ...body, email: auth.user.email }
     if (!next.displayName.trim() || !next.username.trim()) return cartError('Nome e usuário são obrigatórios.', 422)
-    const updated = updateUser(auth.user.email, (user) => ({ ...user, profile: next }))
+    updateUser(auth.user.email, (user) => ({ ...user, profile: next }))
     return HttpResponse.json(updated?.profile ?? next)
   }),
   http.post('/api/profile/password', async ({ request }) => {
