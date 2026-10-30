@@ -59,7 +59,6 @@ export default function NftDetailPage() {
   const isSaved = isFavorite.includes(nftId)
   const related = (collection ?? []).filter((item) => item.id !== nftId).slice(0, 5)
   const images = [nft.image, ...related.slice(0, 3).map((item) => item.image)]
-  const tokenId = nft.edition.split('/')[0].padStart(4, '0')
 
   return (
     <main className="shop-page nft-detail-page">
