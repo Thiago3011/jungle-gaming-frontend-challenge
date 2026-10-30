@@ -164,7 +164,7 @@ test.describe('favoritos na interface', () => {
 
     await page.goto('/profile')
     await page.getByRole('button', { name: 'Sair' }).click()
-    await expect(page).toHaveURL(/\\/login$/)
+    await expect(page).toHaveURL(/\/login$/)
 
     await login(page, 'bia@kurio.demo')
     await page.goto('/')
