@@ -22,7 +22,7 @@ test.describe('isolamento de dados por conta', () => {
     await expect(page.locator('#displayName')).toHaveValue('Thiago Colecionador')
 
     await page.goto('/wallets')
-    await expect(page.getByText('Minha MetaMask')).toBeVisible()
+    await expect(page.locator('#primary-wallet-nickname')).toHaveValue('Minha MetaMask')
     await addFeaturedNftToCart(page)
 
     await page.goto('/profile')
@@ -33,7 +33,7 @@ test.describe('isolamento de dados por conta', () => {
     await expect(page.locator('#displayName')).toHaveValue('Beatriz Colecionadora')
 
     await page.goto('/wallets')
-    await expect(page.getByText('WalletConnect principal')).toBeVisible()
+    await expect(page.locator('#primary-wallet-nickname')).toHaveValue('WalletConnect principal')
 
     await page.goto('/cart')
     await expect(page.getByText('Seu carrinho está vazio.')).toBeVisible()
