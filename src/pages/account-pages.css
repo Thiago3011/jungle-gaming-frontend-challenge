@@ -1138,3 +1138,12 @@
   .checkout-layout{grid-template-columns:minmax(0,1fr)}
   .checkout-form-section .checkout-fields{grid-template-columns:minmax(0,1fr)}
 }
+
+/* Keep the optional collector note compact like the Figma form */
+.checkout-form-section .note-field textarea{
+  width:438px;
+  max-width:100%;
+  height:190px;
+  min-height:190px;
+  max-height:190px;
+}
