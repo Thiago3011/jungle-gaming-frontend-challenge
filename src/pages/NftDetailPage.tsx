@@ -10,6 +10,7 @@ import { getNfts } from '@/api/nfts'
 import { getStoredSessionEmail } from '@/api/session'
 import type { Nft } from '@/types/nft'
 import { SiteHeader } from '@/components/SiteHeader'
+import { SiteFooter } from '@/components/SiteFooter'
 import './shop-pages.css'
 
 const homeSearch = { q: '', category: 'Todas', sort: 'recent' as const, page: 1, view: 'all' as const, network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }
@@ -149,17 +150,7 @@ export default function NftDetailPage() {
         </div>
       </section>}
 
-      <section className="trust-newsletter home-wide" aria-label="Benefícios e novidades">
-        <article className="trust-item"><span className="trust-initial">W</span><h3>Segurança da carteira</h3><p>Proteja sua carteira e colecione arte digital verificada com confiança.</p></article>
-        <article className="trust-item"><span className="trust-initial">C</span><h3>Criadores em destaque</h3><p>Conheça artistas, estúdios e comunidades que moldam a cultura digital na rede.</p></article>
-        <article className="trust-item"><span className="trust-initial">D</span><h3>Alertas de lançamentos</h3><p>Receba calendários de cunhagem, novidades e listas de acesso antecipado.</p></article>
-        <div className="newsletter-box"><h3>Antecipe-se ao próximo lançamento</h3><form onSubmit={(event) => event.preventDefault()}><label className="sr-only" htmlFor="detail-newsletter">Seu e-mail</label><input id="detail-newsletter" type="email" placeholder="digite seu e-mail..." required/><button type="submit">Enviar</button></form><p>Receba lançamentos selecionados, histórias de criadores e novidades do mercado.</p></div>
-      </section>
-      <footer className="site-footer" id="footer">
-        <div className="footer-brand-row"><Link className="brand" to="/" search={homeSearch}>KURIO<span>.</span></Link><p>Feito para colecionadores,<br/>criadores e cultura</p><a href="mailto:contato@email.com">contato@email.com</a><span>+55 11 4002 8922</span></div>
-        <div className="footer-columns"><div><h3>Meu perfil</h3><Link to="/profile">Meu perfil</Link><Link to="/profile">Minha coleção</Link><Link to="/profile">Atividade</Link><Link to="/profile">Estúdio do criador</Link><Link to="/profile">Lista de interesse</Link></div><div><h3>Central de ajuda</h3><Link to="/" search={homeSearch}>Central de ajuda</Link><Link to="/" search={homeSearch}>Como comprar NFTs</Link><Link to="/" search={homeSearch}>Carteira e segurança</Link><Link to="/" search={homeSearch}>Política de mercado</Link><Link to="/" search={homeSearch}>Denunciar item</Link></div><div><h3>Coleções</h3><Link to="/" search={{...homeSearch,category:'Arte digital'}}>Arte digital</Link><Link to="/" search={{...homeSearch,category:'Fotografia'}}>Fotografia</Link><Link to="/" search={{...homeSearch,category:'Música'}}>Música</Link><Link to="/" search={{...homeSearch,category:'Arte 3D'}}>Arte 3D</Link><Link to="/" search={{...homeSearch,category:'Utilidade'}}>Utilidade</Link></div><div><h3>Redes sociais</h3><div className="social-links"><a href="https://facebook.com" aria-label="Facebook">f</a><a href="https://instagram.com" aria-label="Instagram">◎</a><a href="https://twitter.com" aria-label="Twitter">♥</a><a href="https://linkedin.com" aria-label="LinkedIn">in</a><a href="https://youtube.com" aria-label="YouTube">▶</a></div><h3 className="wallet-title">Carteiras compatíveis</h3><div className="wallet-tags"><span>METAMASK</span><span>WALLETCONNECT</span><span>COINBASE</span></div></div></div>
-        <p className="copyright">© 2026 Kurio. Propriedade digital para todos.</p>
-      </footer>
+      <SiteFooter />
     </main>
   )
 }
