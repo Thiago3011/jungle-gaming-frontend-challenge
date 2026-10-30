@@ -255,3 +255,13 @@
   .cart-page .cart-line-total{font-size:17px}
   .cart-page .cart-item .remove-item svg{width:24px;height:24px}
 }
+
+
+/* Final cart details: summary has only its bottom divider; prices and editions use the button accent */
+.cart-page .cart-summary{
+  border-top:0;
+}
+.cart-page .cart-unit-price,
+.cart-page .cart-quantity output{
+  color:#D28A4C;
+}
