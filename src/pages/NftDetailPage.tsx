@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useParams } from '@tanstack/react-router'
-import { Check, Heart, Minus, Plus, Search, ShoppingCart, Star, X } from 'lucide-react'
+import { ArrowLeft, Check, Heart, Minus, Plus, Search, ShoppingCart, Star, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { api } from '@/api/client'
 import { addToCart } from '@/api/cart'
@@ -69,7 +69,7 @@ export default function NftDetailPage() {
     <main className="marketplace-shell shop-page nft-detail-page">
       <SiteHeader active="market"/>
       <div className="shop-breadcrumb"><Link to="/" search={homeSearch}>Início</Link><span>/</span><Link to="/" search={homeSearch}>Mercado</Link><span>/</span><span>{nft.name}</span></div>
-      <div className="nft-mobile-topbar"><Link to="/" search={homeSearch} aria-label="Voltar ao mercado"><X size={20}/></Link><button type="button" className={isSaved ? "saved" : ""} onClick={toggleFavorite} aria-label={isSaved ? "Remover dos favoritos" : "Adicionar aos favoritos"} aria-pressed={isSaved}><Heart size={21} fill={isSaved ? "currentColor" : "none"}/></button></div>
+      <div className="nft-mobile-topbar"><Link to="/" search={homeSearch} aria-label="Voltar ao mercado"><ArrowLeft size={21}/></Link><button type="button" className={isSaved ? "saved" : ""} onClick={toggleFavorite} aria-label={isSaved ? "Remover dos favoritos" : "Adicionar aos favoritos"} aria-pressed={isSaved}><Heart size={21} fill={isSaved ? "currentColor" : "none"}/></button></div>
 
       {isImageZoomed && <div className="nft-image-lightbox" role="dialog" aria-modal="true" aria-label={`Imagem ampliada de ${nft.name}`} onClick={() => setIsImageZoomed(false)}><button type="button" className="nft-lightbox-close" aria-label="Fechar imagem ampliada" onClick={() => setIsImageZoomed(false)}><X size={24}/></button><img src={images[activeImage] ?? nft.image} alt={`Imagem ampliada de ${nft.name}`} onClick={(event) => event.stopPropagation()}/></div>}
       <section className="nft-detail-layout">
