@@ -1,5 +1,8 @@
 # Kurio — Marketplace de NFTs
 
+**Demo publicada:** https://kurio-nft-marketplace.onrender.com
+
+
 Marketplace demonstrativo em React, TypeScript, Vite, TanStack Router, TanStack Query, Axios e MSW.
 
 > Autenticação, carteiras, cotações e compras são simuladas no navegador. Não há conexão com blockchain, transferência de NFT ou movimentação financeira real.
