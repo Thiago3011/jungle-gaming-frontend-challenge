@@ -338,3 +338,95 @@
   .profile-account-sidebar>a svg,
   .profile-account-sidebar>button svg{width:20px;height:20px;flex-basis:20px}
 }
+
+
+/* Shared account navigation — consistent Figma scale on every account page */
+.account-main .account-sidebar{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch;
+  grid-template-columns:none!important;
+  width:100%;
+  min-width:0;
+  min-height:0;
+  padding:14px 0 8px;
+  gap:0;
+  box-sizing:border-box;
+  background:#241611;
+}
+.account-main .account-sidebar h2{
+  display:block;
+  min-height:46px;
+  padding:0 18px;
+  margin:0;
+  font-family:"Space Mono",monospace;
+  font-size:19px;
+  font-weight:700;
+  line-height:46px;
+  color:#f1e6dc;
+}
+.account-main .account-sidebar>a,
+.account-main .account-sidebar>button{
+  display:flex;
+  flex:0 0 58px;
+  width:100%;
+  min-height:58px;
+  height:58px;
+  box-sizing:border-box;
+  align-items:center;
+  justify-content:flex-start;
+  gap:14px;
+  padding:0 18px;
+  margin:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:#c5a58a;
+  font-family:"Space Mono",monospace;
+  font-size:17px;
+  font-weight:400;
+  line-height:1.2;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.account-main .account-sidebar>a svg,
+.account-main .account-sidebar>button svg{
+  width:21px;
+  height:21px;
+  flex:0 0 21px;
+  stroke-width:1.7;
+  color:#b79a7e;
+}
+.account-main .account-sidebar>a.active{
+  position:relative;
+  background:#382116;
+  color:#dc914c;
+}
+.account-main .account-sidebar>a.active:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:6px;
+  background:#d88d4c;
+}
+.account-main .account-sidebar>a.active svg{color:#dc914c}
+.account-main .account-sidebar>button{
+  flex:0 0 62px;
+  height:62px;
+  min-height:62px;
+  margin-top:10px;
+  border-top:1px solid #684326;
+  color:#d88d4c;
+  font-weight:700;
+}
+.account-main .account-sidebar>button svg{color:#d88d4c}
+@media(max-width:760px){
+ .account-main .account-sidebar{min-height:0;padding:10px 0 6px}
+ .account-main .account-sidebar h2{min-height:40px;line-height:40px;font-size:16px;padding-inline:14px}
+ .account-main .account-sidebar>a,
+ .account-main .account-sidebar>button{flex:0 0 48px;height:48px;min-height:48px;padding-inline:14px;gap:12px;font-size:14px}
+ .account-main .account-sidebar>a svg,
+ .account-main .account-sidebar>button svg{width:18px;height:18px;flex-basis:18px}
+}
