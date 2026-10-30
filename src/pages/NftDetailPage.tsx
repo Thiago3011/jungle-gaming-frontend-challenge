@@ -57,7 +57,7 @@ export default function NftDetailPage() {
     localStorage.setItem('kurio-favorites:' + sessionEmail, JSON.stringify(next))
   }
 
-  if (isPending) return <main className="shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><span className="skeleton-line"/><span className="skeleton-block"/><span className="skeleton-line short"/></div></main>
+  if (isPending) return <main className="marketplace-shell shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><span className="skeleton-line"/><span className="skeleton-block"/><span className="skeleton-line short"/></div></main>
   if (isError || !nft) return <main className="shop-page nft-detail-page"><SiteHeader active="market"/><div className="page-message"><p className="eyebrow">PEÇA NÃO ENCONTRADA</p><h1>Não encontramos esse NFT.</h1><p>Ele pode ter sido removido ou o endereço está incorreto.</p><Link className="shop-text-link" to="/" search={homeSearch}>Voltar ao catálogo</Link></div></main>
 
   const isSaved = isFavorite.includes(nftId)
