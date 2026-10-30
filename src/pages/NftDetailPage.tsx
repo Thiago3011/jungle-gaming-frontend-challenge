@@ -8,6 +8,7 @@ import { addToCart } from '@/api/cart'
 import { getStoredSessionEmail } from '@/api/session'
 import type { Nft } from '@/types/nft'
 import './shop-pages.css'
+import { SiteHeader } from '@/components/SiteHeader'
 
 function formatEth(value: string) {
   return `${value.replace('.', ',')} ETH`
@@ -55,10 +56,7 @@ export default function NftDetailPage() {
 
   return (
     <main className="shop-page">
-      <header className="shop-page-header">
-        <Link to="/" search={{ q: '', category: 'Todas', sort: 'recent', page: 1, view: 'all', network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }} className="brand">KURIO</Link>
-        <nav aria-label="Navegação da loja"><Link to="/" search={{ q: '', category: 'Todas', sort: 'recent', page: 1, view: 'all', network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }}>Explorar</Link><Link to="/cart" className="shop-header-cart"><ShoppingBag size={17} /> Carrinho</Link></nav>
-      </header>
+      <SiteHeader active="market"/>
       <div className="shop-breadcrumb"><Link to="/" search={{ q: '', category: 'Todas', sort: 'recent', page: 1, view: 'all', network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }}>Catálogo</Link><span>/</span><span>{nft.name}</span></div>
       <section className="nft-detail-layout">
         <div className="nft-detail-art"><img src={nft.image} alt={`Arte digital ${nft.name}`} /><span className="nft-detail-edition">EDIÇÃO {nft.edition}</span></div>
