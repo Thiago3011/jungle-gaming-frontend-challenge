@@ -80,7 +80,7 @@ export default function NftDetailPage() {
           <div className="nft-detail-art"><img src={images[activeImage] ?? nft.image} alt={`Arte digital ${nft.name}`}/><span className="nft-detail-edition">EDIÇÃO {nft.edition}</span><button className="nft-image-zoom" type="button" onClick={() => setIsImageZoomed(true)} aria-label="Ampliar imagem do NFT"><Search size={19}/></button></div>
         </div>
         <div className="nft-detail-info">
-          <h1>{nft.name}</h1>
+          <div className="nft-mobile-title-row"><h1>{nft.name}</h1><div className="nft-mobile-rating"><Star size={15} fill="currentColor"/><strong>4.8</strong><span>(19)</span></div></div>
           <div className="nft-price-review-row">
             <strong className="nft-current-price">{formatEth(nft.priceEth)}</strong>
             <div className="nft-review-summary"><span className="nft-stars" aria-label="Avaliação média de demonstração"><Star/><Star/><Star/><Star/><Star/></span><span>19 avaliações de colecionadores</span></div>
@@ -153,7 +153,11 @@ export default function NftDetailPage() {
         </div>
       </section>}
 
-      <div className="nft-mobile-purchase-bar">\n        <div className="nft-mobile-purchase-top"><span>Qtd.</span><div className="quantity-control"><button type="button" aria-label="Diminuir quantidade" disabled={quantity <= 1} onClick={() => setQuantity((value) => Math.max(1, value - 1))}><Minus size={16}/></button><output aria-live="polite">{quantity}</output><button type="button" aria-label="Aumentar quantidade" disabled={quantity >= 10} onClick={() => setQuantity((value) => Math.min(10, value + 1))}><Plus size={16}/></button></div><strong>{formatEth((Number(nft.priceEth) * quantity).toFixed(2))}</strong></div>\n        <div className="nft-mobile-purchase-actions"><Button className="primary-cta" disabled={addMutation.isPending} onClick={() => addMutation.mutate()}>{addMutation.isPending ? "Adicionando..." : "Comprar NFT"}</Button><Link to="/cart" aria-label="Abrir carrinho"><ShoppingCart size={21}/></Link></div>\n      </div>\n      <SiteFooter />
+      <div className="nft-mobile-purchase-bar">
+        <div className="nft-mobile-purchase-top"><span>Qtd.</span><div className="quantity-control"><button type="button" aria-label="Diminuir quantidade" disabled={quantity <= 1} onClick={() => setQuantity((value) => Math.max(1, value - 1))}><Minus size={16}/></button><output aria-live="polite">{quantity}</output><button type="button" aria-label="Aumentar quantidade" disabled={quantity >= 10} onClick={() => setQuantity((value) => Math.min(10, value + 1))}><Plus size={16}/></button></div><strong>{formatEth((Number(nft.priceEth) * quantity).toFixed(2))}</strong></div>
+        <div className="nft-mobile-purchase-actions"><Button className="primary-cta" disabled={addMutation.isPending} onClick={() => addMutation.mutate()}>{addMutation.isPending ? "Adicionando..." : "Comprar NFT"}</Button><Link to="/cart" aria-label="Abrir carrinho"><ShoppingCart size={21}/></Link></div>
+      </div>
+      <SiteFooter />
     </main>
   )
 }
