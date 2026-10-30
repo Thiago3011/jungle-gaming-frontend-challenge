@@ -1,15 +1,14 @@
-import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router'
+import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router'
 import App from '@/App'
 import NftDetailPage from '@/pages/NftDetailPage'
 import CartPage from '@/pages/CartPage'
 import { CheckoutPage, LoginPage, OrderConfirmationPage, ProfilePage, RegisterPage, WalletsPage } from '@/pages/AccountPages'
 import type { CatalogView, NftSort } from '@/types/nft'
-import { MobileBottomNav } from '@/components/MobileBottomNav'
+import RootLayout from '@/components/RootLayout'
 
 const validSorts: NftSort[] = ['recent', 'featured', 'price-asc', 'price-desc']
 const validViews: CatalogView[] = ['all', 'new', 'trending']
 
-const RootLayout = () => <><Outlet /><MobileBottomNav /></>
 const rootRoute = createRootRoute({ component: RootLayout })
 
 const indexRoute = createRoute({
