@@ -1,5 +1,5 @@
 import { http, HttpResponse, ws } from 'msw'
-import { SocketIo } from '@mswjs/socket.io-binding'
+import { toSocketIo } from '@mswjs/socket.io-binding'
 import { nfts } from '@/mocks/data/nfts'
 import type { Nft, NftSort } from '@/types/nft'
 
@@ -33,6 +33,7 @@ const demoUsers: MockUser[] = [
     profile: { ...DEFAULT_PROFILE, displayName: 'Beatriz Colecionadora', username: 'bia', email: 'bia@kurio.demo', walletNickname: 'WalletConnect principal' },
     wallets: [{ id: 'wallet-bia-main', nickname: 'WalletConnect principal', network: 'Polygon', profileName: 'Bia', address: '0xB1A0000000000000000000000000000000001234', type: 'WalletConnect', email: 'bia@kurio.demo', ensName: 'bia.eth', primary: true }],
     cart: [],
+    favorites: [],
     latestOrder: null,
   },
 ]
@@ -137,52 +138,47 @@ const saveActiveCart = (items: StoredCartItem[]) => {
   else saveGuestCart(items)
 }
 
-const realtimeClients = new Map<string, Set<(message: string) => void>>()
+const realtimeClients = new Map<string, Set<(eventName: string, payload: unknown) => void>>()
 const publishOrderUpdated = (email: string, order: Record<string, unknown>) => {
   const clients = realtimeClients.get(email)
   if (!clients) return
-  const event = JSON.stringify(['order.updated', {
+  const payload = {
     eventId: 'order-' + String(order.id) + '-v1',
     version: 1,
     orderId: String(order.id),
     status: order.status,
     emittedAt: new Date().toISOString(),
-  }])
-  clients.forEach((send) => send(event))
+  }
+  clients.forEach((emit) => emit('order.updated', payload))
 }
-const realtime = ws.link('ws://localhost:3001', { protocol: new SocketIo() })
-const realtimeHandler = realtime.addEventListener('connection', ({ client }) => {
+const realtime = ws.link('ws://localhost:3001')
+const realtimeHandler = realtime.addEventListener('connection', (connection) => {
+  const { client, server } = toSocketIo(connection)
   let identifiedEmail: string | null = null
-  const send = (message: string) => client.send(message)
-  client.addEventListener('message', (messageEvent) => {
-    try {
-      const [eventName, payload] = JSON.parse(String(messageEvent.data)) as [string, { email?: string }]
-      if (eventName !== 'session:identify' || typeof payload?.email !== 'string') return
-      const email = payload.email.trim().toLowerCase()
-      if (!readUsers().some((user) => user.email === email)) return
-      if (identifiedEmail) realtimeClients.get(identifiedEmail)?.delete(send)
-      identifiedEmail = email
-      const clients = realtimeClients.get(email) ?? new Set<(message: string) => void>()
-      clients.add(send)
-      realtimeClients.set(email, clients)
-      client.send(JSON.stringify(['nft.updated', {
-        eventId: 'demo-nft-update-001',
-        version: 1,
-        nftId: 'ape-009',
-        priceEth: '1.69',
-        available: true,
-        emittedAt: new Date().toISOString(),
-      }]))
-    } catch {
-      // Ignore malformed demo events.
-    }
+  const emit = (eventName: string, payload: unknown) => server.emit(eventName, payload)
+  client.on('session:identify', (_event, payload: { email?: string }) => {
+    if (typeof payload?.email !== 'string') return
+    const email = payload.email.trim().toLowerCase()
+    if (!readUsers().some((user) => user.email === email)) return
+    if (identifiedEmail) realtimeClients.get(identifiedEmail)?.delete(emit)
+    identifiedEmail = email
+    const clients = realtimeClients.get(email) ?? new Set<(eventName: string, payload: unknown) => void>()
+    clients.add(emit)
+    realtimeClients.set(email, clients)
+    server.emit('nft.updated', {
+      eventId: 'demo-nft-update-001',
+      version: 1,
+      nftId: 'ape-009',
+      priceEth: '1.69',
+      available: true,
+      emittedAt: new Date().toISOString(),
+    })
   })
-  client.addEventListener('close', () => {
-    if (identifiedEmail) {
-      const clients = realtimeClients.get(identifiedEmail)
-      clients?.delete(send)
-      if (clients?.size === 0) realtimeClients.delete(identifiedEmail)
-    }
+  connection.client.addEventListener('close', () => {
+    if (!identifiedEmail) return
+    const clients = realtimeClients.get(identifiedEmail)
+    clients?.delete(emit)
+    if (clients?.size === 0) realtimeClients.delete(identifiedEmail)
   })
 })
 
