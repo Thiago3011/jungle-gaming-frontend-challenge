@@ -26,13 +26,18 @@ export default function NftDetailPage() {
     queryFn: async () => (await api.get<string[]>('/favorites')).data,
   })
   const favoriteMutation = useMutation({
-    mutationFn: async () => favorites.includes(nftId)
-      ? (await api.delete<string[]>('/favorites', { params: { nftId } })).data
-      : (await api.post<string[]>('/favorites', { nftId })).data,
-    onMutate: async () => {
+    mutationFn: async ({ shouldSave }: { shouldSave: boolean }) => (
+      shouldSave
+        ? (await api.post<string[]>('/favorites', { nftId })).data
+        : (await api.delete<string[]>('/favorites', { params: { nftId } })).data
+    ),
+    onMutate: async ({ shouldSave }) => {
       await queryClient.cancelQueries({ queryKey: ['favorites'] })
       const previous = queryClient.getQueryData<string[]>(['favorites']) ?? []
-      queryClient.setQueryData(['favorites'], previous.includes(nftId) ? previous.filter((id) => id !== nftId) : [...previous, nftId])
+      const next = shouldSave
+        ? (previous.includes(nftId) ? previous : [...previous, nftId])
+        : previous.filter((id) => id !== nftId)
+      queryClient.setQueryData(['favorites'], next)
       return { previous }
     },
     onError: (_error, _variables, context) => { if (context?.previous) queryClient.setQueryData(['favorites'], context.previous) },
@@ -75,7 +80,7 @@ export default function NftDetailPage() {
             </div>
             {addMutation.isSuccess && <p className="inline-success" role="status"><Check size={15} /> NFT adicionado ao carrinho.</p>}
             {addMutation.isError && <p className="inline-error" role="alert">Não foi possível adicionar. Tente novamente.</p>}
-            <button className={`detail-favorite ${isSaved ? 'saved' : ''}`} type="button" onClick={() => favoriteMutation.mutate()} disabled={favoriteMutation.isPending} aria-pressed={isSaved}><Heart size={16} fill={isSaved ? 'currentColor' : 'none'} />{isSaved ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}</button>
+            <button className={`detail-favorite ${isSaved ? 'saved' : ''}`} type="button" onClick={() => favoriteMutation.mutate({ shouldSave: !isSaved })} disabled={favoriteMutation.isPending} aria-pressed={isSaved}><Heart size={16} fill={isSaved ? 'currentColor' : 'none'} />{isSaved ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}</button>
           </div>
           <Link to="/cart" className="shop-text-link">Ir para o carrinho <span aria-hidden="true">→</span></Link>
         </div>
