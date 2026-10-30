@@ -129,3 +129,18 @@
  .cart-site-footer .footer-columns h3{font-size:13px}
  .cart-site-footer .footer-columns a{font-size:11px}
 }
+
+
+/* Recommendations carousel: real horizontal navigation and responsive cards */
+.cart-recommendations-heading{gap:18px}
+.cart-carousel-controls{display:flex;justify-content:flex-end;gap:8px;margin:-8px 0 12px}
+.cart-carousel-controls button{display:grid;place-items:center;width:34px;height:34px;border:1px solid #81502c;background:transparent;color:#e6a05b;cursor:pointer}
+.cart-carousel-controls button:hover{background:#3a2415;color:#f4b36e}
+.cart-recommendations-viewport{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scrollbar-width:none}
+.cart-recommendations-viewport::-webkit-scrollbar{display:none}
+.cart-recommendations-grid{display:flex;gap:24px;width:100%}
+.cart-recommendation-card{flex:0 0 calc((100% - 96px)/5);scroll-snap-align:start}
+.cart-recommendation-bottom button:disabled{opacity:.55;cursor:default}
+@media(max-width:1100px){.cart-recommendation-card{flex-basis:calc((100% - 48px)/3)}}
+@media(max-width:760px){.cart-recommendations-grid{gap:16px}.cart-recommendation-card{flex-basis:calc((100% - 16px)/2)}.cart-recommendation-card:nth-child(n+5){display:block}}
+@media(max-width:420px){.cart-recommendation-card{flex-basis:82%}}
