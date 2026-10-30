@@ -146,3 +146,43 @@ test.describe('contratos REST críticos', () => {
   })
 
 })
+
+
+test.describe('favoritos na interface', () => {
+  test('sincroniza catálogo e detalhe e mantém favoritos isolados por conta', async ({ page }) => {
+    await login(page, 'thiago@kurio.demo')
+    await page.goto('/')
+
+    const firstCard = page.locator('.nft-card').first()
+    const favoriteButton = firstCard.locator('.favorite-button')
+    await expect(favoriteButton).toBeVisible()
+    await favoriteButton.click()
+    await expect(favoriteButton).toHaveAttribute('aria-pressed', 'true')
+
+    await firstCard.locator('.nft-image-link').click()
+    await expect(page.locator('.detail-favorite')).toHaveAttribute('aria-pressed', 'true')
+
+    await page.goto('/profile')
+    await page.getByRole('button', { name: 'Sair' }).click()
+    await expect(page).toHaveURL(/\\/login$/)
+
+    await login(page, 'bia@kurio.demo')
+    await page.goto('/')
+    await expect(page.locator('.nft-card').first().locator('.favorite-button')).toHaveAttribute('aria-pressed', 'false')
+  })
+
+  test('mantém favoritos de visitante após atualizar a página e abrir o detalhe', async ({ page }) => {
+    await page.goto('/')
+    const firstCard = page.locator('.nft-card').first()
+    const favoriteButton = firstCard.locator('.favorite-button')
+    await expect(favoriteButton).toBeVisible()
+    await favoriteButton.click()
+    await expect(favoriteButton).toHaveAttribute('aria-pressed', 'true')
+
+    await page.reload()
+    const reloadedCard = page.locator('.nft-card').first()
+    await expect(reloadedCard.locator('.favorite-button')).toHaveAttribute('aria-pressed', 'true')
+    await reloadedCard.locator('.nft-image-link').click()
+    await expect(page.locator('.detail-favorite')).toHaveAttribute('aria-pressed', 'true')
+  })
+})
