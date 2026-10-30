@@ -136,16 +136,53 @@ const saveActiveCart = (items: StoredCartItem[]) => {
   else saveGuestCart(items)
 }
 
+const realtimeClients = new Map<string, Set<(message: string) => void>>()
+const publishOrderUpdated = (email: string, order: Record<string, unknown>) => {
+  const clients = realtimeClients.get(email)
+  if (!clients) return
+  const event = JSON.stringify(['order.updated', {
+    eventId: 'order-' + String(order.id) + '-v1',
+    version: 1,
+    orderId: String(order.id),
+    status: order.status,
+    emittedAt: new Date().toISOString(),
+  }])
+  clients.forEach((send) => send(event))
+}
 const realtime = ws.link('ws://localhost:3001', { protocol: new SocketIo() })
 const realtimeHandler = realtime.addEventListener('connection', ({ client }) => {
-  client.send(JSON.stringify(['nft.updated', {
-    eventId: 'demo-nft-update-001',
-    version: 1,
-    nftId: 'ape-009',
-    priceEth: '1.69',
-    available: true,
-    emittedAt: new Date().toISOString(),
-  }]))
+  let identifiedEmail: string | null = null
+  const send = (message: string) => client.send(message)
+  client.addEventListener('message', (messageEvent) => {
+    try {
+      const [eventName, payload] = JSON.parse(String(messageEvent.data)) as [string, { email?: string }]
+      if (eventName !== 'session:identify' || typeof payload?.email !== 'string') return
+      const email = payload.email.trim().toLowerCase()
+      if (!readUsers().some((user) => user.email === email)) return
+      if (identifiedEmail) realtimeClients.get(identifiedEmail)?.delete(send)
+      identifiedEmail = email
+      const clients = realtimeClients.get(email) ?? new Set<(message: string) => void>()
+      clients.add(send)
+      realtimeClients.set(email, clients)
+      client.send(JSON.stringify(['nft.updated', {
+        eventId: 'demo-nft-update-001',
+        version: 1,
+        nftId: 'ape-009',
+        priceEth: '1.69',
+        available: true,
+        emittedAt: new Date().toISOString(),
+      }]))
+    } catch {
+      // Ignore malformed demo events.
+    }
+  })
+  client.addEventListener('close', () => {
+    if (identifiedEmail) {
+      const clients = realtimeClients.get(identifiedEmail)
+      clients?.delete(send)
+      if (clients?.size === 0) realtimeClients.delete(identifiedEmail)
+    }
+  })
 })
 
 export const handlers = [
@@ -353,6 +390,7 @@ export const handlers = [
       cart: [],
       profile: { ...user.profile, displayName: String(profile.displayName), username: String(profile.username), ensName: String(profile.ensName ?? '') },
     }))
+    publishOrderUpdated(auth.user.email, order)
     return HttpResponse.json(order, { status: 201 })
   }),
   http.get('/api/cart', () => {
