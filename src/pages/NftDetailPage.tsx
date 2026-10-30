@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useParams } from '@tanstack/react-router'
-import { Check, ChevronLeft, ChevronRight, Heart, Minus, Plus, ShoppingBag, Star } from 'lucide-react'
+import { Check, ChevronLeft, ChevronRight, Heart, Minus, Plus, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { api } from '@/api/client'
 import { addToCart } from '@/api/cart'
