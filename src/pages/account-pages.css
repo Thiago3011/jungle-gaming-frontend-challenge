@@ -430,3 +430,135 @@
  .account-main .account-sidebar>a svg,
  .account-main .account-sidebar>button svg{width:18px;height:18px;flex-basis:18px}
 }
+
+
+/* Collector profile form — Figma reference sizing */
+.profile-page-form{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  column-gap:42px;
+  row-gap:34px;
+  align-items:start;
+}
+.profile-page-heading{margin-bottom:42px}
+.profile-page-heading h1{
+  font-size:24px;
+  line-height:1.35;
+  font-weight:700;
+  letter-spacing:0;
+}
+.profile-page-form .form-field{gap:12px}
+.profile-page-form .form-field label,
+.profile-page-form .avatar-field>span{
+  font-size:22px;
+  line-height:1.35;
+  color:#f0e8e2;
+}
+.profile-page-form .form-field input,
+.profile-page-form .input-suffix{
+  height:58px;
+  padding:0 14px;
+  font-size:18px;
+  border:1px solid #55301f;
+  border-radius:5px;
+  background:#160d09;
+}
+.profile-page-form .input-suffix input{height:56px;padding:0}
+.profile-page-form .input-suffix span{font-size:18px;padding:0 16px}
+.profile-page-form .avatar-field{
+  display:grid;
+  grid-template-columns:76px auto;
+  align-items:center;
+  justify-content:start;
+  gap:12px 22px;
+}
+.profile-page-form .avatar-field>span{grid-column:1/-1}
+.profile-page-form .avatar-preview{
+  width:76px;
+  height:76px;
+  border-radius:50%;
+  background:#2a1912;
+  border:1px solid #56311f;
+  color:#d68b48;
+}
+.profile-page-form .avatar-preview svg{width:36px;height:36px}
+.profile-page-form .avatar-actions{gap:18px}
+.profile-page-form .avatar-actions .file-button{
+  min-width:146px;
+  height:60px;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  padding:0 22px;
+  border-radius:5px;
+  font-size:20px;
+  font-weight:700;
+}
+.profile-page-form .avatar-actions button{font-size:20px;padding:10px}
+.profile-page-form .password-section{
+  grid-column:1;
+  grid-row:auto;
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+  width:100%;
+  max-width:none;
+  margin:10px 0 0;
+  padding:0;
+  border:0;
+}
+.profile-page-form .password-section h2{
+  font-size:24px;
+  line-height:1.35;
+  margin:0;
+}
+.profile-page-form .password-section .form-field{gap:12px}
+.profile-page-form .password-section .form-field input{
+  height:58px;
+  padding:0 52px 0 14px;
+}
+.profile-password-input{position:relative;width:100%}
+.profile-password-input input{width:100%;box-sizing:border-box}
+.profile-password-input button{
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  display:grid;
+  place-items:center;
+  padding:4px;
+  border:0;
+  background:transparent;
+  color:#bd965c;
+  cursor:pointer;
+}
+.profile-page-form .password-section .account-secondary-button{display:none}
+.profile-page-form .form-actions{
+  grid-column:1/-1;
+  justify-content:flex-start;
+  border:0;
+  padding:0;
+  margin-top:2px;
+}
+.profile-page-form .form-actions .account-primary-button{
+  min-width:196px;
+  min-height:60px;
+  padding:0 28px;
+  border-radius:5px;
+  font-size:20px;
+}
+@media(max-width:760px){
+  .profile-page-form{grid-template-columns:1fr;row-gap:22px}
+  .profile-page-heading{margin-bottom:24px}
+  .profile-page-heading h1{font-size:22px}
+  .profile-page-form .form-field label,
+  .profile-page-form .avatar-field>span{font-size:15px}
+  .profile-page-form .form-field input,
+  .profile-page-form .input-suffix{height:48px;font-size:15px}
+  .profile-page-form .input-suffix input{height:46px}
+  .profile-page-form .password-section{grid-column:1}
+  .profile-page-form .password-section h2{font-size:20px}
+  .profile-page-form .password-section .form-field input{height:48px}
+  .profile-page-form .avatar-actions .file-button{min-width:110px;height:48px;font-size:15px}
+  .profile-page-form .avatar-actions button{font-size:15px}
+  .profile-page-form .form-actions .account-primary-button{min-width:140px;min-height:48px;font-size:16px}
+}
