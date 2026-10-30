@@ -92,6 +92,12 @@ export default function NftDetailPage() {
             <h2>Sobre este NFT:</h2>
             <p>Um colecionável digital finalizado à mão da coleção {nft.collection}, verificado na {nft.network ?? 'Ethereum'}, com arte desbloqueável e acesso para colecionadores.</p>
           </div>
+              <div className="nft-token-details">
+                <p>ID do token: <span>#{nft.name.match(/#(\d+)/)?.[1] ?? nft.id.slice(0, 8)}</span></p>
+                <p>Coleção: <span>{nft.collection}</span></p>
+                <p>Atributos: <span>Óculos, Esmeralda, Raro</span></p>
+                <div className="nft-share-row"><strong>Compartilhar este NFT:</strong><a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`} aria-label="Compartilhar no LinkedIn">in</a><a href={`mailto:?subject=${encodeURIComponent(nft.name)}&body=${encodeURIComponent(window.location.href)}`} aria-label="Compartilhar por e-mail">✉</a><a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(nft.name)}`} aria-label="Compartilhar no Twitter">♥</a></div>
+              </div>
           <div className="nft-edition-options">
             <strong>Edição:</strong>
             <div role="group" aria-label="Selecionar edição">
@@ -113,12 +119,6 @@ export default function NftDetailPage() {
               </div>
               {addMutation.isSuccess && <p className="inline-success" role="status"><Check size={15}/> NFT adicionado ao carrinho.</p>}
               {addMutation.isError && <p className="inline-error" role="alert">Não foi possível adicionar. Tente novamente.</p>}
-              <div className="nft-token-details">
-                <p>ID do token: <span>#{nft.name.match(/#(\d+)/)?.[1] ?? nft.id.slice(0, 8)}</span></p>
-                <p>Coleção: <span>{nft.collection}</span></p>
-                <p>Atributos: <span>Óculos, Esmeralda, Raro</span></p>
-                <div className="nft-share-row"><strong>Compartilhar este NFT:</strong><a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`} aria-label="Compartilhar no LinkedIn">in</a><a href={`mailto:?subject=${encodeURIComponent(nft.name)}&body=${encodeURIComponent(window.location.href)}`} aria-label="Compartilhar por e-mail">✉</a><a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(nft.name)}`} aria-label="Compartilhar no Twitter">♥</a></div>
-              </div>
             </div>
           </div>
         </div>
