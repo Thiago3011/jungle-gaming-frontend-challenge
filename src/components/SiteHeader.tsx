@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
-import { Search, ShoppingBag, Wallet } from 'lucide-react'
+import { Search, ShoppingCart, Wallet } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { getCart } from '@/api/cart'
 import { getStoredSessionEmail } from '@/api/session'
@@ -21,7 +21,7 @@ export function SiteHeader({ active = '', onSearchClick, searchContent }: { acti
       <Link to="/" search={homeSearch} hash="aprenda">Aprenda</Link>
     </nav>
     <div className="kurio-header-actions"><span className="kurio-header-search-slot">{onSearchClick ? <button className="kurio-header-icon" type="button" aria-label="Abrir busca" onClick={onSearchClick}><Search size={20}/></button> : null}</span>{searchContent ? <div className="kurio-header-search-popover">{searchContent}</div> : null}
-      <Link className="kurio-header-icon kurio-cart-link" to="/cart" aria-label={`Carrinho com ${cartCount} itens`}><ShoppingBag size={23} strokeWidth={1.8}/><span className="kurio-cart-count">{cartCount}</span></Link>
+      <Link className="kurio-header-icon kurio-cart-link" to="/cart" aria-label={`Carrinho com ${cartCount} itens`}><ShoppingCart size={32} strokeWidth={1.8}/><span className="kurio-cart-count">{cartCount}</span></Link>
       <Link className="kurio-account-button" to={sessionEmail !== 'guest' ? '/profile' : '/login'}><Wallet size={15}/>{sessionEmail !== 'guest' ? 'Minha conta' : 'Entrar'}</Link>
     </div>
   </div></header>
