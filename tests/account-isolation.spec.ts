@@ -5,12 +5,13 @@ async function login(page: Page, email: string, password = 'Kurio123!') {
   await page.locator('input[aria-label="E-mail"]').fill(email)
   await page.getByRole('textbox', { name: 'Senha', exact: true }).fill(password)
   await page.getByRole('button', { name: 'Entrar', exact: true }).click()
-  await expect(page).toHaveURL(/\/profile$/)
+  await expect(page).not.toHaveURL(/\/login$/)
+  await expect.poll(() => page.evaluate(() => Boolean(localStorage.getItem('kurio-session-v2')))).toBe(true)
 }
 
 async function addFeaturedNftToCart(page: Page) {
   await page.goto('/nft/ape-009')
-  await page.getByRole('button', { name: 'Adicionar ao carrinho' }).click()
+  await page.getByRole('button', { name: /COMPRAR|Comprar NFT/i }).first().click()
   await expect(page.locator('p.inline-success')).toContainText('NFT adicionado ao carrinho.')
   await page.goto('/cart')
   await expect(page.getByText('Sage Nomad #009')).toBeVisible()
