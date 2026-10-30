@@ -75,7 +75,7 @@ export default function CartPage() {
               <div className="cart-table-head"><span>NFTs</span><span>Preço</span><span>Edições</span><span>Total</span><span aria-hidden="true" /></div>
               <div className="cart-items">{data.items.map(({ nft, quantity }) => (
                 <article className="cart-item" key={nft.id}>
-                  <div className="cart-product"><img src={nft.image} alt={`Arte digital ${nft.name}`} /><div className="cart-item-info"><h2>{nft.name}</h2><span className="cart-token-id">ID do token: #{nft.edition.split('/')[0].padStart(4, '0')}</span></div></div>
+                  <div className="cart-product"><img src={nft.image} alt={`Arte digital ${nft.name}`} /><div className="cart-item-info"><h2>{nft.name}</h2><span className="cart-item-edition">Edição: {nft.edition}</span><strong className="cart-mobile-price">{formatEth(nft.priceEth)}</strong></div></div>
                   <strong className="cart-unit-price">{formatEth(nft.priceEth)}</strong>
                   <div className="cart-quantity"><button type="button" aria-label={`Diminuir quantidade de ${nft.name}`} disabled={quantity <= 1 || updateMutation.isPending} onClick={() => updateMutation.mutate({ nftId: nft.id, quantity: quantity - 1 })}><Minus size={15} /></button><output aria-label={`Quantidade de ${nft.name}`}>{quantity}</output><button type="button" aria-label={`Aumentar quantidade de ${nft.name}`} disabled={quantity >= 10 || updateMutation.isPending} onClick={() => updateMutation.mutate({ nftId: nft.id, quantity: quantity + 1 })}><Plus size={15} /></button></div>
                   <strong className="cart-line-total">{formatEth(Number(nft.priceEth) * quantity)}</strong>
