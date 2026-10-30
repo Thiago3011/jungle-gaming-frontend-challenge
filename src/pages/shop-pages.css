@@ -1021,7 +1021,7 @@
 }
 
 /* Dedicated mobile NFT detail layout based on the Figma reference. */
-.nft-mobile-topbar,.nft-mobile-title-row,.nft-mobile-purchase-bar{display:none}
+.nft-mobile-topbar,.nft-mobile-purchase-bar{display:none}\n.nft-mobile-title-row{display:contents}\n.nft-mobile-rating{display:none}
 @media(max-width:680px){
   .nft-detail-page{
     padding:0 8px 0!important;
