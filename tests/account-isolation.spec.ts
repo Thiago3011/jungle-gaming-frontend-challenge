@@ -126,4 +126,20 @@ test.describe('contratos REST críticos', () => {
     expect(quote.expired.reason).toBe('expired')
   })
 
+
+  test('protege rotas privadas e redireciona sessão expirada', async ({ page }) => {
+    await page.goto('/profile')
+    await expect(page).toHaveURL(/\/login$/)
+    await login(page, 'thiago@kurio.demo')
+    await page.evaluate(() => {
+      const raw = localStorage.getItem('kurio-session-v2')
+      if (!raw) throw new Error('Sessão de demonstração não encontrada')
+      const session = JSON.parse(raw) as Record<string, unknown>
+      session.expiresAt = new Date(Date.now() - 1000).toISOString()
+      localStorage.setItem('kurio-session-v2', JSON.stringify(session))
+    })
+    await page.goto('/wallets')
+    await expect(page).toHaveURL(/\/login$/)
+  })
+
 })
