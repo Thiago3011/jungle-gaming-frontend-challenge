@@ -194,7 +194,7 @@ export default function App() {
                   <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="nft-image-link" aria-label={`Ver detalhes de ${nft.name}`}>
                     <img src={nft.image} alt={`Arte digital ${nft.name}`} loading="lazy" />
                   </Link>
-                  <button type="button" className={`favorite-button ${favorites.includes(nft.id) ? 'is-favorite' : ''}`} onClick={() => toggleFavorite(nft.id)} aria-label={favorites.includes(nft.id) ? `Remover ${nft.name} dos favoritos` : `Adicionar ${nft.name} aos favoritos`} aria-pressed={favorites.includes(nft.id)}><Heart size={13} fill={favorites.includes(nft.id) ? 'currentColor' : 'none'} /></button>
+                  <button type="button" className={`favorite-button ${favorites.includes(nft.id) ? 'is-favorite' : ''}`} onClick={() => toggleFavorite(nft.id)} aria-label={favorites.includes(nft.id) ? `Remover ${nft.name} dos favoritos` : `Adicionar ${nft.name} aos favoritos`} aria-pressed={favorites.includes(nft.id)} disabled={favoriteMutation.isPending}><Heart size={13} fill={favorites.includes(nft.id) ? 'currentColor' : 'none'} /></button>
                   <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="nft-card-info">
                     <span className="nft-card-name">{nft.name}</span>
                     <span className="nft-card-price">{formatEth(nft.priceEth)} {nft.oldPriceEth && <del>{formatEth(nft.oldPriceEth)}</del>}</span>
