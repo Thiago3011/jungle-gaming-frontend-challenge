@@ -159,7 +159,7 @@ export function OrderConfirmationPage() {
   const { data, isPending, isError } = useQuery({ queryKey: ['latest-order', sessionEmail ?? 'guest'], queryFn: async () => (await api.get<Order | null>('/orders/latest')).data, retry: false })
   return <main className="account-page"><SiteHeader/><section className="order-confirmation-wrap">{isPending ? <p>Carregando confirmação...</p> : isError || !data ? <div className="order-confirmation-card"><div className="confirmation-icon"><CreditCard size={30}/></div><h1>Nenhum pedido confirmado</h1><p>Quando você concluir uma compra simulada, os detalhes aparecerão aqui.</p><Link to="/cart" className="account-primary-link">Voltar ao carrinho</Link></div> : <div className="order-confirmation-card order-confirmation-figma">
     <Link to="/" search={homeSearch} className="confirmation-close" aria-label="Fechar confirmação"><X size={17}/></Link>
-    <div className="thank-you-envelope" aria-label="Thank you"><svg viewBox="0 0 72 72" role="img" aria-hidden="true"><rect x="7" y="17" width="58" height="47" rx="4"/><path d="M7 22 36 47 65 22M7 60l22-23m36 23L43 37"/><path d="M17 17v-5a19 19 0 0 1 38 0v5"/></svg><span>THANK<br/>YOU</span></div>
+    <div className="thank-you-envelope" aria-label="Thank you"><svg viewBox="0 0 72 72" role="img" aria-hidden="true"><rect x="7" y="17" width="58" height="47" rx="4"/><path d="M7 22 36 47 65 22M7 60l22-23m36 23L43 37"/><path d="M17 17v-3C17 6.3 25.5 1 36 1s19 5.3 19 13v3"/></svg><span>THANK<br/>YOU</span></div>
     <h1>Seus NFTs agora estão na sua carteira</h1>
     <div className="order-metadata">
       <div><span>ID da transação</span><strong>{data.txHash}</strong></div>
