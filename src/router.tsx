@@ -2,7 +2,7 @@ import { createRootRoute, createRoute, createRouter } from '@tanstack/react-rout
 import App from '@/App'
 import NftDetailPage from '@/pages/NftDetailPage'
 import CartPage from '@/pages/CartPage'
-import { CheckoutPage, LoginPage, OrderConfirmationPage, ProfilePage, RegisterPage, WalletsPage } from '@/pages/AccountPages'
+import { CheckoutPage, LoginPage, OrderConfirmationPage, ProfilePage, FavoritesPage, RegisterPage, WalletsPage } from '@/pages/AccountPages'
 import type { CatalogView, NftSort } from '@/types/nft'
 import RootLayout from '@/components/RootLayout'
 
@@ -42,11 +42,12 @@ const cartRoute = createRoute({
 const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: '/login', component: LoginPage })
 const registerRoute = createRoute({ getParentRoute: () => rootRoute, path: '/register', component: RegisterPage })
 const profileRoute = createRoute({ getParentRoute: () => rootRoute, path: '/profile', component: ProfilePage })
+const favoritesRoute = createRoute({ getParentRoute: () => rootRoute, path: '/favorites', component: FavoritesPage })
 const walletsRoute = createRoute({ getParentRoute: () => rootRoute, path: '/wallets', component: WalletsPage })
 const checkoutRoute = createRoute({ getParentRoute: () => rootRoute, path: '/checkout', component: CheckoutPage })
 const orderConfirmationRoute = createRoute({ getParentRoute: () => rootRoute, path: '/order-confirmation', component: OrderConfirmationPage })
 
-const routeTree = rootRoute.addChildren([indexRoute, nftDetailRoute, cartRoute, loginRoute, registerRoute, profileRoute, walletsRoute, checkoutRoute, orderConfirmationRoute])
+const routeTree = rootRoute.addChildren([indexRoute, nftDetailRoute, cartRoute, loginRoute, registerRoute, profileRoute, favoritesRoute, walletsRoute, checkoutRoute, orderConfirmationRoute])
 export const router = createRouter({ routeTree })
 
 declare module '@tanstack/react-router' {
