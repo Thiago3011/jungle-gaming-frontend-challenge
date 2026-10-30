@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { getCart, removeFromCart, updateCartQuantity } from '@/api/cart'
 import { getStoredSessionEmail } from '@/api/session'
 import './shop-pages.css'
+import { SiteHeader } from '@/components/SiteHeader'
 
 function formatEth(value: string) {
   const [whole = '0', fraction = ''] = value.split('.')
@@ -28,7 +29,7 @@ export default function CartPage() {
 
   return (
     <main className="shop-page">
-      <header className="shop-page-header"><Link to="/" search={{ q: '', category: 'Todas', sort: 'recent', page: 1, view: 'all', network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }} className="brand">KURIO</Link><nav aria-label="Navegação da loja"><Link to="/" search={{ q: '', category: 'Todas', sort: 'recent', page: 1, view: 'all', network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }}>Explorar</Link><Link to="/cart" className="shop-header-cart"><ShoppingBag size={17} /> Carrinho</Link></nav></header>
+      <SiteHeader active="market"/>
       <div className="shop-breadcrumb"><Link to="/" search={{ q: '', category: 'Todas', sort: 'recent', page: 1, view: 'all', network: 'Todas', minPrice: '0.02', maxPrice: '12.30' }}>Catálogo</Link><span>/</span><span>Carrinho</span></div>
       <section className="cart-page-content">
         <div className="cart-heading"><p className="eyebrow">SUA PRÓXIMA COLEÇÃO</p><h1>Carrinho <span>de NFTs.</span></h1><p>Revise as peças antes de seguir para o pagamento simulado.</p></div>
