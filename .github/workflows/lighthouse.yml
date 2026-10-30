@@ -35,7 +35,7 @@ jobs:
           mkdir -p lighthouse-results
           export CHROME_PATH="$(node -e "const { chromium } = require('@playwright/test'); process.stdout.write(chromium.executablePath())")"
           for sample in 1 2 3; do
-            npx lighthouse http://127.0.0.1:4173/ --preset=perf --form-factor=mobile --screenEmulation.mobile --chrome-flags="--headless --no-sandbox" --output=json --output-path="./lighthouse-results/mobile-${sample}.json"
+            npx lighthouse http://127.0.0.1:4173/ --chrome-flags="--headless --no-sandbox" --output=json --output-path="./lighthouse-results/mobile-${sample}.json"
             npx lighthouse http://127.0.0.1:4173/ --preset=desktop --chrome-flags="--headless --no-sandbox" --output=json --output-path="./lighthouse-results/desktop-${sample}.json"
           done
       - name: Summarize median scores and Core Web Vitals
