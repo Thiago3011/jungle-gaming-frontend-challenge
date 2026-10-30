@@ -193,7 +193,13 @@ test.describe('favoritos na interface', () => {
     await page.goto('/')
     const firstCard = page.locator('.nft-card').first()
     const nftName = (await firstCard.locator('.nft-card-name').innerText()).trim()
+    const favoriteSaved = page.waitForResponse((response) =>
+      response.url().endsWith('/api/favorites') &&
+      response.request().method() === 'POST' &&
+      response.ok(),
+    )
     await firstCard.locator('.favorite-button').click()
+    await favoriteSaved
     await page.goto('/favorites')
     await expect(page.getByRole('heading', { name: 'Lista de interesse' })).toBeVisible()
     await expect(page.getByText(nftName, { exact: true })).toBeVisible()
