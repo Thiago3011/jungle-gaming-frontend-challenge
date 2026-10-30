@@ -168,3 +168,65 @@
  .cart-item{position:relative;grid-template-columns:minmax(0,1fr) 90px 90px;padding:12px 48px 12px 12px}
  .cart-item .remove-item{right:10px;top:14px;transform:none}
 }
+
+
+/* Cart table — increase horizontal breathing room to match the Figma proportions */
+.cart-page .cart-page-content,
+.cart-page .shop-breadcrumb{
+  max-width:1480px;
+}
+.cart-page .cart-layout{
+  grid-template-columns:minmax(0,1.58fr) minmax(340px,.82fr);
+  gap:clamp(42px,5vw,82px);
+}
+.cart-page .cart-table-head{
+  grid-template-columns:minmax(0,1.5fr) minmax(125px,.62fr) minmax(145px,.72fr) minmax(135px,.68fr) 38px;
+  gap:20px;
+  font-size:18px;
+  padding-bottom:16px;
+}
+.cart-page .cart-item{
+  grid-template-columns:minmax(0,1.5fr) minmax(125px,.62fr) minmax(145px,.72fr) minmax(135px,.68fr) 38px;
+  gap:20px;
+  min-height:118px;
+  padding:10px 0;
+}
+.cart-page .cart-product{gap:24px}
+.cart-page .cart-product>img{
+  width:116px;
+  height:116px;
+  flex-basis:116px;
+}
+.cart-page .cart-item-info h2{font-size:19px;line-height:1.4}
+.cart-page .cart-token-id{font-size:16px}
+.cart-page .cart-unit-price,
+.cart-page .cart-line-total{font-size:20px}
+.cart-page .cart-quantity{gap:15px}
+.cart-page .cart-quantity button{width:32px;height:48px}
+.cart-page .cart-quantity button svg{width:20px;height:20px}
+.cart-page .cart-quantity output{min-width:22px;font-size:20px}
+.cart-page .cart-item .remove-item svg{width:28px;height:28px}
+@media(max-width:1100px){
+  .cart-page .cart-layout{grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr);gap:30px}
+  .cart-page .cart-table-head,
+  .cart-page .cart-item{grid-template-columns:minmax(0,1fr) 105px 115px 110px 34px;gap:10px}
+  .cart-page .cart-product{gap:12px}
+  .cart-page .cart-product>img{width:78px;height:78px;flex-basis:78px}
+  .cart-page .cart-item-info h2{font-size:15px}
+  .cart-page .cart-token-id{font-size:12px}
+  .cart-page .cart-unit-price,.cart-page .cart-line-total{font-size:15px}
+  .cart-page .cart-quantity{gap:8px}
+  .cart-page .cart-quantity button{width:26px;height:36px}
+  .cart-page .cart-quantity output{font-size:15px}
+}
+@media(max-width:760px){
+  .cart-page .cart-page-content,
+  .cart-page .shop-breadcrumb{max-width:none}
+  .cart-page .cart-item{grid-template-columns:minmax(0,1fr) 90px 90px;gap:8px;padding:12px 48px 12px 12px;min-height:0}
+  .cart-page .cart-product>img{width:68px;height:68px;flex-basis:68px}
+  .cart-page .cart-item-info h2{font-size:14px}
+  .cart-page .cart-token-id{font-size:11px}
+  .cart-page .cart-unit-price,.cart-page .cart-line-total{font-size:13px}
+  .cart-page .cart-quantity button{width:24px;height:34px}
+  .cart-page .cart-quantity output{font-size:14px}
+}
