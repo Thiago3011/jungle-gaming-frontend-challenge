@@ -68,9 +68,9 @@ Consulte ARCHITECTURE.md para contratos REST, sessão, propriedade dos dados, ca
 - Credenciais e sessão no localStorage são apenas para demonstração, não autenticação de produção.
 - O Socket.IO é interceptado pelo MSW e não representa um serviço remoto de tempo real.
 - O fluxo de compra é simulado; não há conexão real com MetaMask, WalletConnect, Coinbase Wallet ou blockchain.
-- A suíte Playwright ainda é uma base inicial e precisa ser ampliada para cobrir todos os cenários de negócio, falhas, acessibilidade, eventos e regressão visual do desafio.
-- A integração de cotação e reconciliação de eventos em todos os estados da interface precisa de validação.
-- Não há relatório Lighthouse ou URL de deploy declarado como concluído até que sejam executados e verificados.
+- A suíte Playwright cobre os fluxos principais e isolamento entre contas, mas ainda pode ser ampliada para cenários adicionais de falha, acessibilidade, eventos e regressão visual.
+- Handshake, reconexão Socket.IO e reconciliação de eventos com REST ainda precisam de cobertura de integração mais profunda.
+- A auditoria Lighthouse mobile/desktop é executada pelo workflow `.github/workflows/lighthouse.yml`; consulte os relatórios e medianas do workflow antes de declarar métricas como aprovadas.
 
 ## Segurança
 
