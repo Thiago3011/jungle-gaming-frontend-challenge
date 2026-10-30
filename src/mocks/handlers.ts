@@ -6,7 +6,7 @@ const PAGE_SIZE = 9
 type StoredCartItem = { nftId: string; quantity: number }
 type CartItemResponse = { nftId: string; quantity: number; nft: Nft; lineTotalEth: string }
 type MockProfile = { displayName: string; username: string; email: string; ensName: string; walletNickname: string; avatar: string }
-type MockWallet = { id: string; nickname: string; network: string; profileName: string; address: string; type: string; email: string; ensName: string; primary: boolean }
+type MockWallet = { id: string; displayName?: string; nickname: string; network: string; profileName: string; address: string; type: string; email: string; ensName: string; primary: boolean }
 type MockUser = { email: string; password: string; profile: MockProfile; wallets: MockWallet[]; cart: StoredCartItem[]; latestOrder: Record<string, unknown> | null }
 
 const USERS_KEY = 'kurio-users-v2'
@@ -209,6 +209,7 @@ export const handlers = [
     }
     const wallet: MockWallet = {
       id: 'wallet-' + Date.now(),
+      displayName: body.displayName?.trim() ?? body.profileName?.trim() ?? '',
       nickname: body.nickname.trim(),
       network: body.network,
       profileName: body.profileName.trim(),
@@ -220,6 +221,22 @@ export const handlers = [
     }
     updateUser(auth.user.email, (user) => ({ ...user, wallets: [...user.wallets, wallet] }))
     return HttpResponse.json(wallet, { status: 201 })
+  }),
+  http.put('/api/wallets/:walletId', async ({ params, request }) => {
+    const auth = requireUser()
+    if ('response' in auth) return auth.response
+    const body = await request.json() as Partial<MockWallet>
+    if (!body.nickname?.trim() || !body.displayName?.trim() || !body.profileName?.trim() || !body.address?.trim() || !body.email?.includes('@')) return cartError('Preencha os campos obrigatórios da carteira.', 422)
+    let updatedWallet: MockWallet | undefined
+    const updated = updateUser(auth.user.email, (user) => ({
+      ...user,
+      wallets: user.wallets.map((wallet) => {
+        if (wallet.id !== params.walletId || !wallet.primary) return wallet
+        updatedWallet = { ...wallet, displayName: body.displayName!.trim(), nickname: body.nickname!.trim(), network: body.network ?? wallet.network, profileName: body.profileName!.trim(), address: body.address!.trim(), type: body.type ?? wallet.type, email: body.email!.trim().toLowerCase(), ensName: body.ensName ?? '' }
+        return updatedWallet
+      }),
+    }))
+    return updatedWallet ? HttpResponse.json(updatedWallet) : cartError('Carteira principal não encontrada.', 404)
   }),
   http.delete('/api/wallets/:walletId', ({ params }) => {
     const auth = requireUser()
