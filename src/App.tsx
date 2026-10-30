@@ -33,20 +33,21 @@ export default function App() {
     queryFn: async () => (await api.get<string[]>('/favorites')).data,
   })
   const favoriteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const currentlySaved = queryClient.getQueryData<string[]>(['favorites']) ?? []
-      return currentlySaved.includes(id)
-        ? (await api.delete<string[]>('/favorites', { params: { nftId: id } })).data
-        : (await api.post<string[]>('/favorites', { nftId: id })).data
-    },
-    onMutate: async (id) => {
+    mutationFn: async ({ id, shouldSave }: { id: string; shouldSave: boolean }) => (
+      shouldSave
+        ? (await api.post<string[]>('/favorites', { nftId: id })).data
+        : (await api.delete<string[]>('/favorites', { params: { nftId: id } })).data
+    ),
+    onMutate: async ({ id, shouldSave }) => {
       await queryClient.cancelQueries({ queryKey: ['favorites'] })
       const previous = queryClient.getQueryData<string[]>(['favorites']) ?? []
-      const next = previous.includes(id) ? previous.filter((item) => item !== id) : [...previous, id]
+      const next = shouldSave
+        ? (previous.includes(id) ? previous : [...previous, id])
+        : previous.filter((item) => item !== id)
       queryClient.setQueryData(['favorites'], next)
       return { previous }
     },
-    onError: (_error, _id, context) => {
+    onError: (_error, _variables, context) => {
       if (context?.previous) queryClient.setQueryData(['favorites'], context.previous)
     },
     onSettled: () => queryClient.invalidateQueries({ queryKey: ['favorites'] }),
@@ -188,7 +189,7 @@ export default function App() {
                   <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="nft-image-link" aria-label={`Ver detalhes de ${nft.name}`}>
                     <img src={nft.image} alt={`Arte digital ${nft.name}`} loading="lazy" />
                   </Link>
-                  <button type="button" className={`favorite-button ${favorites.includes(nft.id) ? 'is-favorite' : ''}`} onClick={() => favoriteMutation.mutate(nft.id)} aria-label={favorites.includes(nft.id) ? `Remover ${nft.name} dos favoritos` : `Adicionar ${nft.name} aos favoritos`} aria-pressed={favorites.includes(nft.id)}><Heart size={13} fill={favorites.includes(nft.id) ? 'currentColor' : 'none'} /></button>
+                  <button type="button" className={`favorite-button ${favorites.includes(nft.id) ? 'is-favorite' : ''}`} onClick={() => favoriteMutation.mutate({ id: nft.id, shouldSave: !favorites.includes(nft.id) })} aria-label={favorites.includes(nft.id) ? `Remover ${nft.name} dos favoritos` : `Adicionar ${nft.name} aos favoritos`} aria-pressed={favorites.includes(nft.id)}><Heart size={13} fill={favorites.includes(nft.id) ? 'currentColor' : 'none'} /></button>
                   <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="nft-card-info">
                     <span className="nft-card-name">{nft.name}</span>
                     <span className="nft-card-price">{formatEth(nft.priceEth)} {nft.oldPriceEth && <del>{formatEth(nft.oldPriceEth)}</del>}</span>
