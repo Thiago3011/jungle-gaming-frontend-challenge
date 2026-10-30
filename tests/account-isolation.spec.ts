@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test'
 
 async function login(page: Page, email: string, password = 'Kurio123!') {
   await page.goto('/login')
-  await page.getByLabel('E-mail').fill(email)
+  await page.locator('input[aria-label="E-mail"]').fill(email)
   await page.getByRole('textbox', { name: 'Senha', exact: true }).fill(password)
   await page.getByRole('button', { name: 'Entrar', exact: true }).click()
   await expect(page).toHaveURL(/\/profile$/)
@@ -48,14 +48,14 @@ test.describe('isolamento de dados por conta', () => {
 
   test('rejeita credenciais inválidas e e-mail duplicado no cadastro', async ({ page }) => {
     await page.goto('/login')
-    await page.getByLabel('E-mail').fill('nao-existe@kurio.demo')
+    await page.locator('input[aria-label="E-mail"]').fill('nao-existe@kurio.demo')
     await page.getByRole('textbox', { name: 'Senha', exact: true }).fill('senhaerrada')
     await page.getByRole('button', { name: 'Entrar', exact: true }).click()
     await expect(page.getByRole('alert')).toContainText('Não foi possível entrar')
 
     await page.goto('/register')
     await page.getByLabel('Nome de usuário').fill('Outro Thiago')
-    await page.getByLabel('E-mail').fill('THIAGO@KURIO.DEMO')
+    await page.locator('input[aria-label="E-mail"]').fill('THIAGO@KURIO.DEMO')
     await page.getByRole('textbox', { name: 'Senha', exact: true }).fill('Senha123!')
     await page.getByLabel('Confirmar senha').fill('Senha123!')
     await page.getByRole('button', { name: 'Criar conta', exact: true }).click()
