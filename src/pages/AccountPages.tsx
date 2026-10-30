@@ -82,9 +82,12 @@ export function ProfilePage() {
 
 export function FavoritesPage() {
   const sessionEmail = getStoredSessionEmail() ?? 'guest'
-  const [favoriteIds, setFavoriteIds] = useState<string[]>(() => {
-    try { return JSON.parse(localStorage.getItem('kurio-favorites:' + sessionEmail) ?? '[]') as string[] }
-    catch { return [] }
+  const queryClient = useQueryClient()
+  const { data: favoriteIds = [], isPending: favoritesPending } = useQuery({
+    queryKey: ['favorites', sessionEmail],
+    queryFn: async () => sessionEmail === 'guest'
+      ? JSON.parse(localStorage.getItem('kurio-favorites:guest') ?? '[]') as string[]
+      : (await api.get<string[]>('/favorites')).data,
   })
   const { data: favoriteCatalog } = useQuery({
     queryKey: ['profile-favorites-catalog', sessionEmail],
@@ -94,16 +97,22 @@ export function FavoritesPage() {
     },
     enabled: favoriteIds.length > 0,
   })
+  const removeMutation = useMutation({
+    mutationFn: async (nftId: string) => {
+      if (sessionEmail === 'guest') {
+        const next = favoriteIds.filter((id) => id !== nftId)
+        localStorage.setItem('kurio-favorites:guest', JSON.stringify(next))
+        return next
+      }
+      return (await api.delete<string[]>('/favorites/' + nftId)).data
+    },
+    onSuccess: (next) => queryClient.setQueryData(['favorites', sessionEmail], next),
+  })
   const favoriteNfts = (favoriteCatalog ?? []).filter((nft) => favoriteIds.includes(nft.id))
-  function removeFavorite(nftId: string) {
-    const next = favoriteIds.filter((id) => id !== nftId)
-    setFavoriteIds(next)
-    localStorage.setItem('kurio-favorites:' + sessionEmail, JSON.stringify(next))
-  }
   return <AccountShell active="favorites" showFooter={false}>
     <section className="profile-favorites-section favorites-page-section">
-      <div className="profile-favorites-heading"><div><p className="account-eyebrow">SUA CURADORIA</p><h1>Lista de interesse</h1><p>Os NFTs que você marcou como favoritos.</p></div><span>{favoriteNfts.length} itens</span></div>
-      {favoriteIds.length === 0 ? <div className="profile-favorites-empty"><Heart size={28}/><strong>Sua lista está vazia.</strong><p>Toque no coração de um NFT para guardá-lo aqui.</p><Link to="/" search={homeSearch}>Explorar NFTs</Link></div> : favoriteNfts.length === 0 ? <p className="profile-favorites-loading">Carregando seus favoritos...</p> : <div className="profile-favorites-grid">{favoriteNfts.map((nft: Nft) => <article className="profile-favorite-card" key={nft.id}><Link to="/nft/$nftId" params={{ nftId: nft.id }}><img src={nft.image} alt={nft.name}/></Link><div><Link to="/nft/$nftId" params={{ nftId: nft.id }}>{nft.name}</Link><strong>{money(nft.priceEth)}</strong><button type="button" onClick={() => removeFavorite(nft.id)} aria-label={'Remover ' + nft.name + ' dos favoritos'}><Heart size={16} fill="currentColor"/> Remover</button></div></article>)}</div>}
+      <div className="profile-favorites-heading"><div><p className="account-eyebrow">SUA CURADORIA</p><h1>Lista de interesse</h1><p>Os NFTs que você marcou como favoritos.</p></div><span>{favoriteIds.length} itens</span></div>
+      {favoritesPending ? <p className="profile-favorites-loading">Carregando favoritos...</p> : favoriteIds.length === 0 ? <div className="profile-favorites-empty"><Heart size={28}/><strong>Sua lista está vazia.</strong><p>Toque no coração de um NFT para guardá-lo aqui.</p><Link to="/" search={homeSearch}>Explorar NFTs</Link></div> : favoriteNfts.length === 0 ? <p className="profile-favorites-loading">Carregando seus NFTs favoritos...</p> : <div className="profile-favorites-grid">{favoriteNfts.map((nft: Nft) => <article className="profile-favorite-card" key={nft.id}><Link to="/nft/$nftId" params={{ nftId: nft.id }}><img src={nft.image} alt={nft.name}/></Link><div><Link to="/nft/$nftId" params={{ nftId: nft.id }}>{nft.name}</Link><strong>{money(nft.priceEth)}</strong><button type="button" disabled={removeMutation.isPending} onClick={() => removeMutation.mutate(nft.id)} aria-label={'Remover ' + nft.name + ' dos favoritos'}><Heart size={16} fill="currentColor"/> Remover</button></div></article>)}</div>}
     </section>
   </AccountShell>
 }
