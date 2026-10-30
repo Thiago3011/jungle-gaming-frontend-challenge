@@ -1019,3 +1019,250 @@
 @media(min-width:681px){
   .cart-mobile-back{display:none}
 }
+
+/* Dedicated mobile NFT detail layout based on the Figma reference. */
+.nft-mobile-topbar,.nft-mobile-title-row,.nft-mobile-purchase-bar{display:none}
+@media(max-width:680px){
+  .nft-detail-page{
+    padding:0 8px 0!important;
+    min-height:100svh;
+  }
+  .nft-detail-page .shop-breadcrumb,
+  .nft-detail-page>.kurio-site-header,
+  .nft-detail-page>.shop-page-header,
+  .nft-detail-page .nft-gallery-thumbnails,
+  .nft-detail-page .nft-detail-edition,
+  .nft-detail-page .nft-image-zoom,
+  .nft-detail-page .nft-price-review-row,
+  .nft-detail-page .nft-about h2,
+  .nft-detail-page .nft-share-row,
+  .nft-detail-page .nft-purchase-meta-row,
+  .nft-detail-page .nft-information,
+  .nft-detail-page .nft-more-collection,
+  .nft-detail-page>.site-footer,
+  .nft-detail-page>.shop-footer{display:none!important}
+  .nft-mobile-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    height:64px;
+    padding:8px 24px;
+    background:#241612;
+    border-radius:28px 28px 0 0;
+  }
+  .nft-mobile-topbar>a,
+  .nft-mobile-topbar>button{
+    display:grid;
+    place-items:center;
+    width:44px;
+    height:44px;
+    border:1px solid #51321f;
+    border-radius:50%;
+    background:transparent;
+    color:#d5a16c;
+  }
+  .nft-mobile-topbar>button.saved{color:#e99a47}
+  .nft-detail-page .nft-detail-layout{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    width:100%;
+    max-width:none;
+    margin:0;
+    padding:8px 24px 190px;
+  }
+  .nft-detail-page .nft-gallery{
+    display:block;
+    width:100%;
+    margin:0;
+  }
+  .nft-detail-page .nft-detail-art{
+    width:100%;
+    max-width:none;
+    max-height:none;
+    margin:0;
+    padding:0!important;
+    border:0;
+    border-radius:22px 22px 0 0;
+    background:#241612;
+    overflow:hidden;
+  }
+  .nft-detail-page .nft-detail-art img{
+    display:block;
+    width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    border-radius:22px 22px 0 0;
+  }
+  .nft-detail-page .nft-detail-info{
+    width:calc(100% + 48px);
+    margin:0 -24px;
+    padding:26px 28px 28px!important;
+    border-radius:28px 28px 0 0;
+    background:#241612;
+    position:relative;
+    z-index:2;
+  }
+  .nft-mobile-title-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin:0 0 14px;
+  }
+  .nft-detail-page .nft-mobile-title-row h1{
+    min-width:0;
+    margin:0!important;
+    color:#f2e9e2;
+    font-family:'Space Mono',monospace;
+    font-size:clamp(18px,5vw,25px)!important;
+    line-height:1.25;
+    letter-spacing:0!important;
+    overflow-wrap:anywhere;
+  }
+  .nft-mobile-rating{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    flex:0 0 auto;
+    padding:5px 8px;
+    border:1px solid #b87939;
+    border-radius:20px;
+    color:#e8a04d;
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+  }
+  .nft-mobile-rating span{color:#c8ad91}
+  .nft-detail-page .nft-about{margin:0 0 14px}
+  .nft-detail-page .nft-about p{
+    margin:0;
+    max-width:none;
+    color:#c9ad8a;
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+    line-height:1.75;
+  }
+  .nft-detail-page .nft-edition-options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin:14px 0 16px!important;
+    color:#f0e5db;
+    font-family:'Space Mono',monospace;
+    font-size:14px;
+  }
+  .nft-detail-page .nft-edition-options>div{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .nft-detail-page .nft-edition-options button{
+    padding:6px 10px;
+    border:1px solid #5b3923;
+    border-radius:22px;
+    background:transparent;
+    color:#c9ad8a;
+    font:inherit;
+    font-size:12px;
+  }
+  .nft-detail-page .nft-edition-options button.selected{
+    border-color:#e99a47;
+    color:#f2a04b;
+    box-shadow:0 0 0 1px #e99a47 inset;
+  }
+  .nft-detail-page .nft-token-details{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin:0;
+    color:#c9ad8a;
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+  }
+  .nft-detail-page .nft-token-details p{margin:0;line-height:1.5}
+  .nft-detail-page .nft-token-details p span{color:#c9ad8a}
+  .nft-mobile-purchase-bar{
+    position:fixed;
+    z-index:115;
+    right:8px;
+    bottom:0;
+    left:8px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    padding:18px 28px calc(22px + env(safe-area-inset-bottom));
+    border-radius:30px 30px 0 0;
+    background:#241612;
+    box-shadow:0 -10px 30px #0008;
+  }
+  .nft-mobile-purchase-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#c9ad8a;
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+  }
+  .nft-mobile-purchase-top .quantity-control{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:96px;
+    min-width:96px;
+    height:38px;
+    border:0;
+  }
+  .nft-mobile-purchase-top .quantity-control button{
+    width:30px;
+    height:36px;
+    border:1px solid #5b3923;
+    border-radius:18px;
+    background:#d28a4c;
+    color:#241612;
+  }
+  .nft-mobile-purchase-top .quantity-control output{
+    color:#f2e9e2;
+    font-size:16px;
+  }
+  .nft-mobile-purchase-top>strong{
+    margin-left:auto;
+    color:#e99a47;
+    font-family:'Space Mono',monospace;
+    font-size:21px;
+    white-space:nowrap;
+  }
+  .nft-mobile-purchase-actions{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .nft-mobile-purchase-actions .primary-cta{
+    flex:1;
+    min-height:58px;
+    border-radius:32px;
+    font-family:'Space Mono',monospace;
+    font-size:15px;
+    text-transform:none;
+  }
+  .nft-mobile-purchase-actions>a{
+    display:grid;
+    place-items:center;
+    width:58px;
+    height:58px;
+    flex:0 0 58px;
+    border:1px solid #51321f;
+    border-radius:50%;
+    color:#d28a4c;
+  }
+  .mobile-bottom-nav{display:none!important}
+  body:has(.nft-detail-page){padding-bottom:0!important}
+}
+@media(max-width:390px){
+  .nft-detail-page .nft-detail-layout{padding-inline:18px}
+  .nft-detail-page .nft-detail-info{width:calc(100% + 36px);margin-inline:-18px;padding-inline:22px!important}
+  .nft-mobile-topbar{padding-inline:18px}
+  .nft-mobile-purchase-bar{padding-inline:22px}
+  .nft-mobile-purchase-top>strong{font-size:18px}
+}
