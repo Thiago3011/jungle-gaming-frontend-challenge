@@ -1036,7 +1036,6 @@
   .nft-detail-page .nft-price-review-row,
   .nft-detail-page .nft-about h2,
   .nft-detail-page .nft-share-row,
-  .nft-detail-page .nft-purchase-meta-row,
   .nft-detail-page .nft-information,
   .nft-detail-page .nft-more-collection,
   .nft-detail-page>.site-footer,
@@ -1096,6 +1095,25 @@
     object-fit:cover;
     border-radius:22px 22px 0 0;
   }
+  .nft-detail-page .nft-purchase-meta-row{
+    display:block!important;
+    margin:0;
+  }
+  .nft-detail-page .nft-purchase-left{display:block!important}
+  .nft-detail-page .nft-purchase-meta-row .nft-actions-row,
+  .nft-detail-page .nft-purchase-meta-row .inline-success,
+  .nft-detail-page .nft-purchase-meta-row .inline-error{display:none!important}
+  .nft-detail-page .nft-token-details{
+    display:flex!important;
+    flex-direction:column;
+    gap:12px;
+    margin:0!important;
+    color:#c9ad8a;
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+  }
+  .nft-detail-page .nft-token-details p{margin:0;line-height:1.5}
+  .nft-detail-page .nft-token-details p span{color:#c9ad8a}
   .nft-detail-page .nft-detail-info{
     width:calc(100% + 48px);
     margin:0 -24px;
