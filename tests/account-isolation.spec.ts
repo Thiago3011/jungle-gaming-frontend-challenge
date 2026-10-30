@@ -7,6 +7,8 @@ async function login(page: Page, email: string, password = 'Kurio123!') {
   await page.getByRole('button', { name: 'Entrar', exact: true }).click()
   await expect(page).not.toHaveURL(/\/login$/)
   await expect.poll(() => page.evaluate(() => Boolean(localStorage.getItem('kurio-session-v2')))).toBe(true)
+  await page.goto('/profile')
+  await expect(page).toHaveURL(/\/profile$/)
 }
 
 async function addFeaturedNftToCart(page: Page) {
