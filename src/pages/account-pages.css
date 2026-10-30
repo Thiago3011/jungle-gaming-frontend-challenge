@@ -1271,3 +1271,143 @@
 
 /* Checkout Figma: no outer frame around the NFT summary card */
 .checkout-summary{border:0!important;outline:0!important;box-shadow:none!important}
+
+
+/* Order confirmation — compact Figma composition */
+.order-confirmation-wrap{
+  width:min(552px,calc(100% - 32px));
+  max-width:552px;
+  margin:40px auto 70px;
+  min-height:0;
+}
+.order-confirmation-card.order-confirmation-figma{
+  min-height:770px;
+  padding:22px 40px 42px;
+  background:#241612;
+  border:0;
+  border-bottom:10px solid #D28A4C;
+  border-radius:0;
+  box-shadow:none;
+}
+.order-confirmation-figma .confirmation-close{right:17px;top:15px;color:#D28A4C}
+.thank-you-envelope{
+  position:relative;
+  width:72px;
+  height:72px;
+  margin:0 auto 12px;
+  color:#D28A4C;
+}
+.thank-you-envelope svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.thank-you-envelope span{
+  position:absolute;top:24px;left:0;right:0;
+  color:#D28A4C;text-align:center;
+  font-family:'Space Mono',monospace;font-size:12px;font-weight:700;line-height:1.05;
+}
+.order-confirmation-figma>h1{
+  margin:0 0 18px!important;
+  color:#c7aa88;
+  font-family:'Space Mono',monospace;
+  font-size:15px!important;
+  font-weight:700;
+  line-height:1.45!important;
+  text-align:center;
+}
+.order-confirmation-figma .order-metadata{
+  grid-template-columns:1.15fr 1fr .9fr .9fr;
+  gap:0;
+  padding:14px 0;
+  border-top:1px solid #D28A4C;
+  border-bottom:1px solid #D28A4C;
+}
+.order-confirmation-figma .order-metadata>div{
+  padding:0 12px;
+  border-right:1px solid #D28A4C;
+  gap:4px;
+}
+.order-confirmation-figma .order-metadata>div:first-child{padding-left:0}
+.order-confirmation-figma .order-metadata>div:last-child{padding-right:0;border-right:0}
+.order-confirmation-figma .order-metadata span{font-size:10px;color:#c7aa88}
+.order-confirmation-figma .order-metadata strong{font-size:11px;color:#c7aa88;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.order-confirmation-figma h2{
+  margin:18px 0 8px;
+  color:#f1e4d7;
+  font-family:'Space Mono',monospace;
+  font-size:13px;
+}
+.order-confirmation-figma .confirmation-table-heading{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 90px 95px;
+  gap:8px;
+  padding:0 0 8px;
+  border-bottom:1px solid #5a351e;
+  color:#f1e4d7;
+  font-family:'Space Mono',monospace;
+  font-size:13px;
+}
+.order-confirmation-figma .confirmation-table-heading strong:nth-child(n+2){text-align:right}
+.order-confirmation-figma .confirmation-items{gap:0}
+.order-confirmation-figma .confirmation-items article{
+  grid-template-columns:66px minmax(0,1fr) 54px 86px;
+  gap:10px;
+  padding:10px 0;
+  background:transparent;
+}
+.order-confirmation-figma .confirmation-items img{width:66px;height:66px;border-radius:8px}
+.order-confirmation-figma .confirmation-items article div{gap:4px}
+.order-confirmation-figma .confirmation-items article strong{font-size:12px;color:#f1e4d7}
+.order-confirmation-figma .confirmation-items article small,
+.order-confirmation-figma .confirmation-items article span{font-size:11px;color:#b99b7c}
+.order-confirmation-figma .confirmation-items article span{text-align:right;white-space:nowrap}
+.order-confirmation-figma .confirmation-items article b{font-size:14px;text-align:right;color:#D28A4C}
+.order-confirmation-figma .confirmation-totals{
+  max-width:300px;
+  margin:4px 0 14px auto;
+}
+.order-confirmation-figma .confirmation-totals div{
+  margin:8px 0;
+  color:#f1e4d7;
+  font-family:'Space Mono',monospace;
+  font-size:13px;
+}
+.order-confirmation-figma .confirmation-totals strong{font-weight:400;color:#f1e4d7}
+.order-confirmation-figma .confirmation-totals .confirmation-total{
+  margin-top:0;
+  padding-top:0;
+  border-top:0;
+}
+.order-confirmation-figma .confirmation-totals .confirmation-total strong{
+  color:#D28A4C;font-size:15px;font-weight:700
+}
+.order-confirmation-figma .confirmation-copy{
+  margin:12px 0 18px!important;
+  color:#b99b7c;
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  line-height:1.7;
+  text-align:center;
+}
+.order-confirmation-figma>.account-primary-button{
+  min-height:46px;
+  padding:0 18px;
+  border-radius:4px;
+  background:#D28A4C;
+  color:#160d08;
+  font-family:'Space Mono',monospace;
+  font-size:14px;
+  font-weight:700;
+}
+@media(max-width:520px){
+  .order-confirmation-wrap{width:calc(100% - 8px);margin:20px auto 40px}
+  .order-confirmation-card.order-confirmation-figma{padding:20px 18px 34px}
+  .order-confirmation-figma .order-metadata>div{padding:0 6px}
+  .order-confirmation-figma .order-metadata span{font-size:8px}
+  .order-confirmation-figma .order-metadata strong{font-size:9px}
+  .order-confirmation-figma .confirmation-items article{grid-template-columns:58px minmax(0,1fr) 42px 76px;gap:7px}
+  .order-confirmation-figma .confirmation-items img{width:58px;height:58px}
+  .order-confirmation-figma .confirmation-items article strong{font-size:10px}
+  .order-confirmation-figma .confirmation-items article small,
+  .order-confirmation-figma .confirmation-items article span{font-size:9px}
+  .order-confirmation-figma .confirmation-items article b{font-size:11px}
+  .order-confirmation-figma .confirmation-table-heading{grid-template-columns:minmax(0,1fr) 42px 76px;font-size:11px}
+  .order-confirmation-figma .confirmation-totals{max-width:100%}
+}
