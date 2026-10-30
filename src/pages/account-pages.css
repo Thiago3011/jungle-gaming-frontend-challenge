@@ -1198,3 +1198,72 @@
  .checkout-summary .payment-methods label{font-size:14px;min-height:52px}
  .checkout-summary .checkout-submit{height:52px;min-height:52px;font-size:15px}
 }
+
+
+/* Shared homepage footer styles are repeated here because account routes load their own stylesheet. */
+.account-footer-wrap .home-wide{width:82%;max-width:1180px;margin-left:auto;margin-right:auto}
+.account-footer-wrap .trust-newsletter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(240px,1.38fr);margin-top:73px;padding:22px 16px;background:#241612;font-family:"Space Mono",monospace}
+.account-footer-wrap .trust-item{min-width:0;padding:0 15px;border-right:1px solid #8e542b}
+.account-footer-wrap .trust-item:first-child{padding-left:6px}
+.account-footer-wrap .trust-initial{display:grid;place-items:center;width:55px;height:55px;margin-bottom:10px;border-radius:50%;background:#d28a4c;color:#29170d;font-size:14px;font-weight:750}
+.account-footer-wrap .trust-item h3,.account-footer-wrap .newsletter-box h3{margin:0 0 7px;color:#f0e4d7;font-family:"Space Mono",monospace;font-size:10px;font-weight:750;line-height:1.4}
+.account-footer-wrap .trust-item p,.account-footer-wrap .newsletter-box p{margin:0;color:#b99c81;font-family:"Space Mono",monospace;font-size:8px;line-height:1.65}
+.account-footer-wrap .newsletter-box{min-width:0;padding-left:16px}
+.account-footer-wrap .newsletter-box h3{font-size:11px}
+.account-footer-wrap .newsletter-box form{display:flex;min-width:0;margin:11px 0 9px}
+.account-footer-wrap .newsletter-box input{width:100%;min-width:0;height:27px;padding:0 8px;border:1px solid #56351f;outline:none;background:#3a2415;color:#f2e4d7;font-family:"Space Mono",monospace;font-size:9px}
+.account-footer-wrap .newsletter-box input::placeholder{color:#b39678}
+.account-footer-wrap .newsletter-box form button{flex:0 0 auto;height:27px;padding:0 10px;border:0;background:#d28a4c;color:#24140b;font-family:"Space Mono",monospace;font-size:9px;font-weight:750}
+.account-footer-wrap .site-footer{width:82%;max-width:1180px;margin:0 auto 18px;background:#241612;font-family:"Space Mono",monospace}
+.account-footer-wrap .footer-brand-row{display:grid;grid-template-columns:.9fr 1.2fr 1fr 1fr;align-items:center;gap:15px;min-height:68px;padding:12px 24px;background:#38220f}
+.account-footer-wrap .footer-brand-row .brand{font-family:"Space Mono",Arial,sans-serif;font-size:11px}
+.account-footer-wrap .footer-brand-row p,.account-footer-wrap .footer-brand-row a:not(.brand),.account-footer-wrap .footer-brand-row>span{margin:0;color:#e0cbb6;font-size:8px;line-height:1.65}
+.account-footer-wrap .footer-brand-row a:not(.brand){justify-self:center}
+.account-footer-wrap .footer-brand-row>span{justify-self:end}
+.account-footer-wrap .footer-columns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:25px;padding:20px 24px 22px}
+.account-footer-wrap .footer-columns>div{display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-width:0}
+.account-footer-wrap .footer-columns h3{margin:0 0 4px;color:#f0e5db;font-family:"Space Mono",monospace;font-size:10px;font-weight:750}
+.account-footer-wrap .footer-columns a{color:#c0a58b;font-size:8px;text-decoration:none}
+.account-footer-wrap .footer-columns a:hover{color:#d28a4c}
+.account-footer-wrap .social-links{display:flex;align-items:center;gap:6px;margin-bottom:3px}
+.account-footer-wrap .social-links a{display:grid;place-items:center;width:21px;height:21px;border:1px solid #9b6033;border-radius:2px;color:#e4a366;font-family:Arial,sans-serif;font-size:10px;font-weight:700}
+.account-footer-wrap .wallet-title{margin-top:4px!important}
+.account-footer-wrap .wallet-tags{display:flex;flex-wrap:wrap;gap:3px}
+.account-footer-wrap .wallet-tags span{padding:3px 4px;border-radius:2px;background:#4a2a13;color:#dba568;font-size:6px}
+.account-footer-wrap .copyright{margin:0;padding:11px 0 2px;color:#bca38a;font-size:8px;text-align:center}
+@media(min-width:901px){
+ .account-footer-wrap .home-wide,.account-footer-wrap .site-footer{width:83.3333%;max-width:1200px}
+ .account-footer-wrap .trust-item h3,.account-footer-wrap .newsletter-box h3{font-size:15px}
+ .account-footer-wrap .trust-item p,.account-footer-wrap .newsletter-box p{font-size:12px}
+ .account-footer-wrap .trust-initial{width:60px;height:60px;font-size:16px}
+}
+@media(max-width:900px){
+ .account-footer-wrap .trust-newsletter{padding:17px 10px}
+ .account-footer-wrap .trust-item{padding:0 9px}
+ .account-footer-wrap .newsletter-box{padding-left:10px}
+}
+@media(max-width:680px){
+ .account-footer-wrap .home-wide,.account-footer-wrap .site-footer{width:calc(100% - 32px)}
+ .account-footer-wrap .trust-newsletter{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 0;margin-top:48px;padding:16px 12px}
+ .account-footer-wrap .trust-item{padding:0 10px}
+ .account-footer-wrap .trust-item:nth-child(2){border-right:0}
+ .account-footer-wrap .trust-item:nth-child(3){border-right:1px solid #8e542b}
+ .account-footer-wrap .trust-initial{width:42px;height:42px;font-size:12px}
+ .account-footer-wrap .newsletter-box{padding:0 10px}
+ .account-footer-wrap .newsletter-box h3{font-size:10px}
+ .account-footer-wrap .newsletter-box form{flex-direction:column}
+ .account-footer-wrap .newsletter-box form button{width:100%}
+ .account-footer-wrap .footer-brand-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:15px}
+ .account-footer-wrap .footer-brand-row p{justify-self:end;text-align:right}
+ .account-footer-wrap .footer-brand-row a:not(.brand){justify-self:start}
+ .account-footer-wrap .footer-brand-row>span{justify-self:end}
+ .account-footer-wrap .footer-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 15px;padding:18px 15px}
+ .account-footer-wrap .copyright{padding-bottom:10px}
+}
+@media(max-width:460px){
+ .account-footer-wrap .trust-newsletter,.account-footer-wrap .footer-columns{grid-template-columns:1fr}
+ .account-footer-wrap .trust-item{border-right:0;border-bottom:1px solid #8e542b;padding:0 0 14px}
+ .account-footer-wrap .trust-item:nth-child(3){border-right:0}
+ .account-footer-wrap .newsletter-box{padding:0}
+ .account-footer-wrap .footer-brand-row{grid-template-columns:1fr}
+}
