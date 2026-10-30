@@ -2,7 +2,7 @@ import { useEffect, useState, type CSSProperties } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import {
-  ArrowRight, ChevronDown, Heart,
+  ArrowRight, ChevronDown, Heart, Search, SlidersHorizontal, House, ScanLine, ShoppingCart, UserRound,
 } from 'lucide-react'
 import { getNfts } from '@/api/nfts'
 import { getStoredSessionEmail } from '@/api/session'
@@ -39,6 +39,8 @@ export default function App() {
     }
   })
   const [searchOpen, setSearchOpen] = useState(false)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
   const [minPriceDraft, setMinPriceDraft] = useState(Number(search.minPrice))
   const [maxPriceDraft, setMaxPriceDraft] = useState(Number(search.maxPrice))
   const [newsletterMessage, setNewsletterMessage] = useState('')
@@ -79,6 +81,11 @@ export default function App() {
     <main className="marketplace-shell" id="inicio">
       <SiteHeader active="home" onSearchClick={() => setSearchOpen((open) => !open)} searchContent={searchOpen ? <label className="kurio-header-search"><span className="sr-only">Buscar NFTs</span><input autoFocus aria-label="Buscar NFTs" placeholder="Buscar NFT..." value={search.q} onChange={(event) => updateSearch({ q: event.target.value, page: 1 }, true)}/><button type="button" aria-label="Fechar busca" onClick={() => { setSearchOpen(false); updateSearch({ q: '' }, true) }}>×</button></label> : null}/>
 
+      <section className="mobile-explore" aria-label="Explorar coleções">
+        <label className="mobile-explore-input"><Search size={19}/><input aria-label="Explorar coleções" placeholder="Explorar coleções" value={search.q} onChange={(event) => updateSearch({ q: event.target.value, page: 1 }, true)}/></label>
+        <button type="button" className={mobileFiltersOpen ? "mobile-filter-button active" : "mobile-filter-button"} aria-label="Abrir filtros" aria-expanded={mobileFiltersOpen} onClick={() => setMobileFiltersOpen((open) => !open)}><SlidersHorizontal size={21}/></button>
+      </section>
+      {mobileFiltersOpen && <section className="mobile-filter-drawer" aria-label="Filtros rápidos"><strong>Explorar por coleção</strong><div>{["Todas", ...categories].map((category) => <button key={category} type="button" className={search.category === category ? "selected" : ""} onClick={() => { updateSearch({ category, page: 1 }); setMobileFiltersOpen(false) }}>{category}</button>)}</div></section>}
       <section className="hero-section" aria-labelledby="hero-title">
         <div className="hero-inner">
           <div className="hero-copy">
@@ -90,7 +97,7 @@ export default function App() {
           </div>
           <div className="hero-art-wrap">
             <Link to="/nft/$nftId" params={{ nftId: 'ape-042' }} className="hero-art-link" aria-label="Ver Emerald Ape número 042">
-              <img src="/nfts/featured-collector-wide.jpg" alt="Macaco colecionável usando óculos verdes e jaqueta verde" />
+              <img className="hero-art-main" src="/nfts/featured-collector-wide.jpg" alt="Macaco colecionável usando óculos verdes e jaqueta verde" /><img className="hero-art-secondary" src="/nfts/ape-hoodie.jpg" alt="" aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -137,9 +144,9 @@ export default function App() {
         <div className="catalog-main">
           <div className="catalog-toolbar">
             <div className="catalog-tabs" role="tablist" aria-label="Exibição do catálogo">
-              <button type="button" role="tab" aria-selected={search.view === 'all'} className={search.view === 'all' ? 'active' : ''} onClick={() => updateSearch({ view: 'all', page: 1 })}>Todos os NFTs</button>
-              <button type="button" role="tab" aria-selected={search.view === 'new'} className={search.view === 'new' ? 'active' : ''} onClick={() => updateSearch({ view: 'new', page: 1, sort: 'recent' })}>Novos lançamentos</button>
-              <button type="button" role="tab" aria-selected={search.view === 'trending'} className={search.view === 'trending' ? 'active' : ''} onClick={() => updateSearch({ view: 'trending', page: 1 })}>Em alta</button>
+              <button type="button" role="tab" aria-selected={search.view === 'all'} className={search.view === 'all' ? 'active' : ''} onClick={() => { setShowFavoritesOnly(false); updateSearch({ view: 'all', page: 1 }) }}>Todos os NFTs</button>
+              <button type="button" role="tab" aria-selected={search.view === 'new'} className={search.view === 'new' ? 'active' : ''} onClick={() => { setShowFavoritesOnly(false); updateSearch({ view: 'new', page: 1, sort: 'recent' }) }}>Novos lançamentos</button>
+              <button type="button" role="tab" aria-selected={search.view === 'trending'} className={search.view === 'trending' ? 'active' : ''} onClick={() => { setShowFavoritesOnly(false); updateSearch({ view: 'trending', page: 1 }) }}>Em alta</button>
             </div>
             <label className="sort-control"><span>Ordenar por:</span><select aria-label="Ordenar NFTs" value={search.sort} onChange={(event) => updateSearch({ sort: event.target.value as NftSort, page: 1 })}><option value="recent">Listados recentemente</option><option value="featured">Em destaque</option><option value="price-asc">Menor preço</option><option value="price-desc">Maior preço</option></select><ChevronDown size={12} /></label>
           </div>
@@ -151,7 +158,7 @@ export default function App() {
             <div className="catalog-state"><strong>Não foi possível carregar o catálogo.</strong><p>Confira sua conexão e tente novamente.</p><button className="apply-price" type="button" onClick={() => void refetch()}>Tentar novamente</button></div>
           ) : data?.items.length ? (
             <div className="nft-grid">
-              {data.items.map((nft) => (
+              {(showFavoritesOnly ? data.items.filter((nft) => favorites.includes(nft.id)) : data.items).map((nft) => (
                 <article className="nft-card" key={nft.id}>
                   <Link to="/nft/$nftId" params={{ nftId: nft.id }} className="nft-image-link" aria-label={`Ver detalhes de ${nft.name}`}>
                     <img src={nft.image} alt={`Arte digital ${nft.name}`} loading="lazy" />
@@ -165,7 +172,7 @@ export default function App() {
               ))}
             </div>
           ) : (
-            <div className="catalog-state"><strong>Nenhum NFT encontrado.</strong><p>Tente mudar os filtros ou a busca.</p><button type="button" className="apply-price" onClick={clearFilters}>Limpar filtros</button></div>
+            <div className="catalog-state"><strong>{showFavoritesOnly ? "Você ainda não favoritou NFTs desta página." : "Nenhum NFT encontrado."}</strong><p>{showFavoritesOnly ? "Explore o catálogo e toque no coração para salvar seus favoritos." : "Tente mudar os filtros ou a busca."}</p><button type="button" className="apply-price" onClick={clearFilters}>Limpar filtros</button></div>
           )}
 
           {data && data.total > data.pageSize && (
@@ -198,6 +205,13 @@ export default function App() {
         </div>
       </section>
 
+      <nav className="mobile-bottom-nav" aria-label="Navegação mobile">
+        <Link to="/" search={initialSearch} hash="inicio" aria-label="Início" className="active"><House size={21} fill="currentColor"/></Link>
+        <button type="button" aria-label="Favoritos" aria-pressed={showFavoritesOnly} className={showFavoritesOnly ? "active" : ""} onClick={() => { setShowFavoritesOnly((value) => !value); document.getElementById("mercado")?.scrollIntoView({ behavior: "smooth" }) }}><Heart size={22} fill="currentColor"/></button>
+        <button type="button" className="mobile-scan-button" aria-label="Leitor de QR Code"><ScanLine size={25}/></button>
+        <Link to="/cart" aria-label="Carrinho"><ShoppingCart size={21}/></Link>
+        <Link to={sessionEmail !== "guest" ? "/profile" : "/login"} aria-label="Minha conta"><UserRound size={21} fill="currentColor"/></Link>
+      </nav>
       <SiteFooter newsletterMessage={newsletterMessage} onNewsletterSubmit={(event) => { event.preventDefault(); setNewsletterMessage('Inscrições não estão disponíveis nesta demonstração.') }} />
     </main>
   )
