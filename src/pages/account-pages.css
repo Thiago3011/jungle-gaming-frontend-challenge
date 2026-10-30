@@ -1147,3 +1147,54 @@
   min-height:190px;
   max-height:190px;
 }
+
+
+/* Checkout summary — match the compact Figma composition */
+.checkout-summary{padding:20px 22px;background:#170e0a;border:1px solid #392519;box-shadow:none}
+.checkout-summary h2{font-family:"Space Mono",monospace;font-size:18px;font-weight:400;line-height:1.4;margin:0 0 14px;color:#f2e5d7}
+.checkout-items-heading{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #593720;padding:0 0 10px;margin-bottom:10px;color:#f2e5d7;font-size:16px}
+.checkout-items-heading strong{font-weight:700}
+.checkout-item-list{gap:9px}
+.checkout-item{grid-template-columns:88px minmax(0,1fr) auto;gap:10px;min-height:88px;padding:5px;background:#251710}
+.checkout-item img{width:88px;height:88px;object-fit:cover;border-radius:8px}
+.checkout-item>div{gap:5px}
+.checkout-item strong{font-size:15px;line-height:1.35;color:#f2e5d7}
+.checkout-item small{font-size:12px;line-height:1.4;color:#bd965c}
+.checkout-item>b{font-size:18px;font-weight:700;color:#e89045;white-space:nowrap}
+.promo-inline{display:flex;justify-content:center;margin:16px 0 14px}
+.promo-inline button{border:0;padding:0;background:transparent;color:#f2e5d7;font:inherit;font-size:15px;cursor:pointer}
+.promo-inline button:hover{text-decoration:underline;color:#e89045}
+.checkout-summary .promo-form{margin:0 0 18px}
+.checkout-summary .promo-form input{height:40px;min-width:0;padding:0 12px;background:#170e0a;border:1px solid #392519;color:#f2e5d7;font:inherit;font-size:12px}
+.checkout-summary .promo-form button{font-size:12px}
+.checkout-summary .summary-line{align-items:center;margin:14px 0;font-size:16px;line-height:1.4;color:#f2e5d7}
+.checkout-summary .summary-line strong{font-size:16px;color:#f2e5d7;font-weight:400}
+.checkout-summary .estimated-fee{font-size:12px;color:#e89045;margin:-6px 0 12px}
+.checkout-summary .summary-total{align-items:center;border-top:1px solid #593720;padding-top:14px;margin:14px 0 16px;font-size:18px;font-weight:700}
+.checkout-summary .summary-total strong{font-size:22px;color:#e89045}
+.checkout-summary .payment-method-title{font-size:19px;font-weight:700;margin:0 0 16px;color:#f2e5d7}
+.checkout-summary .payment-methods{gap:10px}
+.checkout-summary .payment-methods label{min-height:56px;padding:10px 14px;border:1px solid #432b1c;border-radius:4px;background:transparent;color:#f2e5d7;font-size:16px}
+.checkout-summary .payment-methods label.selected{border-color:#d28a4c;color:#f2e5d7}
+.checkout-summary .payment-methods input{width:19px;height:19px;flex:0 0 auto;accent-color:#d28a4c}
+.checkout-summary .checkout-submit{width:100%;height:56px;min-height:56px;margin-top:20px;border:0;border-radius:9px;background:#d28a4c;color:#170e0a;font-size:17px;font-weight:700}
+.checkout-summary .checkout-submit:hover{filter:brightness(1.05)}
+.checkout-summary .checkout-disclaimer{display:none}
+.account-footer-wrap{width:100vw;margin-left:calc(50% - 50vw);padding:0;overflow:hidden}
+.account-footer-wrap .trust-newsletter{margin-top:73px}
+.account-footer-wrap .site-footer{margin-bottom:18px}
+@media(max-width:760px){
+ .checkout-summary{position:static;grid-row:auto;padding:12px 10px}
+ .checkout-item{grid-template-columns:78px minmax(0,1fr) auto;min-height:78px}
+ .checkout-item img{width:78px;height:78px}
+ .checkout-item strong{font-size:13px}
+ .checkout-item small{font-size:10px}
+ .checkout-item>b{font-size:15px}
+ .checkout-summary .summary-line{font-size:14px}
+ .checkout-summary .summary-line strong{font-size:14px}
+ .checkout-summary .summary-total{font-size:16px}
+ .checkout-summary .summary-total strong{font-size:19px}
+ .checkout-summary .payment-method-title{font-size:17px}
+ .checkout-summary .payment-methods label{font-size:14px;min-height:52px}
+ .checkout-summary .checkout-submit{height:52px;min-height:52px;font-size:15px}
+}
