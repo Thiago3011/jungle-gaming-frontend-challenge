@@ -5,6 +5,7 @@ import { Check, Heart, Minus, Plus, ShoppingBag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { api } from '@/api/client'
 import { addToCart } from '@/api/cart'
+import type { CartResponse } from '@/api/cart'
 import { getStoredSessionEmail } from '@/api/session'
 import type { Nft } from '@/types/nft'
 import './shop-pages.css'
@@ -36,8 +37,10 @@ export default function NftDetailPage() {
   })
   const addMutation = useMutation({
     mutationFn: () => addToCart(nftId, quantity),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['cart'] })
+    onSuccess: (cart: CartResponse) => {
+      const sessionEmail = getStoredSessionEmail() ?? 'guest'
+      queryClient.setQueryData(['cart', sessionEmail], cart)
+      void queryClient.invalidateQueries({ queryKey: ['cart'] })
     },
   })
 
