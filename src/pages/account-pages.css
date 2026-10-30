@@ -1571,6 +1571,8 @@
   .checkout-wallet-page .checkout-fields,
   .checkout-wallet-page .checkout-form-section>.check-row,
   .checkout-wallet-page .checkout-form-section>.note-field,
+  .checkout-wallet-page #checkout-form>.check-row,
+  .checkout-wallet-page #checkout-form>.note-field,
   .checkout-wallet-page .checkout-form-section>.form-error,
   .checkout-wallet-page .checkout-summary>h2,
   .checkout-wallet-page .checkout-items-heading,
