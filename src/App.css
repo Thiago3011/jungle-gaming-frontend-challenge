@@ -431,7 +431,11 @@
 @media(max-width:680px){
   .marketplace-shell{padding-bottom:94px;background:#140d0a}
   .kurio-site-header{display:none}
-  .mobile-explore{display:flex;align-items:center;gap:9px;width:calc(100% - 48px);margin:14px auto 16px}
+  .marketplace-shell>.mobile-explore{position:relative;z-index:5;display:flex!important;align-items:center;gap:9px;width:calc(100% - 48px);margin:14px auto 16px}
+  .marketplace-shell>.mobile-explore .mobile-explore-input{display:flex!important;align-items:center;gap:10px;flex:1;min-width:0;height:48px;padding:0 14px;border:1px solid #56351f;border-radius:12px;background:#241612;color:#c89454}
+  .marketplace-shell>.mobile-explore .mobile-explore-input input{display:block!important;width:100%;min-width:0;height:100%;border:0;outline:0;background:transparent;color:#f3e8dc;font:600 14px 'Space Mono',monospace}
+  .marketplace-shell>.mobile-explore .mobile-explore-input input::placeholder{color:#c49b61;opacity:1}
+  .marketplace-shell>.mobile-explore .mobile-filter-button{display:grid!important;place-items:center;flex:0 0 48px;width:48px;height:48px;border:0;border-radius:13px;background:#d28a4c;color:#24140b}
   .mobile-explore-input{display:flex;align-items:center;gap:10px;flex:1;min-width:0;height:48px;padding:0 14px;border-radius:12px;background:#241612;color:#c89454}
   .mobile-explore-input input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#f3e8dc;font:600 14px 'Space Mono',monospace}
   .mobile-explore-input input::placeholder{color:#c49b61;opacity:1}
