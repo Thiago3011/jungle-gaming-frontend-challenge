@@ -182,3 +182,99 @@
   width:min(84%,1320px);
   margin:0 auto;
 }
+
+
+/* Sidebar — precise Figma proportions; scoped to collector profile */
+.profile-account-sidebar{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch;
+  width:100%;
+  min-width:0;
+  min-height:290px;
+  padding:14px 0 8px;
+  gap:0;
+  background:#241611;
+  box-sizing:border-box;
+}
+.profile-account-sidebar h2{
+  display:block;
+  padding:0 16px;
+  margin:0 0 8px;
+  min-height:28px;
+  font-family:"Space Mono",monospace;
+  font-size:14px;
+  font-weight:700;
+  line-height:28px;
+  color:#f1e6dc;
+}
+.profile-account-sidebar>a,
+.profile-account-sidebar>button{
+  display:flex;
+  flex:0 0 32px;
+  width:100%;
+  min-height:32px;
+  height:32px;
+  box-sizing:border-box;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  padding:0 12px;
+  margin:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:#c5a58a;
+  font-family:"Space Mono",monospace;
+  font-size:11px;
+  font-weight:400;
+  line-height:1;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.profile-account-sidebar>a svg,
+.profile-account-sidebar>button svg{
+  width:14px;
+  height:14px;
+  flex:0 0 14px;
+  stroke-width:1.8;
+  color:#b79a7e;
+}
+.profile-account-sidebar>a.active{
+  position:relative;
+  background:#382116;
+  color:#dc914c;
+}
+.profile-account-sidebar>a.active:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:4px;
+  background:#d88d4c;
+}
+.profile-account-sidebar>a.active svg{color:#dc914c}
+.profile-account-sidebar>button{
+  flex:0 0 38px;
+  height:38px;
+  min-height:38px;
+  margin-top:auto;
+  border-top:1px solid #684326;
+  color:#d88d4c;
+  font-weight:700;
+}
+.profile-account-sidebar>button svg{color:#d88d4c}
+@media(max-width:760px){
+  .profile-account-sidebar{
+    display:flex!important;
+    min-height:0;
+    padding:12px 0 8px;
+  }
+  .profile-account-sidebar>a,
+  .profile-account-sidebar>button{
+    flex:0 0 36px;
+    height:36px;
+    min-height:36px;
+  }
+}
