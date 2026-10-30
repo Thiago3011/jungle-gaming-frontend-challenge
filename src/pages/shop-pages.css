@@ -1007,7 +1007,6 @@
   .cart-page .cart-summary .summary-line{margin:7px 0}
   .cart-page .cart-summary .summary-total{margin:9px 0 12px;padding-top:7px}
   .cart-page .cart-summary .checkout-placeholder{min-height:52px}
-  .mobile-bottom-nav{display:none!important}
   body:has(.cart-page){padding-bottom:0!important}
 }
 @media(max-width:390px){
