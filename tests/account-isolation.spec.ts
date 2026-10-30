@@ -62,3 +62,50 @@ test.describe('isolamento de dados por conta', () => {
     await expect(page.getByRole('alert')).toContainText('Não foi possível criar a conta')
   })
 })
+
+test.describe('contratos REST críticos', () => {
+  test('mantém favoritos isolados por conta usando a API', async ({ page }) => {
+    await login(page, 'thiago@kurio.demo')
+    const first = await page.evaluate(async () => {
+      const response = await fetch('/api/favorites', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nftId: 'ape-009' }) })
+      return { status: response.status, ids: await response.json() as string[] }
+    })
+    expect(first.status).toBe(201)
+    expect(first.ids).toContain('ape-009')
+
+    await page.getByRole('button', { name: 'Sair' }).click()
+    await login(page, 'bia@kurio.demo')
+    const second = await page.evaluate(async () => {
+      const response = await fetch('/api/favorites')
+      return await response.json() as string[]
+    })
+    expect(second).not.toContain('ape-009')
+  })
+
+  test('reutiliza o mesmo pedido para a mesma chave de idempotência', async ({ page }) => {
+    await login(page, 'thiago@kurio.demo')
+    await addFeaturedNftToCart(page)
+    const result = await page.evaluate(async () => {
+      const payload = {
+        profile: { displayName: 'Thiago', username: 'thiago', profileName: 'Thiago', address: '0xA91F00000000000000000000000000000000E82C', email: 'thiago@kurio.demo', network: 'Ethereum' },
+        paymentMethod: 'MetaMask',
+        promoCode: '',
+      }
+      const send = (body: typeof payload) => fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Idempotency-Key': 'e2e-stable-attempt-001' },
+        body: JSON.stringify(body),
+      })
+      const firstResponse = await send(payload)
+      const first = await firstResponse.json() as { id: string }
+      const retryResponse = await send(payload)
+      const retry = await retryResponse.json() as { id: string }
+      const conflictResponse = await send({ ...payload, paymentMethod: 'WalletConnect' })
+      return { firstStatus: firstResponse.status, retryStatus: retryResponse.status, firstId: first.id, retryId: retry.id, conflictStatus: conflictResponse.status }
+    })
+    expect(result.firstStatus).toBe(201)
+    expect(result.retryStatus).toBe(200)
+    expect(result.retryId).toBe(result.firstId)
+    expect(result.conflictStatus).toBe(409)
+  })
+})
