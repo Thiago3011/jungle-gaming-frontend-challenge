@@ -57,6 +57,5 @@ Lighthouse exige preview ativo em http://127.0.0.1:4173.
 - Integrar cotação autoritativa em todas as telas e bloquear cotação desatualizada.
 - Implementar estados pendente/recusado e recuperação de pagamento interrompido.
 - Implementar proteção de rotas e return-to após login.
-- Confirmar uso efetivo de Tailwind e shadcn/ui conforme a avaliação do desafio.
-- Executar três auditorias Lighthouse por página/dispositivo, registrar medianas e Core Web Vitals.
+- Aguardar a execução do workflow Lighthouse, conferir as três amostras por dispositivo e revisar as medianas/Core Web Vitals.
 - Publicar deploy e validar deep links, refresh e URL pública.
